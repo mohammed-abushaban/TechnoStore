@@ -35,14 +35,16 @@ namespace TechnoStore.Web
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddIdentity<UserDbEntity , IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<UserDbEntity , IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddDefaultUI();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddCors();
 
+            services.AddControllersWithViews();
 
             //Services
             services.AddScoped<IExpensesCategoryService, ExpensesCategoryService>();

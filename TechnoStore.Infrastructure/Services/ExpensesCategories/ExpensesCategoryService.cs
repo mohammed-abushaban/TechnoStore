@@ -34,6 +34,7 @@ namespace TechnoStore.Infostructures.Services.ExpensesCategory
             var Skip = (page - 1) * NumPages.page20;
             var Take = NumPages.page20;
             var expensess = db.ExpensesCategory.Where(x => x.Name.Contains(sreach) || string.IsNullOrEmpty(sreach)).Skip(Skip).Take(Take).ToList();
+
             return mapper.Map<List<ExpensesCategoryDto>>(expensess);
         }
 
@@ -45,7 +46,7 @@ namespace TechnoStore.Infostructures.Services.ExpensesCategory
         }
 
         //Create A New Expenses
-        public async Task<int> Add(CreateExpensesCategoryDto dto)
+        public async Task<int> Save(CreateExpensesCategoryDto dto)
         {
             var expenses = mapper.Map<ExpensesCategoryDbEntity>(dto);
             expenses.CreateAt = date;

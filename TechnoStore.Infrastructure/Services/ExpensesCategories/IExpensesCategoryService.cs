@@ -11,7 +11,7 @@ namespace TechnoStore.Infostructures.Services.ExpensesCategory
     {
         List<ExpensesCategoryDto> GetAll(string sreach, int page);
         ExpensesCategoryDto Get(int id);
-        Task<int> Add(CreateExpensesCategoryDto dto);
+        Task<int> Save(CreateExpensesCategoryDto dto);
         Task<int> Update(UpdateExpensesCategoryDto dto);
         Task Remove(int id);
     }

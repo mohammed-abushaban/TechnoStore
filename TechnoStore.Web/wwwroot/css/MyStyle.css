@@ -1,0 +1,142 @@
+﻿/*My Style On My WebSite*/
+
+
+
+.total {
+    font-size: 16px;
+    font-weight: bold;
+    color: blue;
+    text-align: center;
+}
+
+.rest {
+    font-size: 16px;
+    font-weight: bold;
+    color: red;
+    text-align: center;
+}
+
+.mytitle {
+    font-size: 16px;
+    font-family:Calibri;
+    font-weight: bold;
+    color: black;
+}
+
+/*تنسيق محتوى الصفحة*/
+tbody {
+    font-size: 14px; 
+    font-weight: bold;
+    text-align: right;
+}
+
+/*تنسيق رأس الجدول*/
+thead {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/*تنسيق أخر سطر في الجدول*/
+tfoot {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    color: red;
+}
+
+/*تعديل عرض عمود الترقيم*/
+.widthNum {
+    width: 20px;
+}
+
+/*خاصة بالدف الأساسي في الصفحة*/
+.carddiv {
+    direction: rtl;
+    text-align: right;
+}
+
+/*جعل الدف الأساسي من اليمين لليسار*/
+.cardCustom {
+    direction: rtl;
+    text-align: right;
+}
+/**/
+label {
+    color: black;
+    font-weight: bold;
+}
+.h3ForTitle {
+    color: black;
+    font-weight: bold;
+}
+
+table {
+    text-align: right;
+}
+
+th {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    background-color: dodgerblue;
+}
+td {
+    color: black;
+}
+
+.CountModel {
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+strong {
+    color: blue;
+}
+
+p{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.wedth {
+    width: 80px;
+}
+
+.hedd {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+.boldd {
+    font-weight: bold;
+}
+
+.totlll {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.totlllDark {
+    background-color: lawngreen;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    color: black;
+}
+
+.num {
+    color: white;
+    font-size: 18px;
+}
+
+.number {
+    font-size: 20px;
+    font-weight: bold;
+    color: lawngreen;
+    text-align: center;
+}
