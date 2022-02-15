@@ -37,6 +37,13 @@ namespace TechnoStore.Infostructures.Services.ExpensesCategory
 
             return mapper.Map<List<ExpensesCategoryDto>>(expensess);
         }
+        
+        //Get All To List
+        public List<ExpensesCategoryDto> GetList()
+        {
+            var expensess = db.ExpensesCategory.ToList();
+            return mapper.Map<List<ExpensesCategoryDto>>(expensess);
+        }
 
         //Get One Expenses
         public ExpensesCategoryDto Get(int id)

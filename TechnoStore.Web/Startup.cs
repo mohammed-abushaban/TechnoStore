@@ -15,6 +15,7 @@ using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
 using TechnoStore.Infostructures.AutoMapper;
 using TechnoStore.Infostructures.Services.ExpensesCategory;
+using TechnoStore.Infrastructure.Services.Expenses;
 
 namespace TechnoStore.Web
 {
@@ -43,11 +44,11 @@ namespace TechnoStore.Web
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddCors();
-
-            services.AddControllersWithViews();
+            services.AddMvc();
 
             //Services
             services.AddScoped<IExpensesCategoryService, ExpensesCategoryService>();
+            services.AddScoped<IExpensesService, ExpensesService>();
 
             //AutoMapper
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
@@ -82,11 +83,6 @@ namespace TechnoStore.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-            });
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapDefaultControllerRoute();
             });
         }
     }

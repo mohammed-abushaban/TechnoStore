@@ -10,6 +10,7 @@ namespace TechnoStore.Infostructures.Services.ExpensesCategory
     public interface IExpensesCategoryService
     {
         List<ExpensesCategoryDto> GetAll(string sreach, int page);
+        List<ExpensesCategoryDto> GetList();
         ExpensesCategoryDto Get(int id);
         Task<int> Save(CreateExpensesCategoryDto dto);
         Task<int> Update(UpdateExpensesCategoryDto dto);

@@ -1,73 +1,83 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
-using TechnoStore.Core.Dto.ExpensesCategory;
+using TechnoStore.Core.Dto.Expenses;
 using TechnoStore.Infostructures.Services.ExpensesCategory;
+using TechnoStore.Infrastructure.Services.Expenses;
 
 namespace TechnoStore.Web.Controllers
 {
-    public class ExpensesCategoryController : BaseController
+    public class ExpensesController : BaseController
     {
+        private readonly IExpensesService expensesService;
         private readonly IExpensesCategoryService expensesCategoryService;
-        public ExpensesCategoryController(IExpensesCategoryService expensesCategoryService)
+        public ExpensesController(IExpensesService expensesService , IExpensesCategoryService expensesCategoryService)
         {
+            this.expensesService = expensesService;
             this.expensesCategoryService = expensesCategoryService;
         }
 
-        //This Action For Show All ExpensesCategory
+        //This Action For Show All Expenses
         public IActionResult Index(string search, int page = 1)
         {
-            var model = expensesCategoryService.GetAll(search, page);
+            var model = expensesService.GetAll(search, page);
 
             ViewBag.Search = search;
-            ViewBag.NumOfPages = ExpensesCategoryService.NumOfPages;
+            ViewBag.NumOfPages = ExpensesService.NumOfPages;
             ViewBag.Page = page;
             ViewBag.count = model.Count();
 
+            //مجموع المصروفات
+            ViewBag.sum = model.ToList().Sum(x => x.Price);
+
             return View(model);
         }
-        //This Action For Show page To Add ExpensesCategory
+        //This Action For Show page To Add Expenses
         [HttpGet]
         public IActionResult Create()
         {
+            ViewData["ExpensesCategoryId"] = new SelectList(expensesCategoryService.GetList(), "Id", "Name");
             return View();
         }
 
-        //This Action For Add New ExpensesCategory
+        //This Action For Add New Expenses
         [HttpPost]
-        public async Task<IActionResult> Create(CreateExpensesCategoryDto dto)
+        public async Task<IActionResult> Create(CreateExpensesDto dto)
         {
             //if (db.BuyTypes.Any(x => x.Type == model.Type && !x.IsDelete))
             //{
             //    TempData["msg"] = Messages.NameExest;
             //    return View(model);
             //}
-            await expensesCategoryService.Save(dto);
+            await expensesService.Save(dto);
             TempData["msg"] = Messages.AddAction;
             return RedirectToAction("Index");
         }
 
-        //This Action For Show page To Edit ExpensesCategory
+        //This Action For Show page To Edit Expenses
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var model = expensesCategoryService.Get(id);
+            var model = expensesService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
+
+            ViewData["ExpensesCategoryId"] = new SelectList(expensesCategoryService.GetList(), "Id", "Name");
             //جلب وقت الانشاء والمستخدم الذي انشاءه
             ViewBag.CreateAt = model.CreateAt;
             ViewBag.CreateBy = model.CreateBy;
             return View(model);
         }
 
-        //This Action For Edit ExpensesCategory
+        //This Action For Edit Expenses
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdateExpensesCategoryDto dto)
+        public async Task<IActionResult> Edit(UpdateExpensesDto dto)
         {
-            await expensesCategoryService.Update(dto);
+            await expensesService.Update(dto);
             TempData["msg"] = Messages.EditAction;
             return RedirectToAction("Index");
         }
@@ -75,10 +85,10 @@ namespace TechnoStore.Web.Controllers
         //This Action For Soft Delete
         public async Task<IActionResult> Delete(int id)
         {
-            var model = expensesCategoryService.Get(id);
+            var model = expensesService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
-            await expensesCategoryService.Remove(id);
+            await expensesService.Remove(id);
             TempData["msg"] = Messages.DeleteActon;
             return RedirectToAction("Index");
         }
@@ -86,7 +96,7 @@ namespace TechnoStore.Web.Controllers
         //This Action For Details Buy
         public IActionResult Details(int id)
         {
-            var model = expensesCategoryService.Get(id);
+            var model = expensesService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
             return View(model);
