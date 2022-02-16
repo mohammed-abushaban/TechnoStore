@@ -6,6 +6,10 @@
     var NextPage = CrrentPage + 1;
     var PrivPage = CrrentPage - 1;
     int Id = 1;
+
+
+    List<ExpensesCategoryDto> Category = ViewBag.Category as List<ExpensesCategoryDto>;
+
 }
 <link href="~/css/MyStyle.css" rel="stylesheet" />
 
@@ -69,10 +73,15 @@
                                 @string.Format("{0:#,0}", item.Price)
                             </td>
 
-                            <td style="text-align: center">
-                                @string.Format("{0:#,0}", item.ExpensesCategoryId)
-                            </td>
-                        
+                            @foreach (var cat in Category)
+                            {
+                                if (item.ExpensesCategoryId == cat.Id)
+                                {
+                                    <td style="text-align: center">
+                                        @cat.Name
+                                    </td>
+                                }
+                            }
                             <td style="text-align: center">
                                 <div class="card-toolbar">
                                     <!--begin::Dropdown-->

@@ -27,6 +27,7 @@ namespace TechnoStore.Core.Constants
         public const string Dublecate = "خ: البريد الإلكتروني أو رقم الجوال موجود مسبقا ";
 
         public const string NameExest = "ت: الإسم موجود مسبقا ";
+        public const string NoCategory = "ت: الرجاء إضافة تصنيف قبل إضافة المصروف ";
 
 
         public const string CanNot = "خ: لا يمكن حذف هذا الحساب ، لأنه آخر حساب ، وفي حال تم حذفه لن تتمكن من الدخول للنظام مرة أخرى";

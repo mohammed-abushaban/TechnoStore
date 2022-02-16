@@ -30,7 +30,7 @@ namespace TechnoStore.Web.Controllers
             ViewBag.NumOfPages = ExpensesService.NumOfPages;
             ViewBag.Page = page;
             ViewBag.count = model.Count();
-
+            ViewBag.Category = expensesCategoryService.GetList();
             //مجموع المصروفات
             ViewBag.sum = model.ToList().Sum(x => x.Price);
 
@@ -40,19 +40,23 @@ namespace TechnoStore.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewData["ExpensesCategoryId"] = new SelectList(expensesCategoryService.GetList(), "Id", "Name");
-            return View();
+            //إضافة تحقق قبل فتح الصفحة
+            if(expensesCategoryService.GetList().Count() <= 0)
+            {
+                TempData["msg"] = Messages.NoCategory;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewData["ExpensesCategoryId"] = new SelectList(expensesCategoryService.GetList(), "Id", "Name");
+                return View();
+            }
         }
 
         //This Action For Add New Expenses
         [HttpPost]
         public async Task<IActionResult> Create(CreateExpensesDto dto)
         {
-            //if (db.BuyTypes.Any(x => x.Type == model.Type && !x.IsDelete))
-            //{
-            //    TempData["msg"] = Messages.NameExest;
-            //    return View(model);
-            //}
             await expensesService.Save(dto);
             TempData["msg"] = Messages.AddAction;
             return RedirectToAction("Index");

@@ -40,11 +40,11 @@ namespace TechnoStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateExpensesCategoryDto dto)
         {
-            //if (db.BuyTypes.Any(x => x.Type == model.Type && !x.IsDelete))
-            //{
-            //    TempData["msg"] = Messages.NameExest;
-            //    return View(model);
-            //}
+            if (expensesCategoryService.GetList().Any(x => x.Name == dto.Name))
+            {
+                TempData["msg"] = Messages.NameExest;
+                return View();
+            }
             await expensesCategoryService.Save(dto);
             TempData["msg"] = Messages.AddAction;
             return RedirectToAction("Index");
