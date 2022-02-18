@@ -1,20 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
-using TechnoStore.Core.Dto.ExpensesCategory;
-using TechnoStore.Infostructures.Services.ExpensesCategory;
+using TechnoStore.Core.Dto.ExpensesCategories;
+using TechnoStore.Infostructures.Services.ExpensesCategories;
+using TechnoStore.Infrastructure.Services.Expenses;
 
 namespace TechnoStore.Web.Controllers
 {
     public class ExpensesCategoryController : BaseController
     {
         private readonly IExpensesCategoryService expensesCategoryService;
-        public ExpensesCategoryController(IExpensesCategoryService expensesCategoryService)
+        private readonly IExpensesService expensesService;
+        public ExpensesCategoryController(IExpensesCategoryService expensesCategoryService , IExpensesService expensesService)
         {
             this.expensesCategoryService = expensesCategoryService;
+            this.expensesService = expensesService;
         }
 
         //This Action For Show All ExpensesCategory
@@ -76,6 +77,17 @@ namespace TechnoStore.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var model = expensesCategoryService.Get(id);
+            //للتأكد من عدم حذف أي تصنيف مرتبط
+            //سيتم عمل تحذير منبثق مرفق معه زر موافقة أو رجوع
+            //لكن هذا حل مؤقت
+            foreach (var item in expensesService.GetList())
+            {
+                if(item.ExpensesCategoryId == model.Id)
+                {
+                    TempData["msg"] = Messages.NoDeleteCategory;
+                    return RedirectToAction("Index");
+                }
+            }
             if (model == null)
                 return RedirectToAction("Error", "Settings");
             await expensesCategoryService.Remove(id);

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Expenses;
@@ -38,6 +37,12 @@ namespace TechnoStore.Infrastructure.Services.Expenses
             return mapper.Map<List<ExpensesDto>>(expensess);
         }
 
+        //Get All To List
+        public List<ExpensesDto> GetList()
+        {
+            var expensess = db.Expenses.ToList();
+            return mapper.Map<List<ExpensesDto>>(expensess);
+        }
         //Get One Expenses
         public ExpensesDto Get(int id)
         {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 
-namespace TechnoStore.Core.Dto.ExpensesCategory
+namespace TechnoStore.Core.Dto.ExpensesCategories
 {
     public class CreateExpensesCategoryDto
     {
