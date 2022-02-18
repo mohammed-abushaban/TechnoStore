@@ -11,24 +11,25 @@ namespace TechnoStore.Web.Controllers
 {
     public class ExpensesController : BaseController
     {
-        private readonly IExpensesService expensesService;
-        private readonly IExpensesCategoryService expensesCategoryService;
-        public ExpensesController(IExpensesService expensesService , IExpensesCategoryService expensesCategoryService)
+        private readonly IExpensesService _expensesService;
+        private readonly IExpensesCategoryService _expensesCategoryService;
+        public ExpensesController(IExpensesService expensesService 
+                                 ,IExpensesCategoryService expensesCategoryService)
         {
-            this.expensesService = expensesService;
-            this.expensesCategoryService = expensesCategoryService;
+            _expensesService = expensesService;
+            _expensesCategoryService = expensesCategoryService;
         }
 
         //This Action For Show All Expenses
         public IActionResult Index(string search, int page = 1)
         {
-            var model = expensesService.GetAll(search, page);
+            var model = _expensesService.GetAll(search, page);
             
             ViewBag.Search = search;
             ViewBag.NumOfPages = ExpensesService.NumOfPages;
             ViewBag.Page = page;
             ViewBag.count = model.Count();
-            ViewBag.Category = expensesCategoryService.GetList();
+            ViewBag.Category = _expensesCategoryService.GetAll();
             //مجموع المصروفات
             ViewBag.sum = model.ToList().Sum(x => x.Price);
 
@@ -39,14 +40,14 @@ namespace TechnoStore.Web.Controllers
         public IActionResult Create()
         {
             //إضافة تحقق قبل فتح الصفحة
-            if(expensesCategoryService.GetList().Count() <= 0)
+            if(_expensesCategoryService.GetAll().Count() <= 0)
             {
                 TempData["msg"] = Messages.NoCategory;
                 return RedirectToAction("Index");
             }
             else
             {
-                ViewData["ExpensesCategoryId"] = new SelectList(expensesCategoryService.GetList(), "Id", "Name");
+                ViewData["ExpensesCategoryId"] = new SelectList(_expensesCategoryService.GetAll(), "Id", "Name");
                 return View();
             }
         }
@@ -55,7 +56,7 @@ namespace TechnoStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateExpensesDto dto)
         {
-            await expensesService.Save(dto);
+            await _expensesService.Save(dto);
             TempData["msg"] = Messages.AddAction;
             return RedirectToAction("Index");
         }
@@ -64,11 +65,11 @@ namespace TechnoStore.Web.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var model = expensesService.Get(id);
+            var model = _expensesService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
 
-            ViewData["ExpensesCategoryId"] = new SelectList(expensesCategoryService.GetList(), "Id", "Name");
+            ViewData["ExpensesCategoryId"] = new SelectList(_expensesCategoryService.GetAll(), "Id", "Name");
             //جلب وقت الانشاء والمستخدم الذي انشاءه
             ViewBag.CreateAt = model.CreateAt;
             ViewBag.CreateBy = model.CreateBy;
@@ -79,7 +80,7 @@ namespace TechnoStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateExpensesDto dto)
         {
-            await expensesService.Update(dto);
+            await _expensesService.Update(dto);
             TempData["msg"] = Messages.EditAction;
             return RedirectToAction("Index");
         }
@@ -87,10 +88,10 @@ namespace TechnoStore.Web.Controllers
         //This Action For Soft Delete
         public async Task<IActionResult> Delete(int id)
         {
-            var model = expensesService.Get(id);
+            var model = _expensesService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
-            await expensesService.Remove(id);
+            await _expensesService.Remove(id);
             TempData["msg"] = Messages.DeleteActon;
             return RedirectToAction("Index");
         }
@@ -98,7 +99,7 @@ namespace TechnoStore.Web.Controllers
         //This Action For Details Buy
         public IActionResult Details(int id)
         {
-            var model = expensesService.Get(id);
+            var model = _expensesService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
             return View(model);
