@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
 using TechnoStore.Infostructures.AutoMapper;
-using TechnoStore.Infostructures.Services.ExpensesCategory;
+using TechnoStore.Infostructures.Services.ExpensesCategories;
 using TechnoStore.Infrastructure.Services.Expenses;
 
 namespace TechnoStore.Web

@@ -2,15 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
-using TechnoStore.Core.Dto.ExpensesCategory;
-using TechnoStore.Data;
+using TechnoStore.Core.Dto.ExpensesCategories;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
 
-namespace TechnoStore.Infostructures.Services.ExpensesCategory
+namespace TechnoStore.Infostructures.Services.ExpensesCategories
 {
     public class ExpensesCategoryService : IExpensesCategoryService
     {
