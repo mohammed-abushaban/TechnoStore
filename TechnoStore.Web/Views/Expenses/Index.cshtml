@@ -1,4 +1,4 @@
-﻿@model List<ExpensesDto>
+﻿@model List<ExpensesVm>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,7 +8,7 @@
     int Id = 1;
 
 
-    List<ExpensesCategoryDto> Category = ViewBag.Category as List<ExpensesCategoryDto>;
+    List<ExpensesCategoryVm> Category = ViewBag.Category as List<ExpensesCategoryVm>;
 
 }
 <link href="~/css/MyStyle.css" rel="stylesheet" />

@@ -2,8 +2,9 @@
 {
     public class Messages
     {
-        //مؤقا لحين حل المشكلة بطريقة أفضل 
+        //For 
         public const string ErrorMessage = "هذا الحقل إجباري" + " * ";
+
         public const string Max10 = "لا يمكن إدخال أكثر من 10 حرف" + " * ";
         public const string Max14 = "لا يمكن إدخال أكثر من 14 حرف" + " * ";
         public const string Max25 = "لا يمكن إدخال أكثر من 25 حرف" + " * ";
@@ -22,8 +23,8 @@
 
         public const string NameExest = "ت: الإسم موجود مسبقا ";
         public const string NoCategory = "ت: الرجاء إضافة تصنيف قبل إضافة المصروف ";
-        public const string NoDeleteCategory = "خ: هذا التصنيف مرتبط بمصروفات أخرى ، في حال حذف التصنيف سيتم حذف كافة المصروفات التابعة له ";
-        
+        public const string NoDeleteCategory = "خ: لا يمكن حذف هذا التصنيف لأنه مرتبط في مصروفات كثيرة ، لطفا لحذف المصروفات ثم حذف التصنيف ";
+
 
         public const string CanNot = "خ: لا يمكن حذف هذا الحساب ، لأنه آخر حساب ، وفي حال تم حذفه لن تتمكن من الدخول للنظام مرة أخرى";
         public const string CanNot2 = "خ: لا يمكن حذف آخر حساب مسؤول في النظام";
