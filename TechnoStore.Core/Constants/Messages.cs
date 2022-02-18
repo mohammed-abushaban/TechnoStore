@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TechnoStore.Core.Constants
+﻿namespace TechnoStore.Core.Constants
 {
     public class Messages
     {
@@ -28,6 +22,7 @@ namespace TechnoStore.Core.Constants
 
         public const string NameExest = "ت: الإسم موجود مسبقا ";
         public const string NoCategory = "ت: الرجاء إضافة تصنيف قبل إضافة المصروف ";
+        public const string NoDeleteCategory = "خ: لا يمكن حذف هذا التصنيف لأنه مرتبط في مصروفات كثيرة ، لطفا لحذف المصروفات ثم حذف التصنيف ";
 
 
         public const string CanNot = "خ: لا يمكن حذف هذا الحساب ، لأنه آخر حساب ، وفي حال تم حذفه لن تتمكن من الدخول للنظام مرة أخرى";

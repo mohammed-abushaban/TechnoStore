@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Expenses;
-using TechnoStore.Infostructures.Services.ExpensesCategory;
+using TechnoStore.Infostructures.Services.ExpensesCategories;
 using TechnoStore.Infrastructure.Services.Expenses;
 
 namespace TechnoStore.Web.Controllers
@@ -25,7 +23,7 @@ namespace TechnoStore.Web.Controllers
         public IActionResult Index(string search, int page = 1)
         {
             var model = expensesService.GetAll(search, page);
-
+            
             ViewBag.Search = search;
             ViewBag.NumOfPages = ExpensesService.NumOfPages;
             ViewBag.Page = page;

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Expenses;
@@ -33,10 +32,20 @@ namespace TechnoStore.Infrastructure.Services.Expenses
             NumOfPages = Math.Ceiling(NumOfExpCat / (NumPages.page20 + 0.0));
             var Skip = (page - 1) * NumPages.page20;
             var Take = NumPages.page20;
-            var expensess = db.Expenses.Include(x => x.ExpensesCategory).Where(x => x.Title.Contains(sreach) || string.IsNullOrEmpty(sreach)).Skip(Skip).Take(Take).ToList();
+            var expensess = db.Expenses.Include(x => x.ExpensesCategory)
+                .Where(x => x.Title.Contains(sreach) || string.IsNullOrEmpty(sreach))
+                .Skip(Skip).Take(Take).ToList();
 
             return mapper.Map<List<ExpensesDto>>(expensess);
         }
+
+        //Get All To List
+        public List<ExpensesDto> GetList()
+        {
+            var expensess = db.Expenses.ToList();
+            return mapper.Map<List<ExpensesDto>>(expensess);
+        }
+
 
         //Get One Expenses
         public ExpensesDto Get(int id)

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using TechnoStore.Core.Dto.Expenses;
-using TechnoStore.Core.Dto.ExpensesCategory;
+using TechnoStore.Core.Dto.ExpensesCategories;
 using TechnoStore.Data.Models;
 
 namespace TechnoStore.Infostructures.AutoMapper

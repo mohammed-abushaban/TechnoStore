@@ -1,20 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
-using TechnoStore.Core.Dto.ExpensesCategory;
-using TechnoStore.Infostructures.Services.ExpensesCategory;
+using TechnoStore.Core.Dto.ExpensesCategories;
+using TechnoStore.Infostructures.Services.ExpensesCategories;
+using TechnoStore.Infrastructure.Services.Expenses;
 
 namespace TechnoStore.Web.Controllers
 {
     public class ExpensesCategoryController : BaseController
     {
         private readonly IExpensesCategoryService expensesCategoryService;
-        public ExpensesCategoryController(IExpensesCategoryService expensesCategoryService)
+        private readonly IExpensesService expensesService;
+        public ExpensesCategoryController(IExpensesCategoryService expensesCategoryService,
+                                          IExpensesService expensesService)
         {
             this.expensesCategoryService = expensesCategoryService;
+            this.expensesService = expensesService;
         }
 
         //This Action For Show All ExpensesCategory
@@ -78,6 +80,14 @@ namespace TechnoStore.Web.Controllers
             var model = expensesCategoryService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
+            foreach (var item in expensesService.GetList())
+            {
+                if (model.Id == item.ExpensesCategoryId)
+                {
+                    TempData["msg"] = Messages.NoDeleteCategory;
+                    return RedirectToAction("Index");
+                }
+            }
             await expensesCategoryService.Remove(id);
             TempData["msg"] = Messages.DeleteActon;
             return RedirectToAction("Index");

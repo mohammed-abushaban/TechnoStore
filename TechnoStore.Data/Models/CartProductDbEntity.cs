@@ -1,10 +1,6 @@
-﻿using TechnoStore.Core.Constants;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
- 
+﻿using System.ComponentModel.DataAnnotations;
+using TechnoStore.Core.Constants;
+
 
 namespace TechnoStore.Data.Models
 {
