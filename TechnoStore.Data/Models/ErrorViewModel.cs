@@ -1,5 +1,3 @@
-using System;
-
 namespace TechnoStore.Data.Models
 {
     public class ErrorViewModel
