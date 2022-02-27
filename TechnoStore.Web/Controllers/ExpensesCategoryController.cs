@@ -31,6 +31,7 @@ namespace TechnoStore.Web.Controllers
 
             return View(model);
         }
+
         //This Action For Show page To Add ExpensesCategory
         [HttpGet]
         public IActionResult Create()

@@ -31,7 +31,8 @@ namespace TechnoStore.Infostructures.Services.ExpensesCategories
             NumOfPages = Math.Ceiling(NumOfExpCat / (NumPages.page20 + 0.0));
             var Skip = (page - 1) * NumPages.page20;
             var Take = NumPages.page20;
-            var expensess = db.ExpensesCategory.Where(x => x.Name.Contains(sreach) || string.IsNullOrEmpty(sreach)).Skip(Skip).Take(Take).ToList();
+            var expensess = db.ExpensesCategory.Where(x => x.Name.Contains(sreach) || string.IsNullOrEmpty(sreach))
+                .Skip(Skip).Take(Take).ToList();
 
             return mapper.Map<List<ExpensesCategoryDto>>(expensess);
         }
