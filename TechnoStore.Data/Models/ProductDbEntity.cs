@@ -40,7 +40,7 @@ namespace TechnoStore.Data.Models
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(10)"), MaxLength(10, ErrorMessage = Messages.Max10)]
         public string Code { get; set; }
-        public float? Discount { get; set; }
+        public float Discount { get; set; } = 0;
         public bool IsAvalable { get; set; } = false;
 
         [Required(ErrorMessage = Messages.ErrorMessage)]

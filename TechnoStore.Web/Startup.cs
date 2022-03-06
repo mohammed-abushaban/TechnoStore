@@ -15,7 +15,10 @@ using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
 using TechnoStore.Infostructures.AutoMapper;
 using TechnoStore.Infostructures.Services.ExpensesCategories;
+using TechnoStore.Infrastructure.Services;
 using TechnoStore.Infrastructure.Services.Expenses;
+using TechnoStore.Infrastructure.Services.Shippers;
+using TechnoStore.Infrastructure.Services.Users;
 
 namespace TechnoStore.Web
 {
@@ -48,7 +51,10 @@ namespace TechnoStore.Web
 
             //Services
             services.AddScoped<IExpensesCategoryService, ExpensesCategoryService>();
-            services.AddScoped<IExpensesService, ExpensesService>();
+            services.AddScoped<IExpensesService, ExpensesService>(); 
+            services.AddScoped<IUserService, UserService>(); 
+            services.AddScoped<IRoleService, RoleService>(); 
+            services.AddScoped<IShipperService, ShipperService>(); 
 
             //AutoMapper
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);

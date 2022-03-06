@@ -8,6 +8,6 @@ namespace TechnoStore.Web.Controllers
 {
     public class BaseController : Controller
     {
-
+        
     }
 }

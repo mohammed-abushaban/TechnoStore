@@ -58,13 +58,14 @@ namespace TechnoStore.Infrastructure.Services.Expenses
         }
 
         //Create A New Expenses
-        public async Task<int> Save(CreateExpensesDto dto)
+        public async Task<bool> Save(CreateExpensesDto dto)
         {
             var expenses = _mapper.Map<ExpensesDbEntity>(dto);
             expenses.CreateAt = date;
+            expenses.CreateBy = "Test";
             await _db.Expenses.AddAsync(expenses);
             await _db.SaveChangesAsync();
-            return expenses.Id;
+            return true;
         }
 
         //Update A New Expenses
@@ -72,6 +73,7 @@ namespace TechnoStore.Infrastructure.Services.Expenses
         {
             var expenses = _mapper.Map<ExpensesDbEntity>(dto);
             expenses.UpdateAt = date;
+            expenses.UpdateBy = "Test1";
             _db.Expenses.Update(expenses);
             await _db.SaveChangesAsync();
             return expenses.Id;

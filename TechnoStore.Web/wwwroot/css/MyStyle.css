@@ -25,7 +25,7 @@
 
 /*تنسيق محتوى الصفحة*/
 tbody {
-    font-size: 14px; 
+    font-size: 13px; 
     font-weight: bold;
     text-align: right;
 }
@@ -33,7 +33,7 @@ tbody {
 /*تنسيق رأس الجدول*/
 thead {
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
 }
 
