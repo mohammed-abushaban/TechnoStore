@@ -20,8 +20,6 @@ using TechnoStore.Core.ViewModel.Suppliers;
 using TechnoStore.Core.Dto.Shippers;
 using TechnoStore.Core.Dto.Users;
 using TechnoStore.Core.ViewModel;
-using TechnoStore.Core.ViewModel.Expenses;
-using TechnoStore.Core.ViewModel.ExpensesCategories;
 using TechnoStore.Core.ViewModel.Shippers;
 
 using TechnoStore.Data.Models;
@@ -36,12 +34,12 @@ namespace TechnoStore.Infostructures.AutoMapper
             //ExpensesCategory
             CreateMap<ExpensesCategoryDbEntity, ExpensesCategoryVm>();
             CreateMap<CreateExpensesCategoryDto, ExpensesCategoryDbEntity>();
-            CreateMap<UpdateExpensesCategoryDto, ExpensesCategoryDbEntity>();
+            CreateMap<UpdateExpensesCategoryDto, ExpensesCategoryDbEntity>().ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
 
             //Expenses
             CreateMap<ExpensesDbEntity, ExpensesVm>();
             CreateMap<CreateExpensesDto, ExpensesDbEntity>();
-            CreateMap<UpdateExpensesDto, ExpensesDbEntity>();
+            CreateMap<UpdateExpensesDto, ExpensesDbEntity>().ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
 
 
             //Categories
@@ -69,7 +67,7 @@ namespace TechnoStore.Infostructures.AutoMapper
             CreateMap<ProductDbEntity, ProductVm>().ForMember(x => x.BrandId, x => x.MapFrom(y => y.Brand.Id))
                 .ForMember(x => x.SubCategoryId, x => x.MapFrom(y => y.SubCategory.Id))
                 .ForMember(x => x.SupplierId, x => x.MapFrom(y => y.Supplier.Id))
-                .ForMember(x => x.PriceAfterDiscount, x => x.MapFrom(y => (y.Discount != null) ? (y.PriceSale - (y.Discount / 100 * y.PriceSale)) : y.PriceSale)); // get product price adding the discount to it 
+                .ForMember(x => x.PriceAfterDiscount, x => x.MapFrom(y => (y.PriceSale - (y.Discount / 100 * y.PriceSale)))); // get product price adding the discount to it 
             CreateMap<CreateProductDto, ProductDbEntity>();
             CreateMap<UpdateProductDto, ProductDbEntity>().ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
 
@@ -85,7 +83,7 @@ namespace TechnoStore.Infostructures.AutoMapper
             //Shipper
             CreateMap<ShipperDbEntity, ShipperVm>();
             CreateMap<CreateShipperDto, ShipperDbEntity>();
-            CreateMap<UpdateShipperDto, ShipperDbEntity>();
+            CreateMap<UpdateShipperDto, ShipperDbEntity>().ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
 
         }
 
