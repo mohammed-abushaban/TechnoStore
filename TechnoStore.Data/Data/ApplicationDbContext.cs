@@ -32,6 +32,8 @@ namespace TechnoStore.Data.Data
             builder.Entity<SupplierDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<ExpensesCategoryDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<ShipperDbEntity>().HasQueryFilter(x => !x.IsDelete);
+            builder.Entity<UserDbEntity>().HasQueryFilter(x => !x.IsDelete);
+
         }
 
 

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnoStore.Web", "TechnoStore.Web\TechnoStore.Web.csproj", "{05CC20F4-8935-433E-8079-7432271C7C2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechnoStore.Web", "TechnoStore.Web\TechnoStore.Web.csproj", "{05CC20F4-8935-433E-8079-7432271C7C2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnoStore.Data", "TechnoStore.Data\TechnoStore.Data.csproj", "{F3E8D860-0CB8-45F7-BF89-C43FF63C516E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechnoStore.Data", "TechnoStore.Data\TechnoStore.Data.csproj", "{F3E8D860-0CB8-45F7-BF89-C43FF63C516E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnoStore.Core", "TechnoStore.Core\TechnoStore.Core.csproj", "{3C791936-B692-45DA-BC0E-E7270B97C3B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechnoStore.Core", "TechnoStore.Core\TechnoStore.Core.csproj", "{3C791936-B692-45DA-BC0E-E7270B97C3B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnoStore.Infrastructure", "TechnoStore.Infrastructure\TechnoStore.Infrastructure.csproj", "{5EA6A6EA-56DB-4128-8498-045097BD0DD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechnoStore.Infrastructure", "TechnoStore.Infrastructure\TechnoStore.Infrastructure.csproj", "{5EA6A6EA-56DB-4128-8498-045097BD0DD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

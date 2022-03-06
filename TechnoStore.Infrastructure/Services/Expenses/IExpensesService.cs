@@ -10,7 +10,7 @@ namespace TechnoStore.Infrastructure.Services.Expenses
         List<ExpensesVm> GetAll(string sreach, int page);
         List<ExpensesVm> GetAll();
         ExpensesVm Get(int id);
-        Task<int> Save(CreateExpensesDto dto);
+        Task<bool> Save(CreateExpensesDto dto);
         Task<int> Update(UpdateExpensesDto dto);
         Task Remove(int id);
     }

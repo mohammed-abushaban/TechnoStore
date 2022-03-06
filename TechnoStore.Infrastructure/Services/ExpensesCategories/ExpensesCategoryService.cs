@@ -33,66 +33,68 @@ namespace TechnoStore.Infostructures.Services.ExpensesCategories
             NumOfPages = Math.Ceiling(NumOfExpCat / (NumPages.page20 + 0.0));
             var Skip = (page - 1) * NumPages.page20;
             var Take = NumPages.page20;
-            var expensess = _db.ExpensesCategory
+            var expensesCategory = _db.ExpensesCategory
                 .Where(x => x.Name.Contains(sreach) || string.IsNullOrEmpty(sreach))
                 .Skip(Skip).Take(Take).ToList();
 
-            return _mapper.Map<List<ExpensesCategoryVm>>(expensess);
+            return _mapper.Map<List<ExpensesCategoryVm>>(expensesCategory);
         }
         
         //Get All To List
         public List<ExpensesCategoryVm> GetAll()
         {
-            var expensess = _db.ExpensesCategory.ToList();
-            return _mapper.Map<List<ExpensesCategoryVm>>(expensess);
+            var expensesCategory = _db.ExpensesCategory.ToList();
+            return _mapper.Map<List<ExpensesCategoryVm>>(expensesCategory);
         }
 
         //Get One Expenses
         public ExpensesCategoryVm Get(int id)
         {
-            var expenses = _db.ExpensesCategory.SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<ExpensesCategoryVm>(expenses);
+            var expensesCategory = _db.ExpensesCategory.SingleOrDefault(x => x.Id == id);
+            return _mapper.Map<ExpensesCategoryVm>(expensesCategory);
         }
 
         //Create A New Expenses
-        public async Task<int> Save(CreateExpensesCategoryDto dto)
+        public async Task<bool> Save(CreateExpensesCategoryDto dto)
         {
             if (_db.ExpensesCategory.Any(x => x.Name == dto.Name))
             {
-                return 0;
+                return false;
             }
-            var expenses = _mapper.Map<ExpensesCategoryDbEntity>(dto);
-            expenses.CreateAt = date;
-            await _db.ExpensesCategory.AddAsync(expenses);
+            var expensesCategory = _mapper.Map<ExpensesCategoryDbEntity>(dto);
+            expensesCategory.CreateAt = date;
+            expensesCategory.CreateBy = "Test";
+            await _db.ExpensesCategory.AddAsync(expensesCategory);
             await _db.SaveChangesAsync();
-            return expenses.Id;
+            return true;
         }
 
-        //Update A New Expenses
+        //Update Any Expenses
         public async Task<int> Update(UpdateExpensesCategoryDto dto)
         {
-            var expenses = _mapper.Map<ExpensesCategoryDbEntity>(dto);
-            expenses.UpdateAt = date;
-            _db.ExpensesCategory.Update(expenses);
+            var expensesCategory = _mapper.Map<ExpensesCategoryDbEntity>(dto);
+            expensesCategory.UpdateAt = date;
+            expensesCategory.UpdateBy = "Test1";
+            _db.ExpensesCategory.Update(expensesCategory);
             await _db.SaveChangesAsync();
-            return expenses.Id;
+            return expensesCategory.Id;
         }
 
         //Delete Any Expenses
-        public async Task<int> Remove(int id)
+        public async Task<bool> Remove(int id)
         {
-            var expenses = _db.ExpensesCategory.SingleOrDefault(x => x.Id == id);
+            var expensesCategory = _db.ExpensesCategory.SingleOrDefault(x => x.Id == id);
             foreach (var item in _db.Expenses.ToList())
             {
-                if (expenses.Id == item.ExpensesCategoryId)
+                if (expensesCategory.Id == item.ExpensesCategoryId)
                 {
-                    return 0;
+                    return false;
                 }
             }
-            expenses.IsDelete = true;
-            _db.ExpensesCategory.Update(expenses);
+            expensesCategory.IsDelete = true;
+            _db.ExpensesCategory.Update(expensesCategory);
             await _db.SaveChangesAsync();
-            return expenses.Id;
+            return true;
         }
     }
 }

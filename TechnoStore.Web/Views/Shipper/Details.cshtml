@@ -1,4 +1,4 @@
-﻿@model ExpensesCategoryVm
+﻿@model ShipperVm
 
 @{
     ViewData["Title"] = "Details";
@@ -36,6 +36,31 @@
                             <td>@Html.DisplayFor(model => model.Name)</td>
                         </tr>
                         <tr>
+                            <td>العنوان</td>
+                            <td>@Html.DisplayFor(model => model.Address)</td>
+                        </tr>
+                        <tr>
+                            <td>المدينة</td>
+                            <td>@Html.DisplayFor(model => model.City)</td>
+                        </tr>
+
+                        <tr>
+                            <td>رقم التواصل</td>
+                            <td>@Html.DisplayFor(model => model.Phone)</td>
+                        </tr>
+                        <tr>
+                            <td>البريد الالكتروني</td>
+                            <td>@Html.DisplayFor(model => model.Email)</td>
+                        </tr>
+                        <tr>
+                            <td>شعار الشركة</td>
+                            <td><img src="~/Images/@Html.DisplayFor(model => model.ImageUrl)" width="500" /></td>
+                        </tr>
+                        <tr>
+                            <td>العمولة</td>
+                            <td>@Html.DisplayFor(model => model.Commission)</td>
+                        </tr>
+                        <tr>
                             <td>تم تسجيله بواسطة</td>
                             <td>@Html.DisplayFor(model => model.CreateBy)</td>
                         </tr>
@@ -61,3 +86,4 @@
         </div>
     </div>
 </div>
+

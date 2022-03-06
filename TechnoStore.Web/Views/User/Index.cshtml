@@ -1,0 +1,143 @@
+﻿@model List<UserVm>
+
+@{
+    ViewData["Title"] = "Index";
+    int Id = 1;
+}
+<link href="~/css/MyStyle.css" rel="stylesheet" />
+
+<div class="card card-custom cardCustom">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                جدول مستخدمين النظام
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <form method="get" asp-action="Index">
+            <div class="row">
+                <div class="col-md-3">
+                    <input placeholder="بحث باسم المستخدم أوالمدينة" class="form-control" name="search" value="@ViewBag.Search" />
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" name="userType">
+                        <option>--فرز نوع الحساب--</option>
+                        <option value="@UserType.Admin">Admin</option>
+                        <option value="@UserType.User">User</option>
+                        <option value="@UserType.Customer">Customer</option>
+                        <option value="@UserType.Shipper">Shipper</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" name="gender">
+                        <option>--فرز حسب النوع--</option>
+                        <option value="@Gender.ذكر">ذكر</option>
+                        <option value="@Gender.انثى">انثى</option>
+                        <option value="@Gender.غيرذلك">غيرذلك</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <input type="submit" class="btn btn-primary" value="بحث" placeholder=""/>
+                </div>
+                <div class="col-md-2">
+                    <a asp-action="Create" class="btn btn-success font-weight-bold">
+                        <i class="flaticon2-cube"></i> إضافة حساب جديد
+                    </a>
+                </div>
+            </div>
+        </form>
+        <h5>نتائج البحث : @ViewBag.Search ، نوع الحساب : @ViewBag.userYype ، فرز النوع : @ViewBag.gender.</h5>
+        <br />
+        @if (Model.Any())
+        {
+            <table class="table table-bordered">
+                <tr>
+                    <th width="40px">#</th>
+                    <th>الاسم</th>
+                    <th>البريد الالكتروني</th>
+                    <th>اسم المستخدم</th>
+                    <th>رقم التواصل</th>
+                    <th>النوع</th>
+                    <th>نوع الحساب</th>
+                    <th>المدينة</th>
+                    <th width="120px">
+                    </th>
+                </tr>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Id
+                        </td>
+                        <td>
+                            @item.FirstName @item.LastName
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            @item.PhoneNumber
+                        </td>
+                        <td>
+                            @item.Gender
+                        </td>
+                        <td>
+                            @item.UserType
+                        </td>
+                        <td>
+                            @item.City
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"
+                               onclick="return confirm('هل حقا تريد حذف : @item.UserName')"><i class="flaticon flaticon-delete"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success"><i class="flaticon flaticon2-paper"></i></a>
+                        </td>
+                    </tr>
+                        Id++;
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="CountModel">#</td>
+                        <td class="CountModel">المجموع : @ViewBag.count</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning">
+                <p>هذا الجدول فارغ ، الرجاء اضغط على <strong>إضافة جديد</strong></p>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -46,7 +46,7 @@ namespace TechnoStore.Data.Models
         public DateTime? BirthDay { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(2000)"), MaxLength(2000, ErrorMessage = Messages.Max2000)]
-        public string Adress { get; set; }
+        public string Address { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(25)"), MaxLength(25, ErrorMessage = Messages.Max25)]
         public string City { get; set; }
@@ -54,8 +54,6 @@ namespace TechnoStore.Data.Models
         [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
         public string CreateBy { get; set; }
         public DateTime? CreateAt { get; set; }
-
-        [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
         public string UpdateBy { get; set; }
         public DateTime? UpdateAt { get; set; }
