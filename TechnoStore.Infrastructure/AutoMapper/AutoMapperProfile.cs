@@ -3,6 +3,7 @@ using TechnoStore.Core.Dto.Brands;
 using TechnoStore.Core.Dto.Category;
 using TechnoStore.Core.Dto.Expenses;
 using TechnoStore.Core.Dto.ExpensesCategories;
+
 using TechnoStore.Core.Dto.Products;
 using TechnoStore.Core.Dto.ProductsQuantities;
 using TechnoStore.Core.Dto.SubCategories;
@@ -15,6 +16,14 @@ using TechnoStore.Core.ViewModel.Products;
 using TechnoStore.Core.ViewModel.ProductsQuantities;
 using TechnoStore.Core.ViewModel.SubCategories;
 using TechnoStore.Core.ViewModel.Suppliers;
+
+using TechnoStore.Core.Dto.Shippers;
+using TechnoStore.Core.Dto.Users;
+using TechnoStore.Core.ViewModel;
+using TechnoStore.Core.ViewModel.Expenses;
+using TechnoStore.Core.ViewModel.ExpensesCategories;
+using TechnoStore.Core.ViewModel.Shippers;
+
 using TechnoStore.Data.Models;
 
 namespace TechnoStore.Infostructures.AutoMapper
@@ -33,6 +42,7 @@ namespace TechnoStore.Infostructures.AutoMapper
             CreateMap<ExpensesDbEntity, ExpensesVm>();
             CreateMap<CreateExpensesDto, ExpensesDbEntity>();
             CreateMap<UpdateExpensesDto, ExpensesDbEntity>();
+
 
             //Categories
             CreateMap<CategoryDbEntity, CategoryVm>();
@@ -67,6 +77,16 @@ namespace TechnoStore.Infostructures.AutoMapper
             CreateMap<ProductQuantityDbEntity, ProductQuantityVm>().ForMember(x => x.ProductId, x => x.MapFrom(y => y.Product.Id));
             CreateMap<CreateProductQuantityDto, ProductQuantityDbEntity>();
             CreateMap<UpdateProductQuantityDto, ProductQuantityDbEntity>().ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
+
+            //Users
+            CreateMap<UserDbEntity, UserVm>();
+            CreateMap<CreateUserDto, UserDbEntity>();
+
+            //Shipper
+            CreateMap<ShipperDbEntity, ShipperVm>();
+            CreateMap<CreateShipperDto, ShipperDbEntity>();
+            CreateMap<UpdateShipperDto, ShipperDbEntity>();
+
         }
 
     }

@@ -15,6 +15,7 @@ using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
 using TechnoStore.Infostructures.AutoMapper;
 using TechnoStore.Infostructures.Services.ExpensesCategories;
+
 using TechnoStore.Infrastructure.Services.Brands;
 using TechnoStore.Infrastructure.Services.Categories;
 using TechnoStore.Infrastructure.Services.Expenses;
@@ -23,6 +24,12 @@ using TechnoStore.Infrastructure.Services.Products;
 using TechnoStore.Infrastructure.Services.ProductsQuantities;
 using TechnoStore.Infrastructure.Services.SubCategories;
 using TechnoStore.Infrastructure.Services.Suppliers;
+
+using TechnoStore.Infrastructure.Services;
+using TechnoStore.Infrastructure.Services.Expenses;
+using TechnoStore.Infrastructure.Services.Shippers;
+using TechnoStore.Infrastructure.Services.Users;
+
 
 namespace TechnoStore.Web
 {
@@ -55,6 +62,7 @@ namespace TechnoStore.Web
 
             //Services
             services.AddScoped<IExpensesCategoryService, ExpensesCategoryService>();
+
             services.AddScoped<IExpensesService, ExpensesService>();
             services.AddSingleton<IFileService, FileService>();
             services.AddScoped<ICategoriesService, CategoriesService>();
@@ -63,6 +71,13 @@ namespace TechnoStore.Web
             services.AddScoped<ISuppliersService, SuppliersService>();
             services.AddScoped<IProductsService, ProductsService>();
             services.AddScoped<IProductsQuantitiesService, ProductsQuantitiesService>();
+
+            services.AddScoped<IExpensesService, ExpensesService>(); 
+            services.AddScoped<IUserService, UserService>(); 
+            services.AddScoped<IRoleService, RoleService>(); 
+            services.AddScoped<IShipperService, ShipperService>(); 
+
+
             //AutoMapper
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 

@@ -1,0 +1,230 @@
+﻿@model CreateUserDto
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    label{
+        color: black;
+        font-weight: bold;
+    }
+</style>
+<div class="card card-custom" style="direction: rtl; text-align: right;">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                إضافة مستخدم جديد
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <h3>البيانات الأساسية</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label class="control-label">الاسم الأول</label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">الاسم الأخير</label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">الجنس</label>
+                                <select asp-for="Gender" class="form-control">
+                                    <option value="@Gender.ذكر">ذكر</option>
+                                    <option value="@Gender.انثى">أنثى</option>
+                                    <option value="@Gender.غيرذلك">غير ذلك</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">صورة المستخدم / إن وجد</label>
+                                <input name="ImageUrl" type="file" class="form-control" />
+                                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">تاريخ الميلاد / اختياري</label>
+                                <input type="date" asp-for="BirthDay" class="form-control" />
+                                <span asp-validation-for="BirthDay" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <h3>بيانات الحساب</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">اسم المستخدم</label>
+                                <input asp-for="UserName" class="form-control" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">كلمة المرور</label>
+                                <input asp-for="password" class="form-control" />
+                                <span asp-validation-for="password" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">تأكيد كلمة المرور</label>
+                                <input class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">الصلاحيات</label>
+                                <select id="userselect" asp-for="UserType" class="form-control" placeholder="اختر تصنيف الحساب">
+                                    <option value="@UserType.Admin">مسؤول النظام</option>
+                                    <option value="@UserType.User">إداري</option>
+                                    <option value="@UserType.Shipper">شركة شحن</option>
+                                </select>
+                                <span asp-validation-for="UserType" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row hideDiv">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">اختر شركة الشحن</label>
+                                <div class="card-custom" style="direction:ltr;">
+                                    <select asp-for="ShipperId" class="form-control selectpicker" asp-items="ViewBag.ShipperId" data-live-search="true"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+                <div class="col-md-4">
+                    <div class="row">
+                        <h3>بيانات التواصل</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">البريد الالكتروني</label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">رقم الجوال</label>
+                                <input asp-for="PhoneNumber" type="number" class="form-control" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">العنوان بالكامل</label>
+                                <input asp-for="Address" class="form-control" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">المدينة</label>
+                                <input asp-for="City" class="form-control" />
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">كود المدينة / Zip_Code</label>
+                                <input asp-for="Zip_Code" class="form-control" />
+                                <span asp-validation-for="Zip_Code" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">تفعيل النشرة البريدية</label>
+                                <input type="checkbox" asp-for="Newsletter" class="form-control" />
+                                <span asp-validation-for="Newsletter" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="submit" value="إضافة" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-danger">رجوع</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function ()
+        {
+            $(".hideDiv").hide();
+            $("#userselect").change(function () {
+                var selectvalue = $(this).val();
+                if (selectvalue == "Admin")
+                {
+                    $(".hideDiv").hide();
+                }
+                else if (selectvalue == "User")
+                {
+                    $(".hideDiv").hide();
+                }
+                else if (selectvalue == "Shipper")
+                {
+                    $(".hideDiv").show();
+                }
+            });
+        });
+    </script>
+
+}

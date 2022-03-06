@@ -1,48 +1,44 @@
-﻿ using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
-using TechnoStore.Core.Dto.ExpensesCategories;
-using TechnoStore.Infostructures.Services.ExpensesCategories;
-using TechnoStore.Infrastructure.Services.Expenses;
+using TechnoStore.Core.Dto.Shippers;
+using TechnoStore.Infrastructure.Services.Shippers;
 
 namespace TechnoStore.Web.Controllers
 {
-    public class ExpensesCategoryController : BaseController
+    public class ShipperController : BaseController
     {
-        private readonly IExpensesCategoryService _expensesCategoryService;
-        private readonly IExpensesService _expensesService;
-        public ExpensesCategoryController(IExpensesCategoryService expensesCategoryService,
-                                          IExpensesService expensesService)
+        private readonly IShipperService _shipperService;
+        public ShipperController(IShipperService shipperService)
         {
-            _expensesCategoryService = expensesCategoryService;
-            _expensesService = expensesService;
+            _shipperService = shipperService;
         }
 
-        //This Action For Show All ExpensesCategory
+        //This Action For Show All Shippers
         public IActionResult Index(string search, int page = 1)
         {
-            var model = _expensesCategoryService.GetAll(search, page);
+            var model = _shipperService.GetAll(search, page);
 
             ViewBag.Search = search;
-            ViewBag.NumOfPages = ExpensesCategoryService.NumOfPages;
+            ViewBag.NumOfPages = ShipperService.NumOfPages;
             ViewBag.Page = page;
             ViewBag.count = model.Count();
             return View(model);
         }
 
-        //This Action For Show page To Add ExpensesCategory
+        //This Action For Show page To Add Shipper
         [HttpGet]
         public IActionResult Create() => View();
 
-        //This Action For Add New ExpensesCategory
+        //This Action For Add New Shipper
         [HttpPost]
-        public async Task<IActionResult> Create(CreateExpensesCategoryDto dto)
+        public async Task<IActionResult> Create(CreateShipperDto dto)
         {
-
-            var result = await _expensesCategoryService.Save(dto);
-            if(result == false)
+            var result = await _shipperService.Save(dto);
+            if (result == false)
             {
                 TempData["msg"] = Messages.NameExest;
                 return View();
@@ -51,14 +47,15 @@ namespace TechnoStore.Web.Controllers
             {
                 TempData["msg"] = Messages.AddAction;
                 return RedirectToAction("Index");
+
             }
         }
 
-        //This Action For Show page To Edit ExpensesCategory
+        //This Action For Show page To Edit Shipper
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var model = _expensesCategoryService.Get(id);
+            var model = _shipperService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
             //جلب وقت الانشاء والمستخدم الذي انشاءه
@@ -67,11 +64,11 @@ namespace TechnoStore.Web.Controllers
             return View(model);
         }
 
-        //This Action For Edit ExpensesCategory
+        //This Action For Edit Shipper
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdateExpensesCategoryDto dto)
+        public async Task<IActionResult> Edit(UpdateShipperDto dto)
         {
-            await _expensesCategoryService.Update(dto);
+            await _shipperService.Update(dto);
             TempData["msg"] = Messages.EditAction;
             return RedirectToAction("Index");
         }
@@ -79,17 +76,17 @@ namespace TechnoStore.Web.Controllers
         //This Action For Soft Delete
         public async Task<IActionResult> Delete(int id)
         {
-            var model = _expensesCategoryService.Get(id);
+            var model = _shipperService.Get(id);
             if (model == null)
             {
                 return RedirectToAction("Error", "Settings");
             }
             else
             {
-                var result = await _expensesCategoryService.Remove(id);
-                if (result == false)
+                var remove = await _shipperService.Remove(id);
+                if (remove == false)
                 {
-                    TempData["msg"] = Messages.NoDeleteCategory;
+                    TempData["msg"] = Messages.NoDeleteShipper;
                     return RedirectToAction("Index");
                 }
                 else
@@ -100,10 +97,10 @@ namespace TechnoStore.Web.Controllers
             }
         }
 
-        //This Action For Details Buy
+        //This Action For Details Shipper
         public IActionResult Details(int id)
         {
-            var model = _expensesCategoryService.Get(id);
+            var model = _shipperService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
             return View(model);
