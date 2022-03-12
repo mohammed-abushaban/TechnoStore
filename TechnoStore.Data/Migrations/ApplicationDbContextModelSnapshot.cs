@@ -888,7 +888,7 @@ namespace TechnoStore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Adress")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
@@ -937,7 +937,7 @@ namespace TechnoStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShipperDbEntity");
+                    b.ToTable("Shippers");
                 });
 
             modelBuilder.Entity("TechnoStore.Data.Models.SmsDbEntity", b =>

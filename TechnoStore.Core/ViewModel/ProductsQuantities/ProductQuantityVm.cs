@@ -11,6 +11,7 @@ namespace TechnoStore.Core.ViewModel.ProductsQuantities
         public int Quantity { get; set; }
         public string Color { get; set; }
         public int ProductId { get; set; }
+        public string ProductName { get; set; }
 
     }
 }

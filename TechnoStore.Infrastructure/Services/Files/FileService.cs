@@ -33,13 +33,13 @@ namespace TechnoStore.Infrastructure.Services.Files
             return fileName;
         }
 
-        public async Task<bool> DeleteFile(string path)
+        public  bool DeleteFile(string path, string folderName)
         {
             //C:\ASP\MediaProductionCompany\MediaProductionCompany.API\wwwroot
-            string fileToBeDeleted = Path.Combine(_env.WebRootPath, "PortfolioTranslationFiles\\", path);
+            string fileToBeDeleted = Path.Combine(_env.WebRootPath, folderName, path);
             if ((System.IO.File.Exists(fileToBeDeleted)))
             {
-                System.IO.File.Delete(fileToBeDeleted);
+                File.Delete(fileToBeDeleted);
                 return true;
             }
             return false;

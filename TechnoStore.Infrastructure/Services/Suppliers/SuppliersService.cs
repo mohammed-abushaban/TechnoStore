@@ -53,19 +53,27 @@ namespace TechnoStore.Infrastructure.Services.Suppliers
         
         public async Task<bool> Save(string userId, CreateSupplierDto dto)
         {
-            var supplier = _mapper.Map<SupplierDbEntity>(dto);
-            supplier.CreateAt = DateTime.Now;
-            supplier.CreateBy = userId;
-            await _db.Suppliers.AddAsync(supplier);
-            await _db.SaveChangesAsync();
-            return true;
+            if (_db.Suppliers.Any(x => x.Name == dto.Name))
+            {
+                return false;
+            }
+            else
+            {
+                var supplier = _mapper.Map<SupplierDbEntity>(dto);
+                supplier.CreateAt = DateTime.Now;
+                supplier.CreateBy = "Test";
+                await _db.Suppliers.AddAsync(supplier);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
         }
 
         public async Task<bool> Update(string userId, UpdateSupplierDto dto)
         {
             var supplier = _db.Suppliers.SingleOrDefault(x => x.Id == dto.Id);
             supplier.UpdateAt = DateTime.Now;
-            supplier.UpdateBy = userId;
+            supplier.UpdateBy = "Test";
             _mapper.Map(dto, supplier);
             await _db.SaveChangesAsync();
             return true;
@@ -74,6 +82,13 @@ namespace TechnoStore.Infrastructure.Services.Suppliers
         public async Task<bool> Remove(int id)
         {
             var supplier = _db.Suppliers.SingleOrDefault(x => x.Id == id);
+            foreach (var item in _db.Products.ToList())
+            {
+                if (supplier.Id == item.SupplierId)
+                {
+                    return false;
+                }
+            }
             supplier.IsDelete = true;
             _db.Suppliers.Update(supplier);
             await _db.SaveChangesAsync();

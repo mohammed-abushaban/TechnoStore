@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 
 namespace TechnoStore.Core.ViewModel.Expenses
 {
-    public class ExpensesVm
+    public class ExpensesVm : BaseVm
     {
-        public int Id { get; set; }
         public float Price { get; set; }
         public string Title { get; set; }
         public string Details { get; set; }
         public int ExpensesCategoryId { get; set; }
-        public string CreateBy { get; set; }
-        public DateTime CreateAt { get; set; }
-        public string UpdateBy { get; set; }
-        public DateTime? UpdateAt { get; set; }
+        public string ExpensesCategoryName { get; set; }
     }
 }

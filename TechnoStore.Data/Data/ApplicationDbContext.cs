@@ -55,7 +55,7 @@ namespace TechnoStore.Data.Data
         public DbSet<SubCategoryDbEntity> SubCategories { get; set; }
         public DbSet<SupplierDbEntity> Suppliers { get; set; }
         public DbSet<ExpensesCategoryDbEntity> ExpensesCategory { get; set; }
-        public DbSet<ShipperDbEntity> ShipperDbEntity { get; set; }
+        public DbSet<ShipperDbEntity> Shippers { get; set; }
     }
 }
 

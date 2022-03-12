@@ -23,7 +23,7 @@ namespace TechnoStore.Data.Models
         public string Name { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(2000)"), MaxLength(2000, ErrorMessage = Messages.Max2000)]
-        public string Adress { get; set; }
+        public string Address { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(25)"), MaxLength(25, ErrorMessage = Messages.Max25)]
         public string City { get; set; }

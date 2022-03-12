@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.ProductsQuantities;
+using TechnoStore.Core.ViewModel.Products;
 using TechnoStore.Core.ViewModel.ProductsQuantities;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
@@ -24,25 +25,34 @@ namespace TechnoStore.Infrastructure.Services.ProductsQuantities
             _db = db;
             _mapper = mapper;
         }
-        public List<ProductQuantityVm> GetProductQuantity(int productId, int page, string colorSearch)
+        //Get All To List With Parameter
+        public List<ProductQuantityVm> GetAll(string search,int page)
         {
             var num = _db.ProductQuantities
-                .Count(x => x.Color.Contains(colorSearch) || string.IsNullOrEmpty(colorSearch));
+                .Count(x => x.Color.Contains(search) || string.IsNullOrEmpty(search));
 
             NumOfPages = Math.Ceiling(num / (NumPages.page20 + 0.0));
             var skip = (page - 1) * NumPages.page20;
             var take = NumPages.page20;
 
-            var quantities = _db.ProductQuantities.Include(x => x.Product).Where(x => x.Color.Contains(colorSearch) || string.IsNullOrEmpty(colorSearch))
+            var quantities = _db.ProductQuantities.Include(x => x.Product)
+                .Where(x => x.Color.Contains(search) || string.IsNullOrEmpty(search))
                 .Skip(skip).Take(take).ToList();
 
             return _mapper.Map<List<ProductQuantityVm>>(quantities);
         }
 
+        //Get All To List Without Parameter
         public List<ProductQuantityVm> GetAll()
         {
             var quantities = _db.ProductQuantities.Include(x => x.Product).ToList();
             return _mapper.Map<List<ProductQuantityVm>>(quantities);
+        }
+
+        //Get All Products
+        public List<ProductVm> GetAllProducts()
+        {
+            return _mapper.Map<List<ProductVm>>(_db.Products.ToList());
         }
 
         public ProductQuantityVm Get(int id)
@@ -55,7 +65,7 @@ namespace TechnoStore.Infrastructure.Services.ProductsQuantities
         {
             var quantity = _mapper.Map<ProductQuantityDbEntity>(dto);
             quantity.CreateAt = DateTime.Now;
-            quantity.CreateBy = userId;
+            quantity.CreateBy = "Test";
             await _db.ProductQuantities.AddAsync(quantity);
             await _db.SaveChangesAsync();
             return true;
@@ -65,7 +75,7 @@ namespace TechnoStore.Infrastructure.Services.ProductsQuantities
         {
             var quantity = _db.ProductQuantities.SingleOrDefault(x => x.Id == dto.Id);
             quantity.UpdateAt = DateTime.Now;
-            quantity.UpdateBy = userId;
+            quantity.UpdateBy = "Test";
             _mapper.Map(dto, quantity);
             await _db.SaveChangesAsync();
             return true;

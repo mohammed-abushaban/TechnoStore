@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Expenses;
 using TechnoStore.Core.ViewModel.Expenses;
+using TechnoStore.Core.ViewModel.ExpensesCategories;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
 
@@ -48,6 +49,14 @@ namespace TechnoStore.Infrastructure.Services.Expenses
             var expensess = _db.Expenses.ToList();
             return _mapper.Map<List<ExpensesVm>>(expensess);
         }
+
+        //Get All ExpensesCategoey
+        public List<ExpensesCategoryVm> GetAllExpensesCategories()
+        {
+            var expensess = _db.ExpensesCategory.ToList();
+            return _mapper.Map<List<ExpensesCategoryVm>>(expensess);
+        }
+
 
 
         //Get One Expenses

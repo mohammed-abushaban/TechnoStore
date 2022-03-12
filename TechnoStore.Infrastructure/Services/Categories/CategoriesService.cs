@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -56,31 +57,41 @@ namespace TechnoStore.Infrastructure.Services.Categories
             return _mapper.Map<CategoryVm>(category);
         }
 
-        public async Task<bool> Save(string userId, CreateCategoryDto dto)
+        public async Task<bool> Save(string userId, CreateCategoryDto dto , IFormFile image)
         {
-            var category = _mapper.Map<CategoryDbEntity>(dto);
-            category.CreateAt = DateTime.Now;
-            category.CreateBy = userId;
-            var x = await _fileService.SaveFile(dto.Image, "Images/CategoriesImages");
-            category.ImageUrl = x;
-            await _db.Categories.AddAsync(category);
-            await _db.SaveChangesAsync();
+            if (_db.Categories.Any(x => x.Name == dto.Name))
+            {
+                return false;
+            }
+            else
+            {
+                var category = _mapper.Map<CategoryDbEntity>(dto);
+                category.CreateAt = DateTime.Now;
+                category.CreateBy = "Null";
+                var x = await _fileService.SaveFile(image, "Images/CategoriesImages");
+                category.ImageUrl = x;
+                await _db.Categories.AddAsync(category);
+                await _db.SaveChangesAsync();
+                return true;
+            }
 
-            return true;
         }
 
-        public async Task<bool> Update(string userId, UpdateCategoryDto dto)
+        public async Task<bool> Update(string userId, UpdateCategoryDto dto, IFormFile image)
         {
-            var category = _db.Categories.SingleOrDefault(x => x.Id == dto.id);
+            var category = _mapper.Map<CategoryDbEntity>(dto);
             category.UpdateAt = DateTime.Now;
-            category.UpdateBy = userId;
-            if(dto.Image != null)
+            category.UpdateBy = "Null";
+            if(image != null)
             {
-                await _fileService.DeleteFile(category.ImageUrl);
-                var x = await _fileService.SaveFile(dto.Image, "Images/CategoriesImages");
+                if(category.ImageUrl != null)
+                {
+                    _fileService.DeleteFile(category.ImageUrl, "Images/CategoriesImages");
+                }
+                var x = await _fileService.SaveFile(image, "Images/CategoriesImages");
                 category.ImageUrl = x;
             }
-            _mapper.Map(dto, category);
+            _db.Categories.Update(category);
             await _db.SaveChangesAsync();
             return true;
         }
@@ -89,6 +100,13 @@ namespace TechnoStore.Infrastructure.Services.Categories
         public async Task<bool> Remove(int id)
         {
             var category = _db.Categories.SingleOrDefault(x => x.Id == id);
+            foreach (var item in _db.SubCategories.ToList())
+            {
+                if (category.Id == item.CategoryId)
+                {
+                    return false;
+                }
+            }
             category.IsDelete = true;
             _db.Categories.Update(category);
             await _db.SaveChangesAsync();
