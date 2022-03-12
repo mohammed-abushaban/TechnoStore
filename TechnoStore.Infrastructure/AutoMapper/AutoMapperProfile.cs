@@ -3,38 +3,33 @@ using TechnoStore.Core.Dto.Brands;
 using TechnoStore.Core.Dto.Category;
 using TechnoStore.Core.Dto.Expenses;
 using TechnoStore.Core.Dto.ExpensesCategories;
-
 using TechnoStore.Core.Dto.Feedbacks;
 using TechnoStore.Core.Dto.Files;
 using TechnoStore.Core.Dto.PrivacyAndQuestions;
+using TechnoStore.Core.Dto.Products;
+using TechnoStore.Core.Dto.ProductsQuantities;
 using TechnoStore.Core.Dto.Settings;
+using TechnoStore.Core.Dto.Shippers;
 using TechnoStore.Core.Dto.Sms;
+using TechnoStore.Core.Dto.SubCategories;
+using TechnoStore.Core.Dto.Suppliers;
+using TechnoStore.Core.Dto.Users;
+using TechnoStore.Core.ViewModel.Brands;
+using TechnoStore.Core.ViewModel.Categories;
 using TechnoStore.Core.ViewModel.Expenses;
 using TechnoStore.Core.ViewModel.ExpensesCategories;
 using TechnoStore.Core.ViewModel.Feedbacks;
 using TechnoStore.Core.ViewModel.Files;
 using TechnoStore.Core.ViewModel.PrivacyAndQuestions;
-using TechnoStore.Core.ViewModel.Settings;
-using TechnoStore.Core.ViewModel.Sms;
-
-using TechnoStore.Core.Dto.Products;
-using TechnoStore.Core.Dto.ProductsQuantities;
-using TechnoStore.Core.Dto.SubCategories;
-using TechnoStore.Core.Dto.Suppliers;
-using TechnoStore.Core.ViewModel.Brands;
-using TechnoStore.Core.ViewModel.Categories;
-using TechnoStore.Core.ViewModel.Expenses;
-using TechnoStore.Core.ViewModel.ExpensesCategories;
 using TechnoStore.Core.ViewModel.Products;
 using TechnoStore.Core.ViewModel.ProductsQuantities;
+using TechnoStore.Core.ViewModel.Settings;
+using TechnoStore.Core.ViewModel.Shippers;
+using TechnoStore.Core.ViewModel.Sms;
 using TechnoStore.Core.ViewModel.SubCategories;
 using TechnoStore.Core.ViewModel.Suppliers;
-using TechnoStore.Core.Dto.Shippers;
-using TechnoStore.Core.Dto.Users;
-using TechnoStore.Core.ViewModel.Shippers;
-
-using TechnoStore.Data.Models;
 using TechnoStore.Core.ViewModel.Users;
+using TechnoStore.Data.Models;
 
 namespace TechnoStore.Infostructures.AutoMapper
 {
@@ -53,7 +48,6 @@ namespace TechnoStore.Infostructures.AutoMapper
             CreateMap<ExpensesDbEntity, ExpensesVm>()
                 .ForMember(x => x.ExpensesCategoryName, x => x.MapFrom(y => y.ExpensesCategory.Name));
             CreateMap<CreateExpensesDto, ExpensesDbEntity>();
-
             CreateMap<UpdateExpensesDto, ExpensesDbEntity>();
 
             //Feedback
@@ -80,10 +74,6 @@ namespace TechnoStore.Infostructures.AutoMapper
             CreateMap<SettingDbEntity, SettingVm>();
             CreateMap<CreateSettingDto, SettingDbEntity>();
             CreateMap<UpdateSettingDto, SettingDbEntity>();
-
-            CreateMap<UpdateExpensesDto, ExpensesDbEntity>()
-                .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
-
 
             //Categories
             CreateMap<CategoryDbEntity, CategoryVm>();
