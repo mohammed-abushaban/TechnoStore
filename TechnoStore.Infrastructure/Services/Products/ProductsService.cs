@@ -36,7 +36,7 @@ namespace TechnoStore.Infrastructure.Services.Products
             var products = _db.Products.Include(x => x.Supplier).Include(x => x.Brand).Include(x => x.SubCategory)
                 .Where(x => x.Name.Contains(search) || string.IsNullOrEmpty(search))
                 .Skip(skip).Take(take).ToList();
-
+            
             return _mapper.Map<List<ProductVm>>(products);
         }
         public List<ProductVm> GetAll()
