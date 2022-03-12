@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Expenses;
 using TechnoStore.Core.ViewModel.Expenses;
+using TechnoStore.Core.ViewModel.ExpensesCategories;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
 
@@ -49,6 +50,14 @@ namespace TechnoStore.Infrastructure.Services.Expenses
             return _mapper.Map<List<ExpensesVm>>(expensess);
         }
 
+        //Get All ExpensesCategoey
+        public List<ExpensesCategoryVm> GetAllExpensesCategories()
+        {
+            var expensess = _db.ExpensesCategory.ToList();
+            return _mapper.Map<List<ExpensesCategoryVm>>(expensess);
+        }
+
+
 
         //Get One Expenses
         public ExpensesVm Get(int id)
@@ -58,13 +67,14 @@ namespace TechnoStore.Infrastructure.Services.Expenses
         }
 
         //Create A New Expenses
-        public async Task<int> Save(CreateExpensesDto dto)
+        public async Task<bool> Save(CreateExpensesDto dto)
         {
             var expenses = _mapper.Map<ExpensesDbEntity>(dto);
             expenses.CreateAt = date;
+            expenses.CreateBy = "Test";
             await _db.Expenses.AddAsync(expenses);
             await _db.SaveChangesAsync();
-            return expenses.Id;
+            return true;
         }
 
         //Update A New Expenses
@@ -72,6 +82,7 @@ namespace TechnoStore.Infrastructure.Services.Expenses
         {
             var expenses = _mapper.Map<ExpensesDbEntity>(dto);
             expenses.UpdateAt = date;
+            expenses.UpdateBy = "Test1";
             _db.Expenses.Update(expenses);
             await _db.SaveChangesAsync();
             return expenses.Id;

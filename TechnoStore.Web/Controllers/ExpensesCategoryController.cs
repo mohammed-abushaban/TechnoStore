@@ -1,4 +1,5 @@
 ﻿ using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
@@ -19,7 +20,7 @@ namespace TechnoStore.Web.Controllers
             _expensesService = expensesService;
         }
 
-        //This Action For Show All ExpensesCategory
+        //This Action For Show All ExpensesCategoreis
         public IActionResult Index(string search, int page = 1)
         {
             var model = _expensesCategoryService.GetAll(search, page);
@@ -39,8 +40,9 @@ namespace TechnoStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateExpensesCategoryDto dto)
         {
-            var id = await _expensesCategoryService.Save(dto);
-            if(id == 0)
+
+            var result = await _expensesCategoryService.Save(dto);
+            if(result == false)
             {
                 TempData["msg"] = Messages.NameExest;
                 return View();
@@ -75,7 +77,7 @@ namespace TechnoStore.Web.Controllers
         }
 
         //This Action For Soft Delete
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id) 
         {
             var model = _expensesCategoryService.Get(id);
             if (model == null)
@@ -84,15 +86,15 @@ namespace TechnoStore.Web.Controllers
             }
             else
             {
-                var remove = await _expensesCategoryService.Remove(id);
-                if (remove == 0)
+                var result = await _expensesCategoryService.Remove(id);
+                if (result == false)
                 {
                     TempData["msg"] = Messages.NoDeleteCategory;
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    TempData["msg"] = Messages.AddAction;
+                    TempData["msg"] = Messages.DeleteActon;
                     return RedirectToAction("Index");
                 }
             }

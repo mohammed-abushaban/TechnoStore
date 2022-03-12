@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
@@ -12,12 +13,9 @@ namespace TechnoStore.Web.Controllers
     public class ExpensesController : BaseController
     {
         private readonly IExpensesService _expensesService;
-        private readonly IExpensesCategoryService _expensesCategoryService;
-        public ExpensesController(IExpensesService expensesService 
-                                 ,IExpensesCategoryService expensesCategoryService)
+        public ExpensesController(IExpensesService expensesService)
         {
             _expensesService = expensesService;
-            _expensesCategoryService = expensesCategoryService;
         }
 
         //This Action For Show All Expenses
@@ -29,8 +27,6 @@ namespace TechnoStore.Web.Controllers
             ViewBag.NumOfPages = ExpensesService.NumOfPages;
             ViewBag.Page = page;
             ViewBag.count = model.Count();
-            ViewBag.Category = _expensesCategoryService.GetAll();
-            //مجموع المصروفات
             ViewBag.sum = model.ToList().Sum(x => x.Price);
 
             return View(model);
@@ -40,14 +36,14 @@ namespace TechnoStore.Web.Controllers
         public IActionResult Create()
         {
             //إضافة تحقق قبل فتح الصفحة
-            if(_expensesCategoryService.GetAll().Count() <= 0)
+            if(_expensesService.GetAllExpensesCategories().Count() <= 0)
             {
                 TempData["msg"] = Messages.NoCategory;
                 return RedirectToAction("Index");
             }
             else
             {
-                ViewData["ExpensesCategoryId"] = new SelectList(_expensesCategoryService.GetAll(), "Id", "Name");
+                ViewData["ExpensesCategoryId"] = new SelectList(_expensesService.GetAllExpensesCategories(), "Id", "Name");
                 return View();
             }
         }
@@ -56,6 +52,7 @@ namespace TechnoStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateExpensesDto dto)
         {
+
             await _expensesService.Save(dto);
             TempData["msg"] = Messages.AddAction;
             return RedirectToAction("Index");
@@ -69,7 +66,7 @@ namespace TechnoStore.Web.Controllers
             if (model == null)
                 return RedirectToAction("Error", "Settings");
 
-            ViewData["ExpensesCategoryId"] = new SelectList(_expensesCategoryService.GetAll(), "Id", "Name");
+            ViewData["ExpensesCategoryId"] = new SelectList(_expensesService.GetAllExpensesCategories(), "Id", "Name");
             //جلب وقت الانشاء والمستخدم الذي انشاءه
             ViewBag.CreateAt = model.CreateAt;
             ViewBag.CreateBy = model.CreateBy;

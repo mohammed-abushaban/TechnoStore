@@ -16,9 +16,6 @@ namespace TechnoStore.Core.Dto.Expenses
         [Required(ErrorMessage = Messages.ErrorMessage)]
         public int ExpensesCategoryId { get; set; }
         [MaxLength(150, ErrorMessage = Messages.Max150)]
-        public string UpdateBy { get; set; }
-        public DateTime UpdateAt { get; set; }
-        [MaxLength(150, ErrorMessage = Messages.Max150)]
         public string CreateBy { get; set; }
         public DateTime CreateAt { get; set; }
 

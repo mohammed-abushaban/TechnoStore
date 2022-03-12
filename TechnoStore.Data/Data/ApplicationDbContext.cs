@@ -32,6 +32,8 @@ namespace TechnoStore.Data.Data
             builder.Entity<SupplierDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<ExpensesCategoryDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<ShipperDbEntity>().HasQueryFilter(x => !x.IsDelete);
+            builder.Entity<UserDbEntity>().HasQueryFilter(x => !x.IsDelete);
+
         }
 
 
@@ -53,7 +55,7 @@ namespace TechnoStore.Data.Data
         public DbSet<SubCategoryDbEntity> SubCategories { get; set; }
         public DbSet<SupplierDbEntity> Suppliers { get; set; }
         public DbSet<ExpensesCategoryDbEntity> ExpensesCategory { get; set; }
-        public DbSet<ShipperDbEntity> ShipperDbEntity { get; set; }
+        public DbSet<ShipperDbEntity> Shippers { get; set; }
     }
 }
 
