@@ -23,12 +23,17 @@ namespace TechnoStore.Infrastructure.Services.Files
         private readonly IMapper _mapper;
         DateTime date = DateTime.Now;
         public static double NumOfPages;
+        private readonly IWebHostEnvironment _env;
 
-        public FileService(ApplicationDbContext db, IMapper mapper)
+        public FileService(ApplicationDbContext db, IMapper mapper, IWebHostEnvironment env)
         {
             _db = db;
             _mapper = mapper;
+            _env = env;
         }
+
+
+
 
         //Get All File
         public List<FileVm> GetAll(string sreach, int page)
@@ -101,12 +106,8 @@ namespace TechnoStore.Infrastructure.Services.Files
             return file.Id;
         }
 
-        private readonly IWebHostEnvironment _env;
 
-        public FileService(IWebHostEnvironment env)
-        {
-            _env = env;
-        }
+        
 
         public async Task<string> SaveFile(IFormFile file, string folderName)
         {
