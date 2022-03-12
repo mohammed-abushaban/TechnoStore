@@ -65,7 +65,7 @@ namespace TechnoStore.Web
             services.AddScoped<ISettingService, SettingService>();
             
 
-            services.AddSingleton<IFileService, FileService>();
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<ISubCategoriesService, SubCategoriesService>();
             services.AddScoped<IBrandsService, BrandsService>();
