@@ -20,6 +20,9 @@ namespace TechnoStore.Core.ViewModel.Products
         public int BrandId { get; set; }
         public int SubCategoryId { get; set; }
         public int SupplierId { get; set; }
+        public string BrandName { get; set; }
+        public string SubCategoryName { get; set; }
+        public string SupplierName { get; set; }
 
     }
 }

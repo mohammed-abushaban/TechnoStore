@@ -20,7 +20,7 @@ namespace TechnoStore.Web.Controllers
             _expensesService = expensesService;
         }
 
-        //This Action For Show All ExpensesCategory
+        //This Action For Show All ExpensesCategoreis
         public IActionResult Index(string search, int page = 1)
         {
             var model = _expensesCategoryService.GetAll(search, page);
@@ -77,7 +77,7 @@ namespace TechnoStore.Web.Controllers
         }
 
         //This Action For Soft Delete
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id) 
         {
             var model = _expensesCategoryService.Get(id);
             if (model == null)
@@ -94,7 +94,7 @@ namespace TechnoStore.Web.Controllers
                 }
                 else
                 {
-                    TempData["msg"] = Messages.AddAction;
+                    TempData["msg"] = Messages.DeleteActon;
                     return RedirectToAction("Index");
                 }
             }

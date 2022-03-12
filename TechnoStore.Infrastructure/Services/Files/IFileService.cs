@@ -11,6 +11,6 @@ namespace TechnoStore.Infrastructure.Services.Files
     {
         Task<string> SaveFile(IFormFile file, string folderName);
 
-        Task<bool> DeleteFile(string path);
+        bool DeleteFile(string path, string folderName);
     }
 }

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Brands;
 using TechnoStore.Infrastructure.Services.Brands;
 
@@ -16,35 +18,97 @@ namespace TechnoStore.Web.Controllers
         {
             _brandsService = brandsService;
         }
-
+        //This Action For Show All Brands
         public IActionResult Index(string search, int page = 1)
         {
-            return Ok(_brandsService.GetAll(search, page));
-        }
+            var model = _brandsService.GetAll(search, page);
 
-        public IActionResult GetAll()
+            ViewBag.Search = search;
+            ViewBag.NumOfPages = BrandsService.NumOfPages;
+            ViewBag.Page = page;
+            ViewBag.count = model.Count();
+            return View(model);
+        }
+        //This Action For Show page To Add Brand
+        [HttpGet]
+        public IActionResult Create() => View();
+
+        //This Action For Add New Category
+        [HttpPost]
+        public async Task<IActionResult> Create(string userId, CreateBrandDto dto, IFormFile image)
         {
-            return Ok(_brandsService.GetAll());
+            if (dto.About == null)
+            {
+                dto.About = "Null";
+            }
+            var result = await _brandsService.Save(userId, dto, image);
+            if (result == false)
+            {
+                TempData["msg"] = Messages.NameExest;
+                return View();
+            }
+            else
+            {
+                TempData["msg"] = Messages.AddAction;
+                return RedirectToAction("Index");
+            }
         }
 
-        public IActionResult Details(int id)
+        //This Action For Show page To Edit Brand
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            return Ok(_brandsService.Get(id));
+            var model = _brandsService.Get(id);
+            if (model == null)
+                return RedirectToAction("Error", "Settings");
+            //جلب وقت الانشاء والمستخدم الذي انشاءه
+            ViewBag.CreateAt = model.CreateAt;
+            ViewBag.CreateBy = model.CreateBy;
+            return View(model);
         }
-
-        public async Task<IActionResult> Create(string userId, [FromForm] CreateBrandDto dto)
+        //This Action For Edit Brand
+        [HttpPost]
+        public async Task<IActionResult> Edit(string userId, UpdateBrandDto dto, IFormFile image)
         {
-            return Ok(await _brandsService.Save(userId, dto));
+            if (dto.About == null)
+            {
+                dto.About = "Null";
+            }
+            await _brandsService.Update(userId, dto, image);
+            TempData["msg"] = Messages.EditAction;
+            return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Update(string userId, [FromForm] UpdateBrandDto dto)
-        {
-            return Ok(await _brandsService.Update(userId, dto));
-        }
-
+        //This Action For Soft Delete
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await _brandsService.Remove(id));
+            var model = _brandsService.Get(id);
+            if (model == null)
+            {
+                return RedirectToAction("Error", "Settings");
+            }
+            else
+            {
+                var result = await _brandsService.Remove(id);
+                if (result == false)
+                {
+                    TempData["msg"] = Messages.NoDeleteCategory;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["msg"] = Messages.DeleteActon;
+                    return RedirectToAction("Index");
+                }
+            }
+        }
+        //This Action For Details Brand
+        public IActionResult Details(int id)
+        {
+            var model = _brandsService.Get(id);
+            if (model == null)
+                return RedirectToAction("Error", "Settings");
+            return View(model);
         }
     }
 }

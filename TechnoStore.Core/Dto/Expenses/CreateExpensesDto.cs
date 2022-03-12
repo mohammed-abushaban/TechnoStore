@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using TechnoStore.Core.Constants;
 
 namespace TechnoStore.Core.Dto.Expenses
@@ -14,9 +13,7 @@ namespace TechnoStore.Core.Dto.Expenses
         public string Details { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         public int ExpensesCategoryId { get; set; }
-        [MaxLength(150, ErrorMessage = Messages.Max150)]
-        public string CreateBy { get; set; }
-        public DateTime CreateAt { get; set; }
+
 
     }
 }

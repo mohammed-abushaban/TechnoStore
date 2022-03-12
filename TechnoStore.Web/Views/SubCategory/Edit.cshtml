@@ -1,0 +1,53 @@
+﻿@model SubCategoryVm
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="card card-custom" style="direction: rtl; text-align: right;">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                تعديل البيانات
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div class="row">
+                <div class="col-md-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CreateAt" value="@ViewBag.CreateAt" />
+                    <input type="hidden" asp-for="CreateBy" value="@ViewBag.CreateBy" />
+                    <div class="form-group">
+                        <label class="control-label">الاسم</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">التصنيف</label>
+                        <div class="card-custom" style="direction:ltr;">
+                            <select asp-for="CategoryId" class="form-control selectpicker" asp-items="ViewBag.CategoryId" data-live-search="true"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="تعديل" class="btn btn-warning" />
+                <a asp-action="Index" class="btn btn-danger">رجوع</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

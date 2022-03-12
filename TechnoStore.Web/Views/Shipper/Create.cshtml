@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form asp-action="Create" class="form">
+        <form asp-action="Create" class="form"  enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-4">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -76,7 +76,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">شعار الشركة</label>
-                        <input type="file" asp-for="ImageUrl" class="form-control" />
+                        <input type="file" name="image" class="form-control" />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                 </div>

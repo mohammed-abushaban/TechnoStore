@@ -24,6 +24,8 @@
     <Folder Include="wwwroot\Attachments\" />
     <Folder Include="wwwroot\Images\CategoriesImages\" />
     <Folder Include="wwwroot\Images\BrandsImages\" />
+    <Folder Include="wwwroot\Images\UsersImages\" />
+    <Folder Include="wwwroot\Images\ShippersImages\" />
   </ItemGroup>
 
 </Project>

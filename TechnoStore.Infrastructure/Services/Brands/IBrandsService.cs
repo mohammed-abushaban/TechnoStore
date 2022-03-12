@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,8 @@ namespace TechnoStore.Infrastructure.Services.Brands
         List<BrandVm> GetAll(string search, int page);
         List<BrandVm> GetAll();
         BrandVm Get(int id);
-        Task<bool> Save(string userId, CreateBrandDto dto);
-        Task<bool> Update(string userId, UpdateBrandDto dto);
+        Task<bool> Save(string userId, CreateBrandDto dto, IFormFile image);
+        Task<bool> Update(string userId, UpdateBrandDto dto, IFormFile image);
         Task<bool> Remove(int id);
     }
 }

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Category;
 using TechnoStore.Infrastructure.Services.Categories;
 
@@ -16,35 +18,113 @@ namespace TechnoStore.Web.Controllers
         {
             _categoriesService = categoriesService;
         }
-
+        //This Action For Show All Categories
         public IActionResult Index(string search, int page = 1)
         {
-            return Ok(_categoriesService.GetAll(search, page));
-        }
+            var model = _categoriesService.GetAll(search, page);
 
-        public IActionResult GetAll()
+            ViewBag.Search = search;
+            ViewBag.NumOfPages = CategoriesService.NumOfPages;
+            ViewBag.Page = page;
+            ViewBag.count = model.Count();
+            return View(model);
+        }
+        //This Action For Show page To Add Category
+        [HttpGet]
+        public IActionResult Create() => View();
+
+        //This Action For Add New Category
+        [HttpPost]
+        public async Task<IActionResult> Create(string userId, CreateCategoryDto dto, IFormFile image)
         {
-            return Ok(_categoriesService.GetAll());
+            if(dto.About == null)
+            {
+                dto.About = "Null";
+            }    
+            var result = await _categoriesService.Save(userId,dto, image);
+            if (result == false)
+            {
+                TempData["msg"] = Messages.NameExest;
+                return View();
+            }
+            else
+            {
+                TempData["msg"] = Messages.AddAction;
+                return RedirectToAction("Index");
+            }
         }
 
-        public IActionResult Details(int id)
+        //This Action For Show page To Edit Category
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            return Ok(_categoriesService.Get(id));
-        }
+            var model = _categoriesService.Get(id);
+            if (model == null)
+                return RedirectToAction("Error", "Settings");
 
-        public async Task<IActionResult> Create(string userId, [FromForm] CreateCategoryDto dto)
+            ViewBag.CreateAt = model.CreateAt;
+            ViewBag.CreateBy = model.CreateBy;
+            ViewBag.ImageUrl = model.ImageUrl;
+            return View(model);
+        }
+        //This Action For Edit Category
+        [HttpPost]
+        public async Task<IActionResult> Edit(string userId,UpdateCategoryDto dto, IFormFile image)
         {
-            return Ok(await _categoriesService.Save(userId, dto));
+            if (dto.About == null)
+            {
+                dto.About = "Null";
+            }
+            await _categoriesService.Update(userId,dto, image);
+            TempData["msg"] = Messages.EditAction;
+            return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Update(string userId, [FromForm] UpdateCategoryDto dto)
-        {
-            return Ok(await _categoriesService.Update(userId, dto));
-        }
-
+        //This Action For Soft Delete
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await _categoriesService.Remove(id));
+            var model = _categoriesService.Get(id);
+            if (model == null)
+            {
+                return RedirectToAction("Error", "Settings");
+            }
+            else
+            {
+                var result = await _categoriesService.Remove(id);
+                if (result == false)
+                {
+                    TempData["msg"] = Messages.NoDeleteCategory;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["msg"] = Messages.DeleteActon;
+                    return RedirectToAction("Index");
+                }
+            }
+        }
+        //This Action For Details Category
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = _categoriesService.Get(id);
+            if (model == null)
+            {
+                return RedirectToAction("Error", "Settings");
+            }
+            else
+            {
+                var result = await _categoriesService.Remove(id);
+                if (result == false)
+                {
+                    TempData["msg"] = Messages.NoDeleteCategory;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["msg"] = Messages.DeleteActon;
+                    return RedirectToAction("Index");
+                }
+            }
         }
     }
 }

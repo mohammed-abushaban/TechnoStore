@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -56,27 +57,35 @@ namespace TechnoStore.Infrastructure.Services.Brands
             return _mapper.Map<BrandVm>(brand);
         }
 
-        public async Task<bool> Save(string userId, CreateBrandDto dto)
+        public async Task<bool> Save(string userId, CreateBrandDto dto, IFormFile image)
         {
-            var brand = _mapper.Map<BrandDbEntity>(dto);
-            brand.CreateBy = userId;
-            brand.CreateAt = DateTime.Now;
-            var x = await _fileService.SaveFile(dto.ImageUrl, "Images/BrandsImages");
-            brand.ImageUrl = x;
-            await _db.Brands.AddAsync(brand);
-            await _db.SaveChangesAsync();
-            return true;
+            if (_db.Brands.Any(x => x.Name == dto.Name))
+            {
+                return false;
+            }
+            else
+            {
+                var brand = _mapper.Map<BrandDbEntity>(dto);
+                brand.CreateBy = "Test";
+                brand.CreateAt = DateTime.Now;
+                var x = await _fileService.SaveFile(image, "Images/BrandsImages");
+                brand.ImageUrl = x;
+                await _db.Brands.AddAsync(brand);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
         }
 
-        public async Task<bool> Update(string userId, UpdateBrandDto dto)
+        public async Task<bool> Update(string userId, UpdateBrandDto dto, IFormFile image)
         {
             var brand = _db.Brands.SingleOrDefault(x => x.Id == dto.Id);
             brand.UpdateAt = DateTime.Now;
-            brand.UpdateBy = userId;
-            if (dto.ImageUrl != null)
+            brand.UpdateBy = "Test";
+            if (image != null)
             {
-                await _fileService.DeleteFile(brand.ImageUrl);
-                var x = await _fileService.SaveFile(dto.ImageUrl, "Images/CategoriesImages");
+                _fileService.DeleteFile(brand.ImageUrl, "Images/BrandsImages");
+                var x = await _fileService.SaveFile(image, "Images/BrandsImages");
                 brand.ImageUrl = x;
             }
             _mapper.Map(dto, brand);
@@ -87,6 +96,13 @@ namespace TechnoStore.Infrastructure.Services.Brands
         public async Task<bool> Remove(int id)
         {
             var brand = _db.Brands.SingleOrDefault(x => x.Id == id);
+            foreach (var item in _db.Products.ToList())
+            {
+                if (brand.Id == item.BrandId)
+                {
+                    return false;
+                }
+            }
             brand.IsDelete = true;
             _db.Brands.Update(brand);
             await _db.SaveChangesAsync();

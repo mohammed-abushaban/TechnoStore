@@ -1,0 +1,80 @@
+﻿@model SupplierVm
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="card card-custom" style="direction: rtl; text-align: right;">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                تعديل بيانات شركة التوريد
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" class="form" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CreateAt" value="@ViewBag.CreateAt" />
+                    <input type="hidden" asp-for="CreateBy" value="@ViewBag.CreateBy" />
+                    <div class="form-group">
+                        <label class="control-label">الاسم</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">رقو التواصل</label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">البريد الالكتروني</label>
+                        <input asp-for="Email" class="form-control" type="email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">العنوان</label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">الدولة</label>
+                        <input asp-for="Country" class="form-control" />
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="تعديل" class="btn btn-warning" />
+                <a asp-action="Index" class="btn btn-danger">رجوع</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
