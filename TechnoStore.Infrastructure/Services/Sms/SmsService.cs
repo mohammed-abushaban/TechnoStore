@@ -1,0 +1,68 @@
+﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TechnoStore.Core.Constants;
+using TechnoStore.Core.Dto.Sms;
+using TechnoStore.Core.ViewModel.Sms;
+using TechnoStore.Data.Data;
+using TechnoStore.Data.Models;
+
+namespace TechnoStore.Infrastructure.Services.Sms
+{
+    public class SmsService : ISmsService
+    {
+        private readonly ApplicationDbContext _db;
+        private readonly IMapper _mapper;
+        DateTime date = DateTime.Now;
+        public static double NumOfPages;
+
+        public SmsService(ApplicationDbContext db, IMapper mapper)
+        {
+            _db = db;
+            _mapper = mapper;
+        }
+
+        //Get All Sms
+        public List<SmsVm> GetAll(string sreach, int page)
+        {
+            var NumOfExpCat = _db.Sms
+                .Count(x => x.SendTo.Contains(sreach) || string.IsNullOrEmpty(sreach));
+
+            NumOfPages = Math.Ceiling(NumOfExpCat / (NumPages.page20 + 0.0));
+            var Skip = (page - 1) * NumPages.page20;
+            var Take = NumPages.page20;
+            var sms = _db.Sms
+                .Where(x => x.SendTo.Contains(sreach) || string.IsNullOrEmpty(sreach))
+                .Skip(Skip).Take(Take).ToList();
+
+            return _mapper.Map<List<SmsVm>>(sms);
+        }
+
+        //Get All To List
+        public List<SmsVm> GetAll()
+        {
+            var sms = _db.Sms.ToList();
+            return _mapper.Map<List<SmsVm>>(sms);
+        }
+
+
+        //Create A New Sms
+        public async Task<int> Save(CreateSmsDto dto)
+        {
+            if (_db.Sms.Any(x => x.SendTo == dto.SendTo))
+            {
+                return 0;
+            }
+            var sms = _mapper.Map<SmsDbEntity>(dto);
+            sms.CreateAt = date;
+            await _db.Sms.AddAsync(sms);
+            await _db.SaveChangesAsync();
+            return sms.Id;
+        }
+
+
+    }
+}
