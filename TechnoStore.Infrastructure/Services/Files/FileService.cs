@@ -1,24 +1,17 @@
 
-﻿using AutoMapper;
+using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Files;
 using TechnoStore.Core.ViewModel.Files;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
-
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace TechnoStore.Infrastructure.Services.Files
@@ -106,6 +99,7 @@ namespace TechnoStore.Infrastructure.Services.Files
             _db.Files.Update(file);
             await _db.SaveChangesAsync();
             return file.Id;
+        }
 
         private readonly IWebHostEnvironment _env;
 

@@ -1,17 +1,8 @@
-
-﻿using System;
-
-﻿using Microsoft.AspNetCore.Http;
-using System;
-
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
 using TechnoStore.Core.Dto.Files;
 using TechnoStore.Core.ViewModel.Files;
-using TechnoStore.Data.Data;
 
 namespace TechnoStore.Infrastructure.Services.Files
 {
@@ -26,7 +17,6 @@ namespace TechnoStore.Infrastructure.Services.Files
         Task<int> Remove(int id);
 
         Task<string> SaveFile(IFormFile file, string folderName);
-
         bool DeleteFile(string path, string folderName);
 
     }

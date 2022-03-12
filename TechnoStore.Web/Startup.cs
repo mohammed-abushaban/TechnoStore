@@ -1,39 +1,29 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
 using TechnoStore.Infostructures.AutoMapper;
-
+using TechnoStore.Infostructures.Services.ExpensesCategories;
 using TechnoStore.Infostructures.Services.IFeedbacks;
-using TechnoStore.Infrastructure.Services.Expenses;
-using TechnoStore.Infrastructure.Services.Files;
-using TechnoStore.Infrastructure.Services.PrivacyAndQuestions;
-using TechnoStore.Infrastructure.Services.Settings;
-using TechnoStore.Infrastructure.Services.Sms;
-
+using TechnoStore.Infrastructure.Services;
 using TechnoStore.Infrastructure.Services.Brands;
 using TechnoStore.Infrastructure.Services.Categories;
 using TechnoStore.Infrastructure.Services.Expenses;
 using TechnoStore.Infrastructure.Services.Files;
+using TechnoStore.Infrastructure.Services.PrivacyAndQuestions;
 using TechnoStore.Infrastructure.Services.Products;
 using TechnoStore.Infrastructure.Services.ProductsQuantities;
+using TechnoStore.Infrastructure.Services.Settings;
+using TechnoStore.Infrastructure.Services.Shippers;
+using TechnoStore.Infrastructure.Services.Sms;
 using TechnoStore.Infrastructure.Services.SubCategories;
 using TechnoStore.Infrastructure.Services.Suppliers;
-using TechnoStore.Infrastructure.Services;
-using TechnoStore.Infrastructure.Services.Shippers;
 using TechnoStore.Infrastructure.Services.Users;
-
 
 namespace TechnoStore.Web
 {
