@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,11 @@ using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Users;
 using TechnoStore.Core.Enums;
 using TechnoStore.Core.ViewModel;
+using TechnoStore.Core.ViewModel.Shippers;
+using TechnoStore.Core.ViewModel.Users;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
+using TechnoStore.Infrastructure.Services.Files;
 
 namespace TechnoStore.Infrastructure.Services.Users
 {
@@ -18,18 +22,20 @@ namespace TechnoStore.Infrastructure.Services.Users
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
         private readonly UserManager<UserDbEntity> _userManager;
 
         DateTime date = DateTime.Now;
         public static double NumOfPages;
 
         public UserService(ApplicationDbContext db
-                          , IMapper mapper
+                          , IMapper mapper , IFileService fileService
                           , UserManager<UserDbEntity> userManager)
         {
             _db = db;
             _mapper = mapper;
             _userManager = userManager;
+            _fileService = fileService;
         }
 
         //Get All Users
@@ -64,6 +70,12 @@ namespace TechnoStore.Infrastructure.Services.Users
             return _mapper.Map<List<UserVm>>(user);
         }
 
+        //Get All Shippers
+        public List<ShipperVm> GetAllShipper()
+        {
+            return _mapper.Map<List<ShipperVm>>(_db.Shippers.ToList());
+        }
+
         //Get One User
         public UserVm Get(string id)
         {
@@ -72,7 +84,7 @@ namespace TechnoStore.Infrastructure.Services.Users
         }
 
         //Create A New User
-        public async Task<bool> Save(CreateUserDto dto)
+        public async Task<bool> Save(CreateUserDto dto, IFormFile image)
         {
             if (_db.Users.Any(x => x.UserName == dto.UserName))
             {
@@ -80,6 +92,8 @@ namespace TechnoStore.Infrastructure.Services.Users
             }
             dto.CreateAt = date;
             dto.CreateBy = "Test";
+            var x = await _fileService.SaveFile(image, "Images/UsersImages");
+            dto.ImageUrl = x;
             var user = _mapper.Map<UserDbEntity>(dto);
 
             var result = await _userManager.CreateAsync(user, dto.password);

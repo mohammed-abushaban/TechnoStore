@@ -16,13 +16,14 @@
         </div>
     </div>
     <div class="card-body">
-        <form asp-action="Edit" class="form">
+        <form asp-action="Edit" class="form"   enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-4">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="CreateAt" value="@ViewBag.CreateAt" />
                     <input type="hidden" asp-for="CreateBy" value="@ViewBag.CreateBy" />
+                    <input type="hidden" asp-for="ImageUrl" value="@ViewBag.ImageUrl"/>
                     <div class="form-group">
                         <label class="control-label">الاسم</label>
                         <input asp-for="Name" class="form-control" />
@@ -79,7 +80,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">شعار الشركة</label>
-                        <input type="file" asp-for="ImageUrl" class="form-control" />
+                        <input type="file" name="image" class="form-control" />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                 </div>

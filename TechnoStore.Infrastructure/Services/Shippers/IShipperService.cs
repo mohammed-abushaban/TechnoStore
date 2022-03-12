@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,8 @@ namespace TechnoStore.Infrastructure.Services.Shippers
         List<ShipperVm> GetAll(string sreach, int page);
         List<ShipperVm> GetAll();
         ShipperVm Get(int id);
-        Task<bool> Save(CreateShipperDto dto);
-        Task<int> Update(UpdateShipperDto dto);
+        Task<bool> Save(CreateShipperDto dto, IFormFile image);
+        Task<int> Update(UpdateShipperDto dto, IFormFile image);
         Task<bool> Remove(int id);
     }
 }

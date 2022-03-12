@@ -63,7 +63,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label">صورة المستخدم / إن وجد</label>
-                                <input name="ImageUrl" type="file" class="form-control" />
+                                <input name="image" type="file" class="form-control" />
                                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label">كلمة المرور</label>
-                                <input asp-for="password" class="form-control" />
+                                <input type="password" asp-for="password" class="form-control" />
                                 <span asp-validation-for="password" class="text-danger"></span>
                             </div>
                         </div>
@@ -103,8 +103,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">تأكيد كلمة المرور</label>
-                                <input class="form-control" />
+                                <label  class="control-label">تأكيد كلمة المرور</label>
+                                <input id="CheckPass" type="password" class="form-control" />
                             </div>
                         </div>
                     </div>

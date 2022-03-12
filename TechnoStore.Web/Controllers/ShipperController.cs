@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +36,9 @@ namespace TechnoStore.Web.Controllers
 
         //This Action For Add New Shipper
         [HttpPost]
-        public async Task<IActionResult> Create(CreateShipperDto dto)
+        public async Task<IActionResult> Create(CreateShipperDto dto, IFormFile image)
         {
-            var result = await _shipperService.Save(dto);
+            var result = await _shipperService.Save(dto , image);
             if (result == false)
             {
                 TempData["msg"] = Messages.NameExest;
@@ -58,17 +59,18 @@ namespace TechnoStore.Web.Controllers
             var model = _shipperService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
-            //جلب وقت الانشاء والمستخدم الذي انشاءه
+
             ViewBag.CreateAt = model.CreateAt;
             ViewBag.CreateBy = model.CreateBy;
+            ViewBag.ImageUrl = model.ImageUrl;
             return View(model);
         }
 
         //This Action For Edit Shipper
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdateShipperDto dto)
+        public async Task<IActionResult> Edit(UpdateShipperDto dto, IFormFile image)
         {
-            await _shipperService.Update(dto);
+            await _shipperService.Update(dto, image);
             TempData["msg"] = Messages.EditAction;
             return RedirectToAction("Index");
         }

@@ -22,9 +22,11 @@
         public const string Dublecate = "خ: البريد الإلكتروني أو رقم الجوال موجود مسبقا ";
 
         public const string NameExest = "ت: الإسم موجود مسبقا ";
-        public const string NoCategory = "ت: الرجاء إضافة تصنيف قبل إضافة المصروف ";
-        public const string NoDeleteCategory = "خ: لا يمكن حذف هذا التصنيف لأنه مرتبط في مصروفات كثيرة ، لطفا لحذف المصروفات ثم حذف التصنيف ";
+
+        public const string NoCategory = "ت: هناك تصنيفات غير مدخلة ، لطفا للتحقق ";
+        public const string NoDeleteCategory = "خ: لا يمكن حذف هذا التصنيف لأنه مرتبط في عناصر أخرى  ، لطفا لحذف العناصر ثم حذف التصنيف ";
         public const string NoDeleteShipper = "خ: لا يمكن حذف شركة الشحن ، لوجود طلبات خاصة بالشركة ، يجب حذف الطلبات أولا ";
+        public const string NoDeleteSupplier = "خ: لا يمكن حذف شركة التوريد ، لوجود بضائع موردة من خلالها ";
 
         public const string CanNot = "خ: لا يمكن حذف هذا الحساب ، لأنه آخر حساب ، وفي حال تم حذفه لن تتمكن من الدخول للنظام مرة أخرى";
         public const string CanNot2 = "خ: لا يمكن حذف آخر حساب مسؤول في النظام";

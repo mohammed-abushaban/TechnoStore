@@ -61,12 +61,15 @@ namespace TechnoStore.Infostructures.Services.ExpensesCategories
             {
                 return false;
             }
-            var expensesCategory = _mapper.Map<ExpensesCategoryDbEntity>(dto);
-            expensesCategory.CreateAt = date;
-            expensesCategory.CreateBy = "Test";
-            await _db.ExpensesCategory.AddAsync(expensesCategory);
-            await _db.SaveChangesAsync();
-            return true;
+            else
+            {
+                var expensesCategory = _mapper.Map<ExpensesCategoryDbEntity>(dto);
+                expensesCategory.CreateAt = date;
+                expensesCategory.CreateBy = "Test";
+                await _db.ExpensesCategory.AddAsync(expensesCategory);
+                await _db.SaveChangesAsync();
+                return true;
+            }
         }
 
         //Update Any Expenses

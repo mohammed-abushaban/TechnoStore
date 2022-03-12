@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.SubCategories;
+using TechnoStore.Core.ViewModel.Categories;
 using TechnoStore.Core.ViewModel.SubCategories;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
@@ -46,6 +47,12 @@ namespace TechnoStore.Infrastructure.Services.SubCategories
             return _mapper.Map<List<SubCategoryVm>>(subCategories);
         }
 
+        //Get All Categories To List
+        public List<CategoryVm> GetAllCategories()
+        {
+            return _mapper.Map<List<CategoryVm>>(_db.Categories.ToList());
+        }
+
         public SubCategoryVm Get(int id)
         {
             var subCategory = _db.SubCategories.Include(x => x.Category).SingleOrDefault(x => x.Id == id);
@@ -54,19 +61,27 @@ namespace TechnoStore.Infrastructure.Services.SubCategories
 
         public async Task<bool> Save(string userId, CreateSubCategoryDto dto)
         {
-            var subCategory = _mapper.Map<SubCategoryDbEntity>(dto);
-            subCategory.CreateAt = DateTime.Now;
-            subCategory.CreateBy = userId;
-            await _db.SubCategories.AddAsync(subCategory);
-            await _db.SaveChangesAsync();
-            return true;
+            if (_db.SubCategories.Any(x => x.Name == dto.Name))
+            {
+                return false;
+            }
+            else
+            {
+                var subCategory = _mapper.Map<SubCategoryDbEntity>(dto);
+                subCategory.CreateAt = DateTime.Now;
+                subCategory.CreateBy = "Test";
+                await _db.SubCategories.AddAsync(subCategory);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
         }
 
         public async Task<bool> Update(string userId, UpdateSubCategoryDto dto)
         {
             var subCategory = _db.SubCategories.SingleOrDefault(x => x.Id == dto.Id);
             subCategory.UpdateAt = DateTime.Now;
-            subCategory.UpdateBy = userId;
+            subCategory.UpdateBy = "Test";
             _mapper.Map(dto, subCategory);
             await _db.SaveChangesAsync();
             return true;
@@ -75,6 +90,13 @@ namespace TechnoStore.Infrastructure.Services.SubCategories
         public async Task<bool> Remove(int id)
         {
             var subCategory = _db.SubCategories.SingleOrDefault(x => x.Id == id);
+            foreach (var item in _db.Products.ToList())
+            {
+                if (subCategory.Id == item.SubCategoryId)
+                {
+                    return false;
+                }
+            }
             subCategory.IsDelete = true;
             _db.SubCategories.Update(subCategory);
             await _db.SaveChangesAsync();
