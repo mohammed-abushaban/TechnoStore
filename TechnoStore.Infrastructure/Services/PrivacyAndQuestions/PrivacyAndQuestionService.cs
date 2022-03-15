@@ -41,12 +41,9 @@ namespace TechnoStore.Infrastructure.Services.PrivacyAndQuestions
         //Create A New PrivacyAndQuestion
         public async Task<int> Save(CreatePrivacyAndQuestionDto dto)
         {
-            if (_db.PrivacyAndQuestions.Any(x => x.Question == dto.Question))
-            {
-                return 0;
-            }
             var privacyAndQuestion = _mapper.Map<PrivacyAndQuestionDbEntity>(dto);
             privacyAndQuestion.CreateAt = date;
+            privacyAndQuestion.UpdateBy = "Test";
             await _db.PrivacyAndQuestions.AddAsync(privacyAndQuestion);
             await _db.SaveChangesAsync();
             return privacyAndQuestion.Id;
@@ -57,6 +54,7 @@ namespace TechnoStore.Infrastructure.Services.PrivacyAndQuestions
         {
             var privacyAndQuestion = _mapper.Map<PrivacyAndQuestionDbEntity>(dto);
             privacyAndQuestion.UpdateAt = date;
+            privacyAndQuestion.UpdateBy = "Test1";
             _db.PrivacyAndQuestions.Update(privacyAndQuestion);
             await _db.SaveChangesAsync();
             return privacyAndQuestion.Id;
@@ -66,13 +64,6 @@ namespace TechnoStore.Infrastructure.Services.PrivacyAndQuestions
         public async Task<int> Remove(int id)
         {
             var privacyAndQuestion = _db.PrivacyAndQuestions.SingleOrDefault(x => x.Id == id);
-            foreach (var item in _db.PrivacyAndQuestions.ToList())
-            {
-                if (privacyAndQuestion.Id == item.Id)
-                {
-                    return 0;
-                }
-            }
             privacyAndQuestion.IsDelete = true;
             _db.PrivacyAndQuestions.Update(privacyAndQuestion);
             await _db.SaveChangesAsync();

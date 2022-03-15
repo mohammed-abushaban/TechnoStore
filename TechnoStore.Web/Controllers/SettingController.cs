@@ -32,17 +32,9 @@ namespace TechnoStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateSettingDto dto)
         {
-            var id = await _settingService.Save(dto);
-            if (id == 0)
-            {
-                TempData["msg"] = Messages.NameExest;
-                return View();
-            }
-            else
-            {
-                TempData["msg"] = Messages.AddAction;
-                return RedirectToAction("Index");
-            }
+            await _settingService.Save(dto);
+            TempData["msg"] = Messages.AddAction;
+            return RedirectToAction("Index");
         }
 
         //This Action For Show page To Edit Setting

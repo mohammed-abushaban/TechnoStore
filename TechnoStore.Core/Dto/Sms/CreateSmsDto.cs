@@ -20,8 +20,5 @@ namespace TechnoStore.Core.Dto.Sms
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
         public string TextMessage { get; set; }
-        [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
-        public string CreateBy { get; set; }
-        public DateTime CreateAt { get; set; }
     }
 }

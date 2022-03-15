@@ -32,9 +32,6 @@ namespace TechnoStore.Infrastructure.Services.Files
             _env = env;
         }
 
-
-
-
         //Get All File
         public List<FileVm> GetAll(string sreach, int page)
         {
@@ -68,15 +65,12 @@ namespace TechnoStore.Infrastructure.Services.Files
         //Create A New File
         public async Task<int> Save(CreateFileDto dto)
         {
-            if (_db.Files.Any(x => x.Title == dto.Title))
-            {
-                return 0;
-            }
             var file = _mapper.Map<FileDbEntity>(dto);
             file.CreateAt = date;
+            file.CreateBy = "Test";
             await _db.Files.AddAsync(file);
             await _db.SaveChangesAsync();
-            return file.Id;
+            return file.Id; 
         }
 
         //Update A New File
@@ -84,6 +78,7 @@ namespace TechnoStore.Infrastructure.Services.Files
         {
             var file = _mapper.Map<FileDbEntity>(dto);
             file.UpdateAt = date;
+            file.UpdateBy = "Test1";
             _db.Files.Update(file);
             await _db.SaveChangesAsync();
             return file.Id;
@@ -93,13 +88,6 @@ namespace TechnoStore.Infrastructure.Services.Files
         public async Task<int> Remove(int id)
         {
             var file = _db.Files.SingleOrDefault(x => x.Id == id);
-            foreach (var item in _db.Files.ToList())
-            {
-                if (file.Id == item.Id)
-                {
-                    return 0;
-                }
-            }
             file.IsDelete = true;
             _db.Files.Update(file);
             await _db.SaveChangesAsync();

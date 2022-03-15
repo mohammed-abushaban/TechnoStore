@@ -55,30 +55,20 @@ namespace TechnoStore.Infostructures.Services.IFeedbacks
         }
 
         //Create A New Feedback
-        public async Task<int> Save(CreateFeedbackDto dto)
+        public async Task<bool> Save(CreateFeedbackDto dto)
         {
-            if (_db.Feedbacks.Any(x => x.Title == dto.Title))
-            {
-                return 0;
-            }
             var feedback = _mapper.Map<FeedbackDbEntity>(dto);
             feedback.CreateAt = date;
+            feedback.CreateBy = "Test";
             await _db.Feedbacks.AddAsync(feedback);
             await _db.SaveChangesAsync();
-            return feedback.Id;
+            return true;
         }
 
         //Delete Any feedback
         public async Task<int> Remove(int id)
         {
             var feedback = _db.Feedbacks.SingleOrDefault(x => x.Id == id);
-            foreach (var item in _db.Feedbacks.ToList())
-            {
-                if (feedback.Id == item.Id)
-                {
-                    return 0;
-                }
-            }
             feedback.IsDelete = true;
             _db.Feedbacks.Update(feedback);
             await _db.SaveChangesAsync();

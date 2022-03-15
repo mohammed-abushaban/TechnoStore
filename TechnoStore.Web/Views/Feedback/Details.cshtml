@@ -1,0 +1,78 @@
+﻿@model TechnoStore.Core.ViewModel.Feedbacks.FeedbackVm
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+    td {
+        color: black;
+        font-weight: bold;
+    }
+
+    .cardCustom {
+        direction: rtl;
+        text-align: right;
+    }
+</style>
+
+<div class="card card-custom cardCustom">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                تفاصيل البيانات
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <div>
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>العنوان</td>
+                            <td>@Model.Title</td>
+                        </tr>
+                        <tr>
+                            <td>التفاصيل</td>
+                            <td>@Html.DisplayFor(model => model.Details)</td>
+                        </tr>
+                        <tr>
+                            <td>رقم الجوال</td>
+                            <td>@Model.Phone</td>
+                        </tr>
+                        <tr>
+                            <td>الايميل</td>
+                            <td>@Model.Email</td>
+                        </tr>
+                        <tr>
+                            <td>الصورة</td>
+                            <td><img src="~/Images/BrandsImages/@Html.DisplayFor(model => model.ImageUrl)" width="500" /></td>
+                        </tr>
+                        <tr>
+                            <td>تم تسجيله بواسطة</td>
+                            <td>@Html.DisplayFor(model => model.CreateBy)</td>
+                        </tr>
+                        <tr>
+                            <td>تم تعديل البيانات بواسطة</td>
+                            <td>@Html.DisplayFor(model => model.UpdateBy)</td>
+                        </tr>
+                        <tr>
+                            <td>تاريخ التسجيل</td>
+                            <td>@Html.DisplayFor(model => model.CreateAt)</td>
+                        </tr>
+                        <tr>
+                            <td>تاريخ التعديل</td>
+                            <td>@Html.DisplayFor(model => model.UpdateAt)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a asp-action="Index" class="btn btn-danger">رجوع</a>
+        </div>
+    </div>
+</div>

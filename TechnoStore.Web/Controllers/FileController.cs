@@ -37,17 +37,9 @@ namespace TechnoStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateFileDto dto)
         {
-            var id = await _fileService.Save(dto);
-            if (id == 0)
-            {
-                TempData["msg"] = Messages.NameExest;
-                return View();
-            }
-            else
-            {
-                TempData["msg"] = Messages.AddAction;
-                return RedirectToAction("Index");
-            }
+            await _fileService.Save(dto);
+            TempData["msg"] = Messages.AddAction;
+            return RedirectToAction("Index");
         }
 
         //This Action For Show page To Edit File
@@ -77,23 +69,10 @@ namespace TechnoStore.Web.Controllers
         {
             var model = _fileService.Get(id);
             if (model == null)
-            {
                 return RedirectToAction("Error", "Settings");
-            }
-            else
-            {
-                var remove = await _fileService.Remove(id);
-                if (remove == 0)
-                {
-                    TempData["msg"] = Messages.NoDeleteCategory;
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["msg"] = Messages.AddAction;
-                    return RedirectToAction("Index");
-                }
-            }
+            await _fileService.Remove(id);
+            TempData["msg"] = Messages.DeleteActon;
+            return RedirectToAction("Index");
         }
 
         //This Action For Details Buy

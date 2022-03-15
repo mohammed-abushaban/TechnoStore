@@ -1,4 +1,4 @@
-﻿@model CreateBrandDto  
+﻿@model CreateBrandDto
 
 @{
     ViewData["Title"] = "Create";
@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form asp-action="Create" class="form"  enctype="multipart/form-data">
+        <form asp-action="Create" class="form" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-5">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -29,7 +29,7 @@
                 <div class="col-md-7">
                     <div class="form-group">
                         <label class="control-label">شعار الماركة</label>
-                        <input type="file" name="image" class="form-control" required/>
+                        <input type="file" name="image" class="form-control" required />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">عن الماركة</label>
-                        <textarea id="summernote" class="form-control" asp-for="About" required></textarea>    
+                        <textarea id="summernote" class="form-control" asp-for="About" required></textarea>
                         <span asp-validation-for="About" class="text-danger"></span>
                     </div>
                 </div>
