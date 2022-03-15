@@ -18,15 +18,6 @@
     <div class="card-body">
         <form asp-action="Create" class="form">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <label class="control-label">المنتج</label>
-                        <div class="card-custom" style="direction:ltr;">
-                            <select asp-for="ProductId" class="form-control selectpicker" asp-items="ViewBag.ProductId" data-live-search="true"></select>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="control-label">الكمية</label>

@@ -42,7 +42,7 @@ namespace TechnoStore.Infrastructure.Services.Users
         public List<UserVm> GetAll(string search, int page, Gender? gender, UserType? userType)
         {
             var NumOfExpCat = _db.Users
-                .Count(x => x.UserName.Contains(search) || x.City.Contains(search) 
+                .Count(x => x.UserName.Contains(search) 
                 || x.PhoneNumber.Contains(search) || string.IsNullOrEmpty(search) 
                 && (x.Gender == gender || gender == null) 
                 && (x.UserType == userType || userType == null));
@@ -54,7 +54,7 @@ namespace TechnoStore.Infrastructure.Services.Users
             var Take = NumPages.page20;
 
             var users = _db.Users
-                .Where(x => x.UserName.Contains(search) || x.City.Contains(search)
+                .Where(x => x.UserName.Contains(search)
                 || x.PhoneNumber.Contains(search) || string.IsNullOrEmpty(search)
                 && (x.Gender == gender || gender == null)
                 && (x.UserType == userType || userType == null))

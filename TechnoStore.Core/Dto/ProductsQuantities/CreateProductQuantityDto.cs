@@ -12,8 +12,6 @@ namespace TechnoStore.Core.Dto.ProductsQuantities
         [MaxLength(25, ErrorMessage = Messages.Max25)]
         public string Color { get; set; }
 
-        [Required(ErrorMessage = Messages.ErrorMessage)]
-        public int ProductId { get; set; }
 
 
     }

@@ -111,8 +111,7 @@ namespace TechnoStore.Infostructures.AutoMapper
                 .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
 
             //ProductsQuantities
-            CreateMap<ProductQuantityDbEntity, ProductQuantityVm>()
-                .ForMember(x => x.ProductName, x => x.MapFrom(y => y.Product.Name));
+            CreateMap<ProductQuantityDbEntity, ProductQuantityVm>();
             CreateMap<CreateProductQuantityDto, ProductQuantityDbEntity>();
             CreateMap<UpdateProductQuantityDto, ProductQuantityDbEntity>()
                 .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));

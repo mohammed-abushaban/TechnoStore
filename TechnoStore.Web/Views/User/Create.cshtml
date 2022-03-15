@@ -121,16 +121,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row hideDiv">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="control-label">اختر شركة الشحن</label>
-                                <div class="card-custom" style="direction:ltr;">
-                                    <select asp-for="ShipperId" class="form-control selectpicker" asp-items="ViewBag.ShipperId" data-live-search="true"></select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>   
                 <div class="col-md-4">
                     <div class="row">
@@ -167,8 +157,9 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label">المدينة</label>
-                                <input asp-for="City" class="form-control" />
-                                <span asp-validation-for="City" class="text-danger"></span>
+                                <div class="card-custom" style="direction:ltr;">
+                                    <select asp-for="CityId" class="form-control selectpicker" asp-items="ViewBag.CityId" data-live-search="true"></select>
+                                </div>
                             </div>
                         </div>
                     </div>

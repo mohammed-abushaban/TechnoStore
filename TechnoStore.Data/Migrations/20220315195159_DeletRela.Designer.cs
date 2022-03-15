@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechnoStore.Data.Data;
 
 namespace TechnoStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220315195159_DeletRela")]
+    partial class DeletRela
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1058,6 +1060,14 @@ namespace TechnoStore.Data.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
+                    b.Property<int?>("CityDbEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
@@ -1092,6 +1102,8 @@ namespace TechnoStore.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityDbEntityId");
+
                     b.ToTable("Suppliers");
                 });
 
@@ -1111,7 +1123,12 @@ namespace TechnoStore.Data.Migrations
                     b.Property<DateTime?>("BirthDay")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CityId")
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int?>("CityDbEntityId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -1208,7 +1225,7 @@ namespace TechnoStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId");
+                    b.HasIndex("CityDbEntityId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -1499,15 +1516,18 @@ namespace TechnoStore.Data.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("TechnoStore.Data.Models.SupplierDbEntity", b =>
+                {
+                    b.HasOne("TechnoStore.Data.Models.CityDbEntity", null)
+                        .WithMany("Suppliers")
+                        .HasForeignKey("CityDbEntityId");
+                });
+
             modelBuilder.Entity("TechnoStore.Data.Models.UserDbEntity", b =>
                 {
-                    b.HasOne("TechnoStore.Data.Models.CityDbEntity", "City")
+                    b.HasOne("TechnoStore.Data.Models.CityDbEntity", null)
                         .WithMany("Users")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
+                        .HasForeignKey("CityDbEntityId");
                 });
 
             modelBuilder.Entity("TechnoStore.Data.Models.WarehouseDbEntity", b =>
@@ -1530,7 +1550,7 @@ namespace TechnoStore.Data.Migrations
             modelBuilder.Entity("TechnoStore.Data.Models.WarehouseProductDbEntity", b =>
                 {
                     b.HasOne("TechnoStore.Data.Models.ProductDbEntity", "Product")
-                        .WithMany("WarehouseProducts")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1565,6 +1585,8 @@ namespace TechnoStore.Data.Migrations
 
             modelBuilder.Entity("TechnoStore.Data.Models.CityDbEntity", b =>
                 {
+                    b.Navigation("Suppliers");
+
                     b.Navigation("Users");
 
                     b.Navigation("Warehouses");
@@ -1582,8 +1604,6 @@ namespace TechnoStore.Data.Migrations
                     b.Navigation("ProductDamages");
 
                     b.Navigation("ProductImages");
-
-                    b.Navigation("WarehouseProducts");
                 });
 
             modelBuilder.Entity("TechnoStore.Data.Models.SubCategoryDbEntity", b =>
