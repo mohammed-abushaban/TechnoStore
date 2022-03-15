@@ -33,17 +33,9 @@ namespace TechnoStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreatePrivacyAndQuestionDto dto)
         {
-            var id = await _privacyAndQuestionService.Save(dto);
-            if (id == 0)
-            {
-                TempData["msg"] = Messages.NameExest;
-                return View();
-            }
-            else
-            {
-                TempData["msg"] = Messages.AddAction;
-                return RedirectToAction("Index");
-            }
+            await _privacyAndQuestionService.Save(dto);
+            TempData["msg"] = Messages.AddAction;
+            return RedirectToAction("Index");
         }
 
         //This Action For Show page To Edit PrivacyAndQuestion
@@ -73,23 +65,10 @@ namespace TechnoStore.Web.Controllers
         {
             var model = _privacyAndQuestionService.Get(id);
             if (model == null)
-            {
                 return RedirectToAction("Error", "Settings");
-            }
-            else
-            {
-                var remove = await _privacyAndQuestionService.Remove(id);
-                if (remove == 0)
-                {
-                    TempData["msg"] = Messages.NoDeleteCategory;
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["msg"] = Messages.AddAction;
-                    return RedirectToAction("Index");
-                }
-            }
+            await _privacyAndQuestionService.Remove(id);
+            TempData["msg"] = Messages.DeleteActon;
+            return RedirectToAction("Index");
         }
 
         //This Action For Details Buy

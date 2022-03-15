@@ -11,6 +11,7 @@ namespace TechnoStore.Core.Dto.PrivacyAndQuestions
 {
     public class UpdatePrivacyAndQuestionDto
     {
+        [Required(ErrorMessage = Messages.ErrorMessage)]
         public int Id { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         public string Privacy { get; set; }

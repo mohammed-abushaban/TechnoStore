@@ -43,12 +43,9 @@ namespace TechnoStore.Infrastructure.Services.Settings
         //Create A New Setting
         public async Task<int> Save(CreateSettingDto dto)
         {
-            if (_db.Settings.Any(x => x.NameOfWebsite == dto.NameOfWebsite))
-            {
-                return 0;
-            }
             var setting = _mapper.Map<SettingDbEntity>(dto);
             setting.CreateAt = date;
+            setting.CreateBy = "Test";
             await _db.Settings.AddAsync(setting);
             await _db.SaveChangesAsync();
             return setting.Id;
@@ -59,6 +56,7 @@ namespace TechnoStore.Infrastructure.Services.Settings
         {
             var setting = _mapper.Map<SettingDbEntity>(dto);
             setting.UpdateAt = date;
+            setting.CreateBy = "Test1";
             _db.Settings.Update(setting);
             await _db.SaveChangesAsync();
             return setting.Id;

@@ -60,8 +60,5 @@ namespace TechnoStore.Core.Dto.Settings
         public bool CashIsActive { get; set; }
         public bool OnStoreIsActive { get; set; }
         public bool WholeSaleIsActive { get; set; }
-        [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
-        public string CreateBy { get; set; }
-        public DateTime CreateAt { get; set; }
     }
 }

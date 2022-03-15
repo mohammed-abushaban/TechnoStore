@@ -52,12 +52,9 @@ namespace TechnoStore.Infrastructure.Services.Sms
         //Create A New Sms
         public async Task<int> Save(CreateSmsDto dto)
         {
-            if (_db.Sms.Any(x => x.SendTo == dto.SendTo))
-            {
-                return 0;
-            }
             var sms = _mapper.Map<SmsDbEntity>(dto);
             sms.CreateAt = date;
+            sms.CreateBy = "Test";
             await _db.Sms.AddAsync(sms);
             await _db.SaveChangesAsync();
             return sms.Id;

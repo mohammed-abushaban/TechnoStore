@@ -11,6 +11,7 @@ namespace TechnoStore.Core.Dto.Settings
 {
     public class UpdateSettingDto
     {
+        [Required(ErrorMessage = Messages.ErrorMessage)]
         public int Id { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]

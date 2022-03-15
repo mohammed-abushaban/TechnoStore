@@ -16,8 +16,5 @@ namespace TechnoStore.Core.Dto.PrivacyAndQuestions
         public string Question { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         public string TermsOfUse { get; set; }
-        [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
-        public string CreateBy { get; set; }
-        public DateTime CreateAt { get; set; }
     }
 }

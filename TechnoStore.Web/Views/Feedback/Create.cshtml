@@ -1,0 +1,75 @@
+﻿@model TechnoStore.Core.Dto.Feedbacks.CreateFeedbackDto
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="card card-custom" style="direction: rtl; text-align: right;">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                تغذية راجعة جديدة
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" class="form" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-5">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">عنوان</label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">التفاصيل</label>
+                            <textarea id="summernote" class="form-control" asp-for="Details" required></textarea>
+                            <span asp-validation-for="Details" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">رقم الجوال</label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">الايميل</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group">
+                        <label class="control-label">صورة</label>
+                        <input type="file" name="image" class="form-control" required />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="حفظ" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-danger">رجوع</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

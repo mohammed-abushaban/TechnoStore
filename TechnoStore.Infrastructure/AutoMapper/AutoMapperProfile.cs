@@ -53,7 +53,6 @@ namespace TechnoStore.Infostructures.AutoMapper
             //Feedback
             CreateMap<FeedbackDbEntity, FeedbackVm>();
             CreateMap<CreateFeedbackDto, FeedbackDbEntity>();
-            CreateMap<UpdateFeedbackDto, FeedbackDbEntity>();
 
             //File
             CreateMap<FileDbEntity, FileVm>();

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TechnoStore.Core.ViewModel.Settings
 {
-    public class SettingVm
+    public class SettingVm : BaseVm
     {
-        public int Id { get; set; }
         public string NameOfWebsite { get; set; }
         public string LogoUrl { get; set; }
         public string Vision { get; set; }
@@ -25,9 +24,5 @@ namespace TechnoStore.Core.ViewModel.Settings
         public bool CashIsActive { get; set; }
         public bool OnStoreIsActive { get; set; }
         public bool WholeSaleIsActive { get; set; }
-        public string CreateBy { get; set; }
-        public DateTime CreateAt { get; set; }
-        public string UpdateBy { get; set; }
-        public DateTime? UpdateAt { get; set; }
     }
 }

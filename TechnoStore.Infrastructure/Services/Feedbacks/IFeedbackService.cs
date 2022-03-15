@@ -10,7 +10,7 @@ namespace TechnoStore.Infostructures.Services.IFeedbacks
         List<FeedbackVm> GetAll(string sreach, int page);
         List<FeedbackVm> GetAll();
         FeedbackVm Get(int id);
-        Task<int> Save(CreateFeedbackDto dto);
+        Task<bool> Save(CreateFeedbackDto dto);
         Task<int> Remove(int id);
     }
 }
