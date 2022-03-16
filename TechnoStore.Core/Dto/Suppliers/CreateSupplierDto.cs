@@ -23,7 +23,6 @@ namespace TechnoStore.Core.Dto.Suppliers
         public string Address { get; set; }
 
         [Required(ErrorMessage = Messages.ErrorMessage)]
-        [MaxLength(25, ErrorMessage = Messages.Max25)]
-        public string Country { get; set; }
+        public int CityId { get; set; }
     }
 }

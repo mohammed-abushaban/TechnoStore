@@ -39,8 +39,7 @@ namespace TechnoStore.Core.Dto.Users
         [MaxLength(2000, ErrorMessage = Messages.Max2000)]
         public string Address { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
-        [MaxLength(25, ErrorMessage = Messages.Max25)]
-        public string City { get; set; }
+        public string CityId { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [MaxLength(150, ErrorMessage = Messages.Max150)]
         public string CreateBy { get; set; }
@@ -51,6 +50,5 @@ namespace TechnoStore.Core.Dto.Users
         [MaxLength(10, ErrorMessage = Messages.Max10)]
         public string Zip_Code { get; set; }
         public bool Newsletter { get; set; }
-        public int? ShipperId { get; set; }
     }
 }

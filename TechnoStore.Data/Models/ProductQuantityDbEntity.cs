@@ -19,9 +19,5 @@ namespace TechnoStore.Data.Models
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(25)"), MaxLength(25, ErrorMessage = Messages.Max25)]
         public string Color { get; set; }
-
-        [Required(ErrorMessage = Messages.ErrorMessage)]
-        public int ProductId { get; set; }
-        public ProductDbEntity Product { get; set; }
     }
 }

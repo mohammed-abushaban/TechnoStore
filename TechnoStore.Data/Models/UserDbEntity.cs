@@ -47,9 +47,10 @@ namespace TechnoStore.Data.Models
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(2000)"), MaxLength(2000, ErrorMessage = Messages.Max2000)]
         public string Address { get; set; }
+
         [Required(ErrorMessage = Messages.ErrorMessage)]
-        [Column(TypeName = "nvarchar(25)"), MaxLength(25, ErrorMessage = Messages.Max25)]
-        public string City { get; set; }
+        public int CityId { get; set; }
+        public CityDbEntity City { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
         public string CreateBy { get; set; }
@@ -63,8 +64,6 @@ namespace TechnoStore.Data.Models
         public string Zip_Code { get; set; }
         public bool IsGeast { get; set; } 
         public bool Newsletter { get; set; } 
-        public int? ShipperId { get; set; }
-        public ShipperDbEntity Shipper { get; set; }
 
         public List<CartDbEntity> Cart { get; set; }
     }

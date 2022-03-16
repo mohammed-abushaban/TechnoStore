@@ -29,9 +29,8 @@ namespace TechnoStore.Data.Models
         [Column(TypeName = "nvarchar(2000)"), MaxLength(2000, ErrorMessage = Messages.Max2000)]
         public string Address { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
-        [Column(TypeName = "nvarchar(25)"), MaxLength(25, ErrorMessage = Messages.Max25)]
-        public string Country { get; set; }
-
+        //public int CityId { get; set; }
+        //public CityDbEntity City { get; set; }
         public List<ProductDbEntity> Products { get; set; }
     }
 }

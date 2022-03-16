@@ -29,9 +29,6 @@ namespace TechnoStore.Data.Models
         public float TotalPrice { get; set; }
 
         [Required(ErrorMessage = Messages.ErrorMessage)]
-        public int? ShipperId { get; set; } //اختياري
-        public ShipperDbEntity Shipper { get; set; }
-        [Required(ErrorMessage = Messages.ErrorMessage)]
         public int CartId { get; set; }
         public CartDbEntity Cart { get; set; }
     }

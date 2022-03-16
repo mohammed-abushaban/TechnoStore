@@ -56,7 +56,8 @@ namespace TechnoStore.Data.Models
 
         public List<ProductDamageDbEntity> ProductDamages { get; set; }
         public List<ProductImagesDbEntity> ProductImages { get; set; }
-        public List<ProductQuantityDbEntity> productQuantities { get; set; }
         public List<CartProductDbEntity> CartProducts { get; set; }
+        public List<WarehouseProductDbEntity> WarehouseProducts { get; set; }
+
     }
 }

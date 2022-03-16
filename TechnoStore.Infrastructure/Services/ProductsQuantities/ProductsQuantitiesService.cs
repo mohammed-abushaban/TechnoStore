@@ -35,7 +35,7 @@ namespace TechnoStore.Infrastructure.Services.ProductsQuantities
             var skip = (page - 1) * NumPages.page20;
             var take = NumPages.page20;
 
-            var quantities = _db.ProductQuantities.Include(x => x.Product)
+            var quantities = _db.ProductQuantities
                 .Where(x => x.Color.Contains(search) || string.IsNullOrEmpty(search))
                 .Skip(skip).Take(take).ToList();
 
@@ -45,7 +45,7 @@ namespace TechnoStore.Infrastructure.Services.ProductsQuantities
         //Get All To List Without Parameter
         public List<ProductQuantityVm> GetAll()
         {
-            var quantities = _db.ProductQuantities.Include(x => x.Product).ToList();
+            var quantities = _db.ProductQuantities.ToList();
             return _mapper.Map<List<ProductQuantityVm>>(quantities);
         }
 
@@ -57,7 +57,7 @@ namespace TechnoStore.Infrastructure.Services.ProductsQuantities
 
         public ProductQuantityVm Get(int id)
         {
-            var quantities = _db.ProductQuantities.Include(x => x.Product).SingleOrDefault(x => x.Id == id);
+            var quantities = _db.ProductQuantities.SingleOrDefault(x => x.Id == id);
             return _mapper.Map<ProductQuantityVm>(quantities);
         }
 
