@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +54,7 @@ namespace TechnoStore.Infrastructure.Services.Users
             var Skip = (page - 1) * NumPages.page20;
             var Take = NumPages.page20;
 
-            var users = _db.Users
+            var users = _db.Users.Include(x => x.City)
                 .Where(x => x.UserName.Contains(search)
                 || x.PhoneNumber.Contains(search) || string.IsNullOrEmpty(search)
                 && (x.Gender == gender || gender == null)
@@ -70,16 +71,16 @@ namespace TechnoStore.Infrastructure.Services.Users
             return _mapper.Map<List<UserVm>>(user);
         }
 
-        //Get All Shippers
-        public List<ShipperVm> GetAllShipper()
+        //Get All Shippers/////////////////////////////////////////////////////////
+        public List<CityDbEntity> GetAllCities()
         {
-            return _mapper.Map<List<ShipperVm>>(_db.Shippers.ToList());
+            return _db.Cities.ToList();
         }
 
         //Get One User
         public UserVm Get(string id)
         {
-            var user = _db.Users.SingleOrDefault(x => x.Id == id);
+            var user = _db.Users.Include(x => x.City).SingleOrDefault(x => x.Id == id);
             return _mapper.Map<UserVm>(user);
         }
 

@@ -112,12 +112,21 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label">الصلاحيات</label>
-                                <select id="userselect" asp-for="UserType" class="form-control" placeholder="اختر تصنيف الحساب">
+                                <select asp-for="UserType" class="form-control" placeholder="اختر تصنيف الحساب">
                                     <option value="@UserType.Admin">مسؤول النظام</option>
                                     <option value="@UserType.User">إداري</option>
-                                    <option value="@UserType.Shipper">شركة شحن</option>
                                 </select>
                                 <span asp-validation-for="UserType" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">المدينة</label>
+                                <div class="card-custom" style="direction:ltr;">
+                                    <select asp-for="CityId" class="form-control selectpicker" asp-items="ViewBag.CityId" data-live-search="true"></select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -150,16 +159,6 @@
                                 <label class="control-label">العنوان بالكامل</label>
                                 <input asp-for="Address" class="form-control" />
                                 <span asp-validation-for="Address" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="control-label">المدينة</label>
-                                <div class="card-custom" style="direction:ltr;">
-                                    <select asp-for="CityId" class="form-control selectpicker" asp-items="ViewBag.CityId" data-live-search="true"></select>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -831,6 +831,11 @@ namespace TechnoStore.Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("FacebookUrl")
                         .IsRequired()
                         .HasMaxLength(2000)
@@ -1111,7 +1116,7 @@ namespace TechnoStore.Data.Migrations
                     b.Property<DateTime?>("BirthDay")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CityId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -1503,9 +1508,7 @@ namespace TechnoStore.Data.Migrations
                 {
                     b.HasOne("TechnoStore.Data.Models.CityDbEntity", "City")
                         .WithMany("Users")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
 
                     b.Navigation("City");
                 });

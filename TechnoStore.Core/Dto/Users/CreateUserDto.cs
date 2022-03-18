@@ -38,8 +38,7 @@ namespace TechnoStore.Core.Dto.Users
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [MaxLength(2000, ErrorMessage = Messages.Max2000)]
         public string Address { get; set; }
-        [Required(ErrorMessage = Messages.ErrorMessage)]
-        public string CityId { get; set; }
+        public int? CityId { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [MaxLength(150, ErrorMessage = Messages.Max150)]
         public string CreateBy { get; set; }

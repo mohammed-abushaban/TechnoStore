@@ -13,6 +13,7 @@ using TechnoStore.Infostructures.Services.IFeedbacks;
 using TechnoStore.Infrastructure.Services;
 using TechnoStore.Infrastructure.Services.Brands;
 using TechnoStore.Infrastructure.Services.Categories;
+using TechnoStore.Infrastructure.Services.Cities;
 using TechnoStore.Infrastructure.Services.Expenses;
 using TechnoStore.Infrastructure.Services.Files;
 using TechnoStore.Infrastructure.Services.PrivacyAndQuestions;
@@ -59,13 +60,11 @@ namespace TechnoStore.Web
             //Services
             services.AddScoped<IExpensesCategoryService, ExpensesCategoryService>();
             services.AddScoped<IExpensesService, ExpensesService>();
-
             services.AddScoped<IFeedbackService, FeedbackService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ISmsService, SmsService>();
             services.AddScoped<IPrivacyAndQuestionService, PrivacyAndQuestionService>();
             services.AddScoped<ISettingService, SettingService>();
-
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<ISubCategoriesService, SubCategoriesService>();
             services.AddScoped<IBrandsService, BrandsService>();
@@ -78,8 +77,11 @@ namespace TechnoStore.Web
             services.AddScoped<IShipperService, ShipperService>();
             services.AddScoped<IWareHouseService, WareHouseService>();
             services.AddScoped<IWarehousesProducts, WarehousesProducts>();
+            services.AddScoped<IShipperService, ShipperService>();
+            services.AddScoped<ICityService, CityService>();
 
 
+            
             //AutoMapper
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using TechnoStore.Core.Dto.Settings;
 using TechnoStore.Core.ViewModel.Settings;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
+using TechnoStore.Infrastructure.Services.Files;
 
 namespace TechnoStore.Infrastructure.Services.Settings
 {
@@ -16,47 +18,51 @@ namespace TechnoStore.Infrastructure.Services.Settings
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
         DateTime date = DateTime.Now;
         public static double NumOfPages;
 
-        public SettingService(ApplicationDbContext db, IMapper mapper)
+        public SettingService(ApplicationDbContext db, IMapper mapper,IFileService fileService)
         {
             _db = db;
             _mapper = mapper;
+            _fileService = fileService;
         }
 
 
         //Get All To List
-        public List<SettingVm> GetAll()
+        public SettingVm GetSetting()
         {
-            var setting = _db.Settings.ToList();
-            return _mapper.Map<List<SettingVm>>(setting);
+            return _mapper.Map<SettingVm>(_db.Settings.FirstOrDefault());
         }
-
-        //Get One Setting
-        public SettingVm Get(int id)
-        {
-            var setting = _db.Settings.SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<SettingVm>(setting);
-        }
-
         //Create A New Setting
-        public async Task<int> Save(CreateSettingDto dto)
+        public async Task<int> Save(CreateSettingDto dto, IFormFile logo)
         {
             var setting = _mapper.Map<SettingDbEntity>(dto);
             setting.CreateAt = date;
             setting.CreateBy = "Test";
+            var x = await _fileService.SaveFile(logo, "Images/Logo");
+            setting.LogoUrl = x;
             await _db.Settings.AddAsync(setting);
             await _db.SaveChangesAsync();
             return setting.Id;
         }
 
         //Update A New Setting
-        public async Task<int> Update(UpdateSettingDto dto)
+        public async Task<int> Update(CreateSettingDto dto, IFormFile logo)
         {
             var setting = _mapper.Map<SettingDbEntity>(dto);
             setting.UpdateAt = date;
             setting.CreateBy = "Test1";
+            if (logo != null)
+            {
+                if (setting.LogoUrl != null)
+                {
+                    _fileService.DeleteFile(setting.LogoUrl, "Images/Logo");
+                }
+                var x = await _fileService.SaveFile(logo, "Images/Logo");
+                setting.LogoUrl = x;
+            }
             _db.Settings.Update(setting);
             await _db.SaveChangesAsync();
             return setting.Id;

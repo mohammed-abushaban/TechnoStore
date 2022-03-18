@@ -1,0 +1,216 @@
+﻿@model List<CityVm>
+
+@{
+    ViewData["Title"] = "Index";
+    var CrrentPage = ViewBag.Page;
+    var NextPage = CrrentPage + 1;
+    var PrivPage = CrrentPage - 1;
+    int Id = 1;
+}
+
+<link href="~/css/MyStyle.css" rel="stylesheet" />
+
+<div class="card card-custom cardCustom">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label h3ForTitle">
+                أسماء المدن
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+
+        <!-- Button trigger modal-->
+        <!-- Modal-->
+        @*<div class="modal fade" id="exampleModalCenter" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form asp-action="Create">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <label class="control-label">اسم التصنيف</label>
+                                            <input name="Name" class="form-control" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="إضافة" class="btn btn-primary" />
+                                            <a asp-action="Index" class="btn btn-danger">رجوع</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+        <div class="card-body">
+            <form method="get" asp-action="Index">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input placeholder="بحث بالإسم" class="form-control" name="search" value="@ViewBag.Search" />
+                    </div>
+                    <div class="col-md-1">
+                        <input type="submit" class="btn btn-primary" value="بحث" />
+                    </div>
+                    <div class="col-md-2">
+                        @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="flaticon2-cube"></i> إضافة </button>*@
+                        <a asp-action="Create" class="btn btn-success font-weight-bold">
+                            <i class="flaticon2-cube"></i> مدينة جديدة
+                        </a>
+                    </div>
+                </div>
+            </form>
+            <br />
+            @if (Model.Any())
+            {
+                <div class="row">
+                    <div class="col-md-8">
+                        <table class="table table-hover">
+                            <tr>
+                                <th width="40px">
+                                    #
+                                </th>
+                                <th>
+                                    الإسم
+                                </th>
+                                <th width="100px">
+                                    تاريخ الإنشاء
+                                </th>
+                                <th width="100px">
+
+                                </th>
+                            </tr>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @Id
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @item.CreateAt.ToString("dd-MM-yyyy")
+                                    </td>
+                                    <td>
+                                        <div class="card-toolbar">
+                                            <!--begin::Dropdown-->
+                                            <div class="dropdown dropdown-inline mr-2">
+                                                <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="svg-icon svg-icon-md">
+                                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                <path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3" />
+                                                                <path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000" />
+                                                            </g>
+                                                        </svg>
+                                                        <!--end::Svg Icon-->
+                                                    </span>العمليات
+                                                </button>
+                                                <!--begin::Dropdown Menu-->
+                                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                                    <!--begin::Navigation-->
+                                                    <ul class="navi flex-column navi-hover py-2">
+                                                        <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">اختر العملية المطلوبة</li>
+                                                        <li class="navi-item">
+                                                            <a asp-action="Edit" asp-route-id="@item.Id" class="navi-link">
+                                                                <span class="navi-icon">
+                                                                    <i class="flaticon-edit"></i>
+                                                                </span>
+                                                                <span class="navi-text">تعديل</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="navi-item">
+                                                            <a asp-action="Details" asp-route-id="@item.Id" class="navi-link">
+                                                                <span class="navi-icon">
+                                                                    <i class="flaticon-edit-1"></i>
+                                                                </span>
+                                                                <span class="navi-text">تفاصيل</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="navi-item">
+                                                            <a asp-action="Delete" asp-route-id="@item.Id" class="navi-link"
+                                                               onclick="return confirm('هل حقا تريد حذف : @item.Name')">
+                                                                <span class="navi-icon">
+                                                                    <i class="flaticon flaticon-delete"></i>
+                                                                </span>
+                                                                <span class="navi-text">حذف</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <!--end::Navigation-->
+                                                </div>
+                                                <!--end::Dropdown Menu-->
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                    Id++;
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="CountModel">#</td>
+                                    <td class="CountModel">المجموع :  @ViewBag.count</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+
+                <!--Pagenation-->
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        @if (CrrentPage == 1)
+                        {
+                            <li class="page-item disabled"><a class="page-link" href="~/BuyType/Index?page=@(PrivPage)">السابق</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" href="~/BuyType/Index?page=@(PrivPage)">السابق</a></li>
+                        }
+                        @for (int i = 1; i <= ViewBag.NumOfPages; i++)
+                        {
+                            if (CrrentPage == i)
+                            {
+                                <li class="page-item active"><a class="page-link" href="~/BuyType/Index?page=@i">@i</a></li>
+                            }
+                            else
+                            {
+                                <li class="page-item"><a class="page-link" href="~/BuyType/Index?page=@i">@i</a></li>
+                            }
+                        }
+                        @if (CrrentPage == ViewBag.NumOfPages)
+                        {
+                            <li class="page-item disabled"><a class="page-link" href="~/BuyType/Index?page=@(NextPage)">التالي</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" href="~/BuyType/Index?page=@(NextPage)">التالي</a></li>
+                        }
+                    </ul>
+                </nav>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    <p>هذا الجدول فارغ ، الرجاء اضغط على <strong style="color: blue">إضافة جديد</strong></p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

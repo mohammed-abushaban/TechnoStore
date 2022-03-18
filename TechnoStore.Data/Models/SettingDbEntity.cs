@@ -77,6 +77,10 @@ namespace TechnoStore.Data.Models
         [Column(TypeName = "nvarchar(4000)"), MaxLength(4000, ErrorMessage = Messages.Max4000)]
         public string AboutUs { get; set; }
 
+        [Required(ErrorMessage = Messages.ErrorMessage),EmailAddress]
+        [Column(TypeName = "nvarchar(100)"), MaxLength(100, ErrorMessage = Messages.Max100)]
+        public string Email { get; set; }
+
         public bool VisaIsActive { get; set; }
         public bool CashIsActive { get; set; }
         public bool OnStoreIsActive { get; set; }
