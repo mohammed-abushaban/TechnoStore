@@ -16,9 +16,14 @@ namespace TechnoStore.Web.Controllers
             _warehousesProducts = warehousesProducts;
         }
 
-        public async Task<IActionResult> GetOne(int id)
+        public async Task<IActionResult> GetProductDetails(int id)
         {
-            return Ok(await _warehousesProducts.GetDetails(id));
+            return Ok(await _warehousesProducts.GetProductDetails(id));
+        }
+
+        public async Task<IActionResult> GetWarehouseDetails(int id)
+        {
+            return Ok(await _warehousesProducts.GetWarehouseDetails(id));
         }
     }
 }

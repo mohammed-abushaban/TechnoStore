@@ -151,16 +151,19 @@ namespace TechnoStore.Infostructures.AutoMapper
             //WareHousesProducts
             CreateMap<CreateWarehouseProductDto, WarehouseProductDbEntity>().ForMember(x => x.ImageUrl, x => x.Ignore());
             CreateMap<WarehouseProductDbEntity, WarehouseProductVm>().ForMember(x => x.ProductName, x => x.MapFrom(y => y.Product.Name))
-                .ForMember(x => x.WarehouseName, x => x.MapFrom(y => y.Warehouse.Name));
-
-
+                .ForMember(x => x.WarehouseName, x => x.MapFrom(y => y.Warehouse.Name))
+                .ForMember(x => x.Image, x => x.MapFrom(y => y.ImageUrl));
             CreateMap<WarehouseDbEntity, wareHouseForProductDetailsVm>();
-
-
             CreateMap<WarehouseProductDbEntity, WarehouseProductDetailsVm>()
-                //.ForMember(x => x.wareHousesVm, x => x.MapFrom(y => y.Warehouse))
                 .ForMember(x => x.Name, x => x.MapFrom(y => y.Product.Name))
                 .ForMember(x => x.TotalQuantity, x => x.Ignore());
+
+            CreateMap<WarehouseProductDbEntity, warehouseProductForWarehouseDetailsVm>()
+                .ForMember(x => x.Name, x => x.MapFrom(y => y.Warehouse.Name))
+                .ForMember(x => x.City, x => x.MapFrom(y => y.Warehouse.City))
+                .ForMember(x => x.Address, x => x.MapFrom(y => y.Warehouse.Address))
+                .ForMember(x => x.productDetails, x => x.Ignore());
+
         }
 
     }

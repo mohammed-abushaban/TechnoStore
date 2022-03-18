@@ -42,6 +42,12 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             return _mapper.Map<List<WarehouseProductVm>>(warehouseProducts);
         }
 
+        public async Task<List<WarehouseProductVm>> GetAll()
+        {
+            var warehouseProducts = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product).ToList();
+            return _mapper.Map<List<WarehouseProductVm>>(warehouseProducts);
+        }
+
         //Add a new warehouseProduct
         public async Task<bool> Save(string userId, CreateWarehouseProductDto dto)
         {
@@ -56,7 +62,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
         }
 
         //Get Product Details
-        public async Task<WarehouseProductDetailsVm> GetDetails(int id)
+        public async Task<WarehouseProductDetailsVm> GetProductDetails(int id)
         {
             var warehouseProduct = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product)
                 .Where(x => x.ProductId == id).ToList();
@@ -80,9 +86,36 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
                 };
                 result.wareHousesVm.Add(m);
             }
-
             return result;
         }
+        // get details for one warehouse
+        public async Task<warehouseProductForWarehouseDetailsVm> GetWarehouseDetails(int id)
+        {
+            var warehouseProduct = _db.warehouseProducts.Include(x => x.Warehouse).ThenInclude(x => x.City).Include(x => x.Product)
+                .Where(x => x.WarehouseId == id).ToList();
+            var l = warehouseProduct.FirstOrDefault();
+            var result = _mapper.Map<warehouseProductForWarehouseDetailsVm>(l);
+            result.productDetails = new List<ProductDetailsForWarehouseDetailsVm>();
+            result.City = l.Warehouse.City.Name;
+            for (int i = 0; i < warehouseProduct.Count(); i++)
+            {
+                var m = new ProductDetailsForWarehouseDetailsVm
+                {
+                    Name = warehouseProduct[i].Product.Name,
+                    Color = warehouseProduct[i].Color,
+                    Size = warehouseProduct[i].Size,
+                    Quantity = warehouseProduct[i].Quantity,
+                    Id = warehouseProduct[i].ProductId,
+                    ImageUrl = warehouseProduct[i].ImageUrl
+                };
+                result.productDetails.Add(m);
+            }
+            return result;
+        }
+        // update
+
+        // remove
+
 
     }
 }

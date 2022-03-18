@@ -9,6 +9,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
 {
     public interface IWarehousesProductsService
     {
-        Task<WarehouseProductDetailsVm> GetDetails(int id);
+        Task<WarehouseProductDetailsVm> GetProductDetails(int id);
+        Task<warehouseProductForWarehouseDetailsVm> GetWarehouseDetails(int id);
     }
 }
