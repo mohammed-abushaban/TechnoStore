@@ -31,12 +31,8 @@ namespace TechnoStore.Core.Dto.Products
 
         [Required(ErrorMessage = Messages.ErrorMessage)]
         public int SupplierId { get; set; }
-        [Required(ErrorMessage = Messages.ErrorMessage)]
-        public int WarehouseId { get; set; }
 
-        public float? Evaluation { get; set; } //تقييم رقمي
         public float Discount { get; set; } = 0;
-        public bool IsAvalable { get; set; } = false;
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace TechnoStore.Web.Controllers
         [HttpGet]
         public IActionResult Create() => View();
 
+
         //This Action For Add New Shipper
         [HttpPost]
         public async Task<IActionResult> Create(string userId,CreateSupplierDto dto)
@@ -47,7 +49,6 @@ namespace TechnoStore.Web.Controllers
             {
                 TempData["msg"] = Messages.AddAction;
                 return RedirectToAction("Index");
-
             }
         }
 

@@ -9,6 +9,7 @@ using TechnoStore.Core.Enums;
 using TechnoStore.Core.ViewModel;
 using TechnoStore.Core.ViewModel.Shippers;
 using TechnoStore.Core.ViewModel.Users;
+using TechnoStore.Data.Models;
 
 namespace TechnoStore.Infrastructure.Services.Users
 {
@@ -16,7 +17,7 @@ namespace TechnoStore.Infrastructure.Services.Users
     {
         List<UserVm> GetAll(string search, int page, Gender? gender, UserType? userType);
         List<UserVm> GetAll();
-        List<ShipperVm> GetAllShipper();
+        List<CityDbEntity> GetAllCities();/////////////////////////////////
         UserVm Get(string id);
         Task<bool> Save(CreateUserDto dto, IFormFile image);
         Task<int> Remove(string id);

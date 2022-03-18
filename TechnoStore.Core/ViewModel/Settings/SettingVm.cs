@@ -20,6 +20,7 @@ namespace TechnoStore.Core.ViewModel.Settings
         public string Phone { get; set; }
         public string InstgramUrl { get; set; }
         public string AboutUs { get; set; }
+        public string Email { get; set; }
         public bool VisaIsActive { get; set; }
         public bool CashIsActive { get; set; }
         public bool OnStoreIsActive { get; set; }

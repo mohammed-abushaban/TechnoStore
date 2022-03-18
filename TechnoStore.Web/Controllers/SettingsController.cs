@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,11 @@ using TechnoStore.Infrastructure.Services.Settings;
 
 namespace TechnoStore.Web.Controllers
 {
-    public class SettingController : BaseController
+    public class SettingsController : BaseController
     {
         private readonly ISettingService _settingService;
-        public SettingController(ISettingService settingService)
+
+        public SettingsController(ISettingService settingService)
         {
             _settingService = settingService;
         }
@@ -20,28 +22,15 @@ namespace TechnoStore.Web.Controllers
         //This Action For Show All Setting
         public IActionResult Index()
         {
-            var model = _settingService.GetAll();
-            return View(model);
+            return View(_settingService.GetSetting());
         }
 
-        //This Action For Show page To Add Setting
-        [HttpGet]
-        public IActionResult Create() => View();
-
-        //This Action For Add New Setting
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateSettingDto dto)
-        {
-            await _settingService.Save(dto);
-            TempData["msg"] = Messages.AddAction;
-            return RedirectToAction("Index");
-        }
 
         //This Action For Show page To Edit Setting
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit()
         {
-            var model = _settingService.Get(id);
+            var model = _settingService.GetSetting();
             if (model == null)
                 return RedirectToAction("Error", "Settings");
             //جلب وقت الانشاء والمستخدم الذي انشاءه
@@ -52,15 +41,25 @@ namespace TechnoStore.Web.Controllers
 
         //This Action For Edit Setting
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdateSettingDto dto)
+        public async Task<IActionResult> Edit(CreateSettingDto dto , IFormFile logo)
         {
-            await _settingService.Update(dto);
-            TempData["msg"] = Messages.EditAction;
+            
+            if(_settingService.GetSetting() == null)
+            {
+                await _settingService.Save(dto, logo);
+                TempData["msg"] = Messages.AddAction;
+            }
+            else
+            {
+                await _settingService.Update(dto, logo);
+                TempData["msg"] = Messages.EditAction;
+            }
             return RedirectToAction("Index");
         }
 
-        
-
-        
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }

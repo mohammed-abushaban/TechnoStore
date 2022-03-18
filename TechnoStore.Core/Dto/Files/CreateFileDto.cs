@@ -12,7 +12,7 @@ namespace TechnoStore.Core.Dto.Files
     public class CreateFileDto
     {
         [Required(ErrorMessage = Messages.ErrorMessage)]
-        [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
+        [MaxLength(150, ErrorMessage = Messages.Max150)]
         public string Title { get; set; }
         public string AttachmentUrl { get; set; }
     }

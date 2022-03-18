@@ -29,7 +29,6 @@
                         <option value="@UserType.Admin">Admin</option>
                         <option value="@UserType.User">User</option>
                         <option value="@UserType.Customer">Customer</option>
-                        <option value="@UserType.Shipper">Shipper</option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -93,7 +92,7 @@
                             @item.UserType
                         </td>
                         <td>
-                            @item.City
+                            @item.CityName
                         </td>
                         <td>
                             <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"
@@ -108,6 +107,9 @@
                     <tr>
                         <td class="CountModel">#</td>
                         <td class="CountModel">المجموع : @ViewBag.count</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
