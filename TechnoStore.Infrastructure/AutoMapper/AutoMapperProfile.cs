@@ -132,7 +132,9 @@ namespace TechnoStore.Infostructures.AutoMapper
             CreateMap<CreateUserDto, UserDbEntity>();
 
             //WareHouses
-            CreateMap<WarehouseDbEntity, WareHouseVm>();
+            CreateMap<WarehouseDbEntity, WareHouseVm>()
+                .ForMember(x => x.CityName, x => x.MapFrom(y => y.City.Name))
+                .ForMember(x => x.UserName, x => x.MapFrom(y => (y.User.FirstName + " " +  y.User.LastName)));
             CreateMap<CreateWareHouseDto, WarehouseDbEntity>();
             CreateMap<UpdateWareHouseDto, WarehouseDbEntity>()
                 .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));

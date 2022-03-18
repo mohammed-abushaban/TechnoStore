@@ -1,4 +1,4 @@
-﻿@model List<SupplierVm>
+﻿@model List<WareHouseVm>
 
 @{
     ViewData["Title"] = "Index";
@@ -17,37 +17,12 @@
                 <i class="flaticon2-chat-1 text-primary"></i>
             </span>
             <h3 class="card-label h3ForTitle">
-                شركات التوريد
+                المخازن 
             </h3>
         </div>
     </div>
     <div class="card-body">
 
-        <!-- Button trigger modal-->
-        <!-- Modal-->
-        @*<div class="modal fade" id="exampleModalCenter" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <form asp-action="Create">
-                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                        <div class="form-group">
-                                            <label class="control-label">اسم التصنيف</label>
-                                            <input name="Name" class="form-control" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="submit" value="إضافة" class="btn btn-primary" />
-                                            <a asp-action="Index" class="btn btn-danger">رجوع</a>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
 
         <div class="card-body">
             <form method="get" asp-action="Index">
@@ -61,7 +36,7 @@
                     <div class="col-md-2">
                         @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="flaticon2-cube"></i> إضافة </button>*@
                         <a asp-action="Create" class="btn btn-success font-weight-bold">
-                            <i class="flaticon2-cube"></i> تصنيف جديد
+                            <i class="flaticon2-cube"></i> مخزن جديد
                         </a>
                     </div>
                 </div>
@@ -80,13 +55,16 @@
                                     الإسم
                                 </th>
                                 <th>
-                                    رقم التواصل
-                                </th>
-                                <th>
-                                    البريد الاكتروني
+                                    المدينة
                                 </th>
                                 <th>
                                     العنوان
+                                </th>
+                                <th>
+                                    رقم التواصل
+                                </th>
+                                <th>
+                                    مدير المخزن
                                 </th>
                                 <th width="100px">
 
@@ -103,13 +81,16 @@
                                         @Html.DisplayFor(modelItem => item.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Phone)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Email)
+                                        @Html.DisplayFor(modelItem => item.CityName)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Address)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Phone)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
                                     </td>
                                     <td>
                                         <div class="card-toolbar">
@@ -173,6 +154,7 @@
                                 <tr>
                                     <td class="CountModel">#</td>
                                     <td class="CountModel">المجموع :  @ViewBag.count</td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>

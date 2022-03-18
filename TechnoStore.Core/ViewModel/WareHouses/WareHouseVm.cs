@@ -8,14 +8,16 @@ namespace TechnoStore.Core.ViewModel.WareHouses
 {
     public class WareHouseVm : BaseVm
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public double Latitude { get; set; }
         public double Longtude { get; set; }
         public string Phone { get; set; }
         public int CityId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
+
+        public string CityName { get; set; }
+        public string UserName { get; set; }
 
     }
 }
