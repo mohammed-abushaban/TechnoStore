@@ -76,8 +76,16 @@
                             <td>@Html.DisplayFor(model => model.Evaluation)</td>
                         </tr>
                         <tr>
-                            <td>متوفر</td>
-                            <td style="background-color: green; color: white">@Html.DisplayFor(model => model.IsAvalable)</td>
+                            <td>هل المنتج متوفر</td>
+                            @if (Model.IsAvalable == true)
+                            {
+                                <td style="background-color: green; color: white">متوفر</td>
+
+                            }
+                            else
+                            {
+                                <td style="background-color: red; color: white">غير متوفر</td>
+                            }
                         </tr>
                         <tr>
                             <td>تم تسجيله بواسطة</td>

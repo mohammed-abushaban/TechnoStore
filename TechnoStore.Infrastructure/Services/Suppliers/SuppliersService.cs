@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Suppliers;
@@ -44,7 +43,6 @@ namespace TechnoStore.Infrastructure.Services.Suppliers
             var suppliers = _db.Suppliers.ToList();
             return _mapper.Map<List<SupplierVm>>(suppliers);
         }
-
         public SupplierVm Get(int id)
         {
             var supplier = _db.Suppliers.SingleOrDefault(x => x.Id == id);

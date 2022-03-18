@@ -42,7 +42,7 @@ namespace TechnoStore.Web.Controllers
         public async Task<IActionResult> Create()
         {
             await _roleService.InitRole();
-            ViewData["ShipperId"] = new SelectList(_userService.GetAllShipper(), "Id", "Name");
+            ViewData["CityId"] = new SelectList(_userService.GetAllCities(), "Id", "Name");
             return View();
         }
 

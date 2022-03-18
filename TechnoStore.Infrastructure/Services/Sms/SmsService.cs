@@ -31,9 +31,9 @@ namespace TechnoStore.Infrastructure.Services.Sms
             var NumOfExpCat = _db.Sms
                 .Count(x => x.SendTo.Contains(sreach) || string.IsNullOrEmpty(sreach));
 
-            NumOfPages = Math.Ceiling(NumOfExpCat / (NumPages.page20 + 0.0));
-            var Skip = (page - 1) * NumPages.page20;
-            var Take = NumPages.page20;
+            NumOfPages = Math.Ceiling(NumOfExpCat / (NumPages.page100 + 0.0));
+            var Skip = (page - 1) * NumPages.page100;
+            var Take = NumPages.page100;
             var sms = _db.Sms
                 .Where(x => x.SendTo.Contains(sreach) || string.IsNullOrEmpty(sreach))
                 .Skip(Skip).Take(Take).ToList();

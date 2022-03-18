@@ -22,7 +22,8 @@ namespace TechnoStore.Core.ViewModel.Users
         public string ImageUrl { get; set; }
         public DateTime? BirthDay { get; set; }
         public string Address { get; set; }
-        public string City { get; set; }
+        public int? CityId { get; set; }
+        public string CityName { get; set; }
         public bool IsDelete { get; set; } = false;
         public string Zip_Code { get; set; }
         public bool IsGeast { get; set; }

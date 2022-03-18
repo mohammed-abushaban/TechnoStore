@@ -1,0 +1,167 @@
+﻿@model CreateSettingDto
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="card card-custom" style="direction: rtl; text-align: right;">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                تغيير الإعدادات
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @*<input type="hidden" asp-for="Id" />*@
+                        <label class="control-label">اسم الموقع</label>
+                        <input asp-for="NameOfWebsite" class="form-control" />
+                        <span asp-validation-for="NameOfWebsite" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">عنوان الموقع</label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">شعار الموقع</label>
+                        <input name="logo" class="form-control" type="file" accept="image/*" />
+                        <span asp-validation-for="LogoUrl" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">الرؤية</label>
+                        <input asp-for="Vision" class="form-control" />
+                        <span asp-validation-for="Vision" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">الرسالة</label>
+                        <input asp-for="Mission" class="form-control" />
+                        <span asp-validation-for="Mission" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">رقم التواصل / جوال </label>
+                        <input type="number" asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">رقم التواصل / واتساب </label>
+                        <input asp-for="WhatsappNumber" class="form-control" />
+                        <span asp-validation-for="WhatsappNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="control-label">مميزات الموقع</label>
+                        <input asp-for="Features" class="form-control" />
+                        <span asp-validation-for="Features" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">سنة التأسيس</label>
+                        <input asp-for="Year" class="form-control" type="number"/>
+                        <span asp-validation-for="Year" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">صفحة الفيس بوك </label>
+                        <input asp-for="FacebookUrl" class="form-control" />
+                        <span asp-validation-for="FacebookUrl" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">صفحة الانستقرام </label>
+                        <input asp-for="InstgramUrl" class="form-control" />
+                        <span asp-validation-for="InstgramUrl" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">البريد الالكتروني</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">تفعيل الفيزا</label>
+                        <input asp-for="VisaIsActive" class="form-control" type="checkbox"/>
+                        <span asp-validation-for="VisaIsActive" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">تفعيل الكاش</label>
+                        <input asp-for="CashIsActive" class="form-control" type="checkbox" />
+                        <span asp-validation-for="CashIsActive" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">دفع بالمخزن</label>
+                        <input asp-for="OnStoreIsActive" class="form-control" type="checkbox"/>
+                        <span asp-validation-for="OnStoreIsActive" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">بيع بالجملة</label>
+                        <input asp-for="WholeSaleIsActive" class="form-control" type="checkbox" />
+                        <span asp-validation-for="WholeSaleIsActive" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">عن الموقع</label>
+                        <textarea id="summernote" class="form-control" asp-for="AboutUs" required></textarea>
+                        <span asp-validation-for="AboutUs" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="حفظ" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-danger">رجوع</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

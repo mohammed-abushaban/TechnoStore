@@ -1,0 +1,129 @@
+﻿@model SettingVm
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+    td {
+        color: black;
+        font-weight: bold;
+    }
+
+    .cardCustom {
+        direction: rtl;
+        text-align: right;
+    }
+</style>
+
+<div class="card card-custom cardCustom">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                عرض جميع البيانات
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <div>
+            <div class="row">
+                <div class="col-md-10">
+                    <table class="table table-hover">
+                        <tr>
+                            <td>اسم الموقع</td>
+                            <td>@Html.DisplayFor(model => model.NameOfWebsite)</td>
+                        </tr>
+                        <tr>
+                            <td>شعار الموقع</td>
+                            <td><img src="~/Images/Logo/@Html.DisplayFor(model => model.LogoUrl)" width="500" /></td>
+                        </tr>
+                        <tr>
+                            <td>رؤية الموقع</td>
+                            <td>@Html.DisplayFor(model => model.Vision)</td>
+                        </tr>
+                        <tr>
+                            <td>رسالة الموقع</td>
+                            <td>@Html.DisplayFor(model => model.Mission)</td>
+                        </tr>
+                        <tr>
+                            <td>عنوان الموقع</td>
+                            <td>@Html.DisplayFor(model => model.Address)</td>
+                        </tr>
+                        <tr>
+                            <td>سنة التأسيس</td>
+                            <td>@Html.DisplayFor(model => model.Year)</td>
+                        </tr>
+                        <tr>
+                            <td>مميزات الموقع</td>
+                            <td>@Html.DisplayFor(model => model.Features)</td>
+                        </tr>
+                        <tr>
+                            <td>صفحة الفيس بوك</td>
+                            <td>@Html.DisplayFor(model => model.FacebookUrl)</td>
+                        </tr>
+                        <tr>
+                            <td>البريد الالكتروني</td>
+                            <td>@Html.DisplayFor(model => model.Email)</td>
+                        </tr>
+                        <tr>
+                            <td>رقم الواتساب</td>
+                            <td>@Html.DisplayFor(model => model.WhatsappNumber)</td>
+                        </tr>
+                        <tr>
+                            <td>صفحة الانستقرام</td>
+                            <td>@Html.DisplayFor(model => model.InstgramUrl)</td>
+                        </tr>
+                        <tr>
+                            <td>رقم التواصل </td>
+                            <td>@Html.DisplayFor(model => model.Phone)</td>
+                        </tr>
+                        <tr>
+                            <td>عن الموقع</td>
+                            <td>@Html.DisplayFor(model => model.AboutUs)</td>
+                        </tr>
+                        <tr>
+                            <td>تفعيل الدفع بالفيزا</td>
+                            <td>@Html.DisplayFor(model => model.VisaIsActive)</td>
+                        </tr>
+                        <tr>
+                            <td>تفعيل الدفع نقدا</td>
+                            <td>@Html.DisplayFor(model => model.CashIsActive)</td>
+                        </tr>
+                        <tr>
+                            <td>تفعيل الدفع بالمخزن</td>
+                            <td>@Html.DisplayFor(model => model.OnStoreIsActive)</td>
+                        </tr>
+                        <tr>
+                            <td>بيع بالجملة فعال</td>
+                            <td>@Html.DisplayFor(model => model.WholeSaleIsActive)</td>
+                        </tr>
+                        <tr>
+                            <td>تم تسجيله بواسطة</td>
+                            <td>@Html.DisplayFor(model => model.CreateBy)</td>
+                        </tr>
+                        <tr>
+                            <td>تم تعديل البيانات بواسطة</td>
+                            <td>@Html.DisplayFor(model => model.UpdateBy)</td>
+                        </tr>
+                        <tr>
+                            <td>تاريخ التسجيل</td>
+                            <td>@Html.DisplayFor(model => model.CreateAt)</td>
+                        </tr>
+                        <tr>
+                            <td>تاريخ التعديل</td>
+                            <td>@Html.DisplayFor(model => model.UpdateAt)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">تعديل</a>
+            <a asp-action="Index" class="btn btn-danger">رجوع</a>
+        </div>
+    </div>
+</div>
+
+

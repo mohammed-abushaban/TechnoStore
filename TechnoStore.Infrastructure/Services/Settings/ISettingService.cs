@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,8 @@ namespace TechnoStore.Infrastructure.Services.Settings
 {
     public interface ISettingService
     {
-        List<SettingVm> GetAll();
-        SettingVm Get(int id);
-        Task<int> Save(CreateSettingDto dto);
-        Task<int> Update(UpdateSettingDto dto);
+        SettingVm GetSetting();
+        Task<int> Save(CreateSettingDto dto, IFormFile logo);
+        Task<int> Update(CreateSettingDto dto, IFormFile logo);
     }
 }

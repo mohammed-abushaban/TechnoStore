@@ -48,8 +48,7 @@ namespace TechnoStore.Data.Models
         [Column(TypeName = "nvarchar(2000)"), MaxLength(2000, ErrorMessage = Messages.Max2000)]
         public string Address { get; set; }
 
-        [Required(ErrorMessage = Messages.ErrorMessage)]
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
         public CityDbEntity City { get; set; }
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
