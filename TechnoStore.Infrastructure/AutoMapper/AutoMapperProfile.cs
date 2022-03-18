@@ -15,6 +15,8 @@ using TechnoStore.Core.Dto.Sms;
 using TechnoStore.Core.Dto.SubCategories;
 using TechnoStore.Core.Dto.Suppliers;
 using TechnoStore.Core.Dto.Users;
+using TechnoStore.Core.Dto.WareHouse;
+using TechnoStore.Core.Dto.WarehousesProducts;
 using TechnoStore.Core.ViewModel;
 using TechnoStore.Core.ViewModel.Brands;
 using TechnoStore.Core.ViewModel.Categories;
@@ -32,6 +34,7 @@ using TechnoStore.Core.ViewModel.Sms;
 using TechnoStore.Core.ViewModel.SubCategories;
 using TechnoStore.Core.ViewModel.Suppliers;
 using TechnoStore.Core.ViewModel.Users;
+using TechnoStore.Core.ViewModel.WareHouses;
 using TechnoStore.Data.Models;
 
 namespace TechnoStore.Infostructures.AutoMapper
@@ -128,6 +131,12 @@ namespace TechnoStore.Infostructures.AutoMapper
                 .ForMember(x => x.CityName, x => x.MapFrom(y => y.City.Name));
             CreateMap<CreateUserDto, UserDbEntity>();
 
+            //WareHouses
+            CreateMap<WarehouseDbEntity, WareHouseVm>();
+            CreateMap<CreateWareHouseDto, WarehouseDbEntity>();
+            CreateMap<UpdateWareHouseDto, WarehouseDbEntity>()
+                .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
+
 
 
             //City
@@ -136,6 +145,8 @@ namespace TechnoStore.Infostructures.AutoMapper
             CreateMap<UpdateCityDto, CityDbEntity>()
                 .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
 
+            //WareHousesProducts
+            CreateMap<CreateWarehouseProductDto, WarehouseProductDbEntity>().ForMember(x => x.ImageUrl, x => x.Ignore());
         }
 
     }

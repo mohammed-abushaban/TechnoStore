@@ -25,6 +25,8 @@ using TechnoStore.Infrastructure.Services.Sms;
 using TechnoStore.Infrastructure.Services.SubCategories;
 using TechnoStore.Infrastructure.Services.Suppliers;
 using TechnoStore.Infrastructure.Services.Users;
+using TechnoStore.Infrastructure.Services.WareHouse;
+using TechnoStore.Infrastructure.Services.WarehousesProducts;
 
 namespace TechnoStore.Web
 {
@@ -73,6 +75,8 @@ namespace TechnoStore.Web
             services.AddScoped<IUserService, UserService>(); 
             services.AddScoped<IRoleService, RoleService>(); 
             services.AddScoped<IShipperService, ShipperService>();
+            services.AddScoped<IWareHouseService, WareHouseService>();
+            services.AddScoped<IWarehousesProducts, WarehousesProducts>();
             services.AddScoped<ICityService, CityService>();
 
 
