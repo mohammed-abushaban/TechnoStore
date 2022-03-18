@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.WareHouse;
 using TechnoStore.Infrastructure.Services.WareHouse;
 
@@ -11,35 +13,101 @@ namespace TechnoStore.Web.Controllers
     public class WareHouseController : Controller
     {
         private readonly IWareHouseService _wareHouseService;
-
         public WareHouseController(IWareHouseService wareHouseService)
         {
             _wareHouseService = wareHouseService;
         }
 
-        public IActionResult GetAll()
+        //This Action For Show All WareHouses
+        public IActionResult Index(string search, int page = 1)
         {
-            return Ok(_wareHouseService.GetAll());
+            var model = _wareHouseService.GetAll(search, page);
+
+            ViewBag.Search = search;
+            ViewBag.NumOfPages = WareHouseService.NumOfPages;
+            ViewBag.Page = page;
+            ViewBag.count = model.Count();
+            return View(model);
+        }
+        //This Action For Show page To Add Expenses
+        [HttpGet]
+        public IActionResult Create()
+        {
+            //إضافة تحقق قبل فتح الصفحة
+            if (_wareHouseService.GetAllCities().Count() <= 0 ||
+                _wareHouseService.GetAllUsers().Count() <= 0)
+            {
+                TempData["msg"] = Messages.NoCategory;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewData["CityId"] = new SelectList(_wareHouseService.GetAllCities(), "Id", "Name");
+                ViewData["UserID"] = new SelectList(_wareHouseService.GetAllUsers(), "Id", "UserName");
+                return View();
+            }
         }
 
-        public IActionResult GetOne(int id)
+        //This Action For Add New Expenses
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateWareHouseDto dto)
         {
-            return Ok(_wareHouseService.Get(id));
+
+            var result = await _wareHouseService.Save(dto);
+            if (result == false)
+            {
+                TempData["msg"] = Messages.NameExest;
+                return View();
+            }
+            else
+            {
+                TempData["msg"] = Messages.AddAction;
+                return RedirectToAction("Index");
+            }
         }
 
-        public async Task<IActionResult> Create(string userId, [FromForm]CreateWareHouseDto dto)
+        //This Action For Show page To Edit WareHouse
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            return Ok(await _wareHouseService.Save(userId, dto));
+            var model = _wareHouseService.Get(id);
+            if (model == null)
+                return RedirectToAction("Error", "Settings");
+            ViewData["CityId"] = new SelectList(_wareHouseService.GetAllCities(), "Id", "Name");
+            ViewData["UserID"] = new SelectList(_wareHouseService.GetAllUsers(), "Id", "UserName");
+            //جلب وقت الانشاء والمستخدم الذي انشاءه
+            ViewBag.CreateAt = model.CreateAt;
+            ViewBag.CreateBy = model.CreateBy;
+            return View(model);
         }
 
-        public async Task<IActionResult> Edit(string userId, [FromForm]UpdateWareHouseDto dto)
+        //This Action For Edit WareHouse
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateWareHouseDto dto)
         {
-            return Ok(await _wareHouseService.Update(userId, dto));
+            await _wareHouseService.Update(dto);
+            TempData["msg"] = Messages.EditAction;
+            return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Remove(int id)
+        //This Action For Soft Delete
+        public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await _wareHouseService.Remove(id));
+            var model = _wareHouseService.Get(id);
+            if (model == null)
+                return RedirectToAction("Error", "Settings");
+            await _wareHouseService.Remove(id);
+            TempData["msg"] = Messages.DeleteActon;
+            return RedirectToAction("Index");
+        }
+
+        //This Action For Details Buy
+        public IActionResult Details(int id)
+        {
+            var model = _wareHouseService.Get(id);
+            if (model == null)
+                return RedirectToAction("Error", "Settings");
+            return View(model);
         }
     }
 }

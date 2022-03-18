@@ -22,6 +22,10 @@ namespace TechnoStore.Web.Controllers
         //This Action For Show All Setting
         public IActionResult Index()
         {
+            if(_settingService.GetSetting() == null)
+            {
+                return RedirectToAction("Edit", "Settings");
+            }
             return View(_settingService.GetSetting());
         }
 
@@ -31,12 +35,18 @@ namespace TechnoStore.Web.Controllers
         public IActionResult Edit()
         {
             var model = _settingService.GetSetting();
-            if (model == null)
-                return RedirectToAction("Error", "Settings");
-            //جلب وقت الانشاء والمستخدم الذي انشاءه
-            ViewBag.CreateAt = model.CreateAt;
-            ViewBag.CreateBy = model.CreateBy;
-            return View(model);
+            if(model == null)
+            {
+                ViewBag.CreateAt = DateTime.Now;
+                ViewBag.CreateBy = "Admin";
+                return View(model);
+            }
+            else
+            {
+                ViewBag.CreateAt = model.CreateAt;
+                ViewBag.CreateBy = model.CreateBy;
+                return View(model);
+            }
         }
 
         //This Action For Edit Setting

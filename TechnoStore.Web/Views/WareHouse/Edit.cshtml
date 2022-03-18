@@ -1,0 +1,94 @@
+﻿@model WareHouseVm
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="card card-custom" style="direction: rtl; text-align: right;">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                تعديل بيانات المخزن
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" class="form" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CreateAt" value="@ViewBag.CreateAt" />
+                    <input type="hidden" asp-for="CreateBy" value="@ViewBag.CreateBy" />
+                    <div class="form-group">
+                        <label class="control-label">الاسم</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">رقم التواصل</label>
+                        <input asp-for="Phone" class="form-control" type="number" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">العنوان</label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">خط الطول</label>
+                        <input asp-for="Latitude" class="form-control" type="number" />
+                        <span asp-validation-for="Latitude" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">خط العرض</label>
+                        <input asp-for="Longtude" class="form-control" type="number" />
+                        <span asp-validation-for="Longtude" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">المدينة</label>
+                        <div class="card-custom" style="direction:ltr;">
+                            <select asp-for="CityId" class="form-control selectpicker" asp-items="ViewBag.CityId" data-live-search="true"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">مدير المخزن</label>
+                        <div class="card-custom" style="direction:ltr;">
+                            <select asp-for="UserId" class="form-control selectpicker" asp-items="ViewBag.UserId" data-live-search="true"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="تعديل" class="btn btn-warning" />
+                <a asp-action="Index" class="btn btn-danger">رجوع</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
