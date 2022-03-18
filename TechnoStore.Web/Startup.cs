@@ -76,7 +76,7 @@ namespace TechnoStore.Web
             services.AddScoped<IRoleService, RoleService>(); 
             services.AddScoped<IShipperService, ShipperService>();
             services.AddScoped<IWareHouseService, WareHouseService>();
-            services.AddScoped<IWarehousesProducts, WarehousesProducts>();
+            services.AddScoped<IWarehousesProductsService, WarehousesProductsService>();
             services.AddScoped<IShipperService, ShipperService>();
             services.AddScoped<ICityService, CityService>();
 

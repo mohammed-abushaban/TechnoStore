@@ -35,6 +35,7 @@ using TechnoStore.Core.ViewModel.SubCategories;
 using TechnoStore.Core.ViewModel.Suppliers;
 using TechnoStore.Core.ViewModel.Users;
 using TechnoStore.Core.ViewModel.WareHouses;
+using TechnoStore.Core.ViewModel.WarehousesProducts;
 using TechnoStore.Data.Models;
 
 namespace TechnoStore.Infostructures.AutoMapper
@@ -147,6 +148,17 @@ namespace TechnoStore.Infostructures.AutoMapper
 
             //WareHousesProducts
             CreateMap<CreateWarehouseProductDto, WarehouseProductDbEntity>().ForMember(x => x.ImageUrl, x => x.Ignore());
+            CreateMap<WarehouseProductDbEntity, WarehouseProductVm>().ForMember(x => x.ProductName, x => x.MapFrom(y => y.Product.Name))
+                .ForMember(x => x.WarehouseName, x => x.MapFrom(y => y.Warehouse.Name));
+
+
+            CreateMap<WarehouseDbEntity, wareHouseForProductDetailsVm>();
+
+
+            CreateMap<WarehouseProductDbEntity, WarehouseProductDetailsVm>()
+                //.ForMember(x => x.wareHousesVm, x => x.MapFrom(y => y.Warehouse))
+                .ForMember(x => x.Name, x => x.MapFrom(y => y.Product.Name))
+                .ForMember(x => x.TotalQuantity, x => x.Ignore());
         }
 
     }
