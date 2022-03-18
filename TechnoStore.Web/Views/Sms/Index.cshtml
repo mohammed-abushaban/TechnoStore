@@ -1,0 +1,120 @@
+﻿@model List<SmsVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    int id = 1;
+
+    int smsNumber = 500;
+    int result = smsNumber - @Model.Count();
+}
+<link href="~/css/MyStyle.css" rel="stylesheet" />
+
+<div class="card card-custom cardCustom">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                جدول الرسائل المرسلة
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <button type="button" class="btn btn-success font-weight-bold" onclick="window.print();"><i class="flaticon2-print"></i> طباعة الصفحة</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter"><i class="flaticon2-cube"></i> إرسال رسالة لجميع المراجعين </button>
+
+        </div>
+    </div>
+    <div class="card-body">
+        @{
+            if (Model.Any())
+            {
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="40px">
+                            #
+                        </th>
+                        <th>
+                            مرسلة ل
+                        </th>
+                        <th>
+                            رقم الجوال
+                        </th>
+                        <th>
+                            نص الرسالة
+                        </th>
+                        <th>
+                            تاريخ الارسال
+                        </th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="text-align: center">@id</td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SendTo)
+                                </td>
+                                <td style="text-align: center">
+                                    @Html.DisplayFor(modelItem => item.Phone)
+                                </td>
+                                <td style="text-align: right;">
+                                    @Html.DisplayFor(modelItem => item.TextMessage)
+                                </td>
+                                <td style="text-align: center">
+                                    @item.CreateAt.ToShortDateString()
+                                </td>
+                            </tr>
+                            id++;
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="CountModel" colspan="2">عدد الرسائل المستخدمة</td>
+                            <td class="CountModel">المجموع : @Model.Count()</td>
+                            <td class="CountModel">عدد الرسائل المتبقية : @result</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    <p>هذا الجدول فارغ ، الرجاء اضغط على <strong>إضافة جديد</strong></p>
+                </div>
+            }
+        }
+
+    </div>
+
+    <!-- Button trigger modal-->
+    <!-- Modal-->
+    <div class="modal fade" id="exampleModalCenter" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form asp-action="SendSmsToAllSicks">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">نص الرسالة المرسلة</label>
+                                    <input name="text" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">عدد الرسائل التي سيتم ارسالها : @ViewBag.Count</label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="إرسال" class="btn btn-success" />
+                                    <a asp-action="Index" class="btn btn-danger">رجوع</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

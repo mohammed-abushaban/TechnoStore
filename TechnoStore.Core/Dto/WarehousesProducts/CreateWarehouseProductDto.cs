@@ -18,11 +18,11 @@ namespace TechnoStore.Core.Dto.WarehousesProducts
 
         [Required(ErrorMessage = Messages.ErrorMessage)]
         public int Quantity { get; set; } = 0;
-        [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
+        [MaxLength(150, ErrorMessage = Messages.Max150)]
         public string Color { get; set; }
-        [Column(TypeName = "nvarchar(150)"), MaxLength(150, ErrorMessage = Messages.Max150)]
+        [MaxLength(150, ErrorMessage = Messages.Max150)]
         public string Size { get; set; }
-        [Column(TypeName = "nvarchar(2000)"), MaxLength(2000, ErrorMessage = Messages.Max2000)]
+        [MaxLength(2000, ErrorMessage = Messages.Max2000)]
         public string ImageUrl { get; set; }
     }
 }
