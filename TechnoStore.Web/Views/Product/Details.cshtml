@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Details";
+    int Id = 1;
+    WarehouseProductDetailsVm warehouseProductDetails = ViewBag.warehouseProduct as WarehouseProductDetailsVm;
 }
 <style>
     td {
@@ -103,6 +105,39 @@
                             <td>تاريخ التعديل</td>
                             <td>@Html.DisplayFor(model => model.UpdateAt)</td>
                         </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th colspan="2">اسم المنتج</th>
+                            <th colspan="3">@warehouseProductDetails.Name</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2">إجمالي الكمية</th>
+                            <th colspan="3">@string.Format("{0:#,0}", warehouseProductDetails.TotalQuantity)</th>
+                        </tr>
+                        @{
+                            <tr>
+                                <td>#</td>
+                                <td>المخزن</td>
+                                <td>اللون</td>
+                                <td>المقاس</td>
+                                <td>الكمية</td>
+                            </tr>
+                            foreach (var item in warehouseProductDetails.wareHousesVm)
+                            {
+
+                                <tr>
+                                    <td>@Id</td>
+                                    <td>@item.WarehouseName</td>
+                                    <td>@item.Color</td>
+                                    <td>@item.Size</td>
+                                    <td>@item.Quantity</td>
+                                </tr>
+                                Id++;
+                            }
+                        }
                     </table>
                 </div>
             </div>

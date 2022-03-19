@@ -7,16 +7,19 @@ using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Products;
 using TechnoStore.Infrastructure.Services.Products;
+using TechnoStore.Infrastructure.Services.WarehousesProducts;
 
 namespace TechnoStore.Web.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductsService _productsService;
+        private readonly IWarehousesProductsService _warehousesProductsService;
 
-        public ProductController(IProductsService productsService)
+        public ProductController(IProductsService productsService, IWarehousesProductsService warehousesProductsService)
         {
             _productsService = productsService;
+            _warehousesProductsService = warehousesProductsService;
         }
 
         //This Action For Show All Expenses
@@ -134,6 +137,9 @@ namespace TechnoStore.Web.Controllers
             var model = _productsService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
+
+            var warehouseProduct = _warehousesProductsService.GetProductDetails(id);
+            ViewBag.warehouseProduct = warehouseProduct;
             return View(model);
         }
 

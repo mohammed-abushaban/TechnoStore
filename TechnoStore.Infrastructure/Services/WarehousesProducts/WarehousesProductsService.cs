@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.WarehousesProducts;
+using TechnoStore.Core.ViewModel.Products;
+using TechnoStore.Core.ViewModel.WareHouses;
 using TechnoStore.Core.ViewModel.WarehousesProducts;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
@@ -29,7 +32,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
 
         //Get all warehousesProducts
 
-        public async Task<List<WarehouseProductVm>> GetAll(string search, int page)
+        public  List<WarehouseProductVm> GetAll(string search, int page)
         {
             var num = _db.warehouseProducts.Count();
             NumOfPages = Math.Ceiling(num / (NumPages.page20 + 0.0));
@@ -42,27 +45,70 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             return _mapper.Map<List<WarehouseProductVm>>(warehouseProducts);
         }
 
-        public async Task<List<WarehouseProductVm>> GetAll()
+        public List<WarehouseProductVm> GetAll()
         {
             var warehouseProducts = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product).ToList();
             return _mapper.Map<List<WarehouseProductVm>>(warehouseProducts);
         }
+        //Get All Products
+        public List<ProductVm> GetAllProducts()
+        {
+            return _mapper.Map<List<ProductVm>>(_db.Products.ToList());
+        }
+        //Get All Warehoues
+        public List<WareHouseVm> GetAllWarehoues()
+        {
+            return _mapper.Map<List<WareHouseVm>>(_db.Warehouses.ToList());
+        }
 
+        public WarehouseProductVm Get(int id)
+        {
+            var warehouse = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product).SingleOrDefault(x => x.Id == id);
+            return _mapper.Map<WarehouseProductVm>(warehouse);
+        }
         //Add a new warehouseProduct
-        public async Task<bool> Save(string userId, CreateWarehouseProductDto dto)
+        public async Task<bool> Save(string userId, CreateWarehouseProductDto dto, IFormFile image)
         {
             var warehouseProduct = _mapper.Map<WarehouseProductDbEntity>(dto);
             warehouseProduct.CreateAt = DateTime.Now;
             warehouseProduct.CreateBy = "Test";
-            var x = await _fileService.SaveFile(dto.ImageUrl, "Images/WarehouseProducts");
+            var x = await _fileService.SaveFile(image, "Images/WarehouseProducts");
             warehouseProduct.ImageUrl = x;
             await _db.warehouseProducts.AddAsync(warehouseProduct);
             await _db.SaveChangesAsync();
             return true;
         }
 
+        public async Task<bool> Update(string userId, UpdateWarehouseProductDto dto, IFormFile image)
+        {
+            var warehouseProduct = _db.warehouseProducts.SingleOrDefault(x => x.Id == dto.Id);
+            warehouseProduct.UpdateAt = DateTime.Now;
+            warehouseProduct.UpdateBy = "Test";
+            if (image != null)
+            {
+                if (warehouseProduct.ImageUrl != null)
+                {
+                    _fileService.DeleteFile(warehouseProduct.ImageUrl, "Images/WarehouseProducts");
+                }
+                var x = await _fileService.SaveFile(image, "Images/WarehouseProducts");
+                warehouseProduct.ImageUrl = x;
+            }
+            _mapper.Map(dto, warehouseProduct);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> Remove(int id)
+        {
+            var warehouseProduct = _db.warehouseProducts.SingleOrDefault(x => x.Id == id);
+            warehouseProduct.IsDelete = true;
+            _db.warehouseProducts.Update(warehouseProduct);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
         //Get Product Details
-        public async Task<WarehouseProductDetailsVm> GetProductDetails(int id)
+        public WarehouseProductDetailsVm GetProductDetails(int id)
         {
             var warehouseProduct = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product)
                 .Where(x => x.ProductId == id).ToList();
@@ -89,7 +135,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             return result;
         }
         // get details for one warehouse
-        public async Task<warehouseProductForWarehouseDetailsVm> GetWarehouseDetails(int id)
+        public warehouseProductForWarehouseDetailsVm GetWarehouseDetails(int id)
         {
             var warehouseProduct = _db.warehouseProducts.Include(x => x.Warehouse).ThenInclude(x => x.City).Include(x => x.Product)
                 .Where(x => x.WarehouseId == id).ToList();
@@ -112,10 +158,5 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             }
             return result;
         }
-        // update
-
-        // remove
-
-
     }
 }

@@ -23,7 +23,6 @@ namespace TechnoStore.Core.Dto.WarehousesProducts
         public string Color { get; set; }
         [MaxLength(150, ErrorMessage = Messages.Max150)]
         public string Size { get; set; }
-        [MaxLength(2000, ErrorMessage = Messages.Max2000)]
-        public IFormFile ImageUrl { get; set; }
+        public string ImageUrl { get; set; }
     }
 }
