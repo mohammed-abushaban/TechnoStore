@@ -112,6 +112,18 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             }
             return result;
         }
+
+        public async Task<int> GetProductQuantity(int id)
+        {
+            var warehouseProduct = _db.warehouseProducts.Include(x => x.Warehouse).ThenInclude(x => x.City).Include(x => x.Product)
+                .Where(x => x.ProductId == id).ToList();
+            int total = 0;
+            foreach (var item in warehouseProduct)
+            {
+                total += item.Quantity;
+            }
+            return total;
+        }
         // update
 
         // remove

@@ -15,6 +15,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
         Task<List<WarehouseProductVm>> GetAll(string search, int page);
         Task<List<WarehouseProductVm>> GetAll();
         Task<bool> Save(string userId, CreateWarehouseProductDto dto);
+        Task<int> GetProductQuantity(int id);
 
     }
 }

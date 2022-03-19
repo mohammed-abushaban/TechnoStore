@@ -25,5 +25,10 @@ namespace TechnoStore.Web.Controllers
         {
             return Ok(await _warehousesProducts.GetWarehouseDetails(id));
         }
+
+        public async Task<IActionResult> GetProductQuantity(int productId)
+        {
+            return Ok(await _warehousesProducts.GetProductQuantity(productId));
+        }
     }
 }
