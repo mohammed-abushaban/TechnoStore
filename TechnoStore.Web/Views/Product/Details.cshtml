@@ -111,19 +111,19 @@
                     <table class="table table-bordered">
                         <tr>
                             <th colspan="2">اسم المنتج</th>
-                            <th colspan="3">@warehouseProductDetails.Name</th>
+                            <td colspan="3">@warehouseProductDetails.Name</td>
                         </tr>
                         <tr>
                             <th colspan="2">إجمالي الكمية</th>
-                            <th colspan="3">@string.Format("{0:#,0}", warehouseProductDetails.TotalQuantity)</th>
+                            <td colspan="3">@string.Format("{0:#,0}", warehouseProductDetails.TotalQuantity)</td>
                         </tr>
                         @{
                             <tr>
-                                <td>#</td>
-                                <td>المخزن</td>
-                                <td>اللون</td>
-                                <td>المقاس</td>
-                                <td>الكمية</td>
+                                <th>#</th>
+                                <th>المخزن</th>
+                                <th>اللون</th>
+                                <th>المقاس</th>
+                                <th>الكمية</th>
                             </tr>
                             foreach (var item in warehouseProductDetails.wareHousesVm)
                             {
