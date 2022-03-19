@@ -13,6 +13,12 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
 {
     public interface IWarehousesProductsService
     {
+        Task<WarehouseProductDetailsVm> GetProductDetails(int id);
+        Task<warehouseProductForWarehouseDetailsVm> GetWarehouseDetails(int id);
+        Task<List<WarehouseProductVm>> GetAll(string search, int page);
+        Task<List<WarehouseProductVm>> GetAll();
+        Task<bool> Save(string userId, CreateWarehouseProductDto dto);
+        Task<int> GetProductQuantity(int id);
         WarehouseProductDetailsVm GetProductDetails(int id);
         warehouseProductForWarehouseDetailsVm GetWarehouseDetails(int id);
         List<WarehouseProductVm> GetAll(string search, int page);

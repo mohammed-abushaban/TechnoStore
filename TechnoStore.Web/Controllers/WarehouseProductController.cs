@@ -106,5 +106,10 @@ namespace TechnoStore.Web.Controllers
                 return RedirectToAction("Error", "Settings");
             return View(model);
         }
+
+        public async Task<IActionResult> GetProductQuantity(int productId)
+        {
+            return Ok(await _warehousesProducts.GetProductQuantity(productId));
+        }
     }
 }
