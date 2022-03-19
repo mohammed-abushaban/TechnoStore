@@ -18,7 +18,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
         List<ProductVm> GetAllProducts();
         List<WareHouseVm> GetAllWarehoues();
         WarehouseProductVm Get(int id);
-        Task<int> GetProductQuantity(int id);
+        int GetProductQuantity(int id);
         Task<bool> Save(string userId, CreateWarehouseProductDto dto, IFormFile image);
         Task<bool> Update(string userId, UpdateWarehouseProductDto dto, IFormFile image);
         Task<bool> Remove(int id);

@@ -107,9 +107,9 @@ namespace TechnoStore.Web.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> GetProductQuantity(int productId)
+        public IActionResult GetProductQuantity(int productId)
         {
-            return Ok(await _warehousesProducts.GetProductQuantity(productId));
+            return Ok(_warehousesProductsService.GetProductQuantity(productId));
         }
     }
 }
