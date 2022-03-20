@@ -5,6 +5,7 @@
         //For 
         public const string ErrorMessage = "هذا الحقل إجباري" + " * ";
 
+        public const string Max9 = "لا يمكن إدخال أكثر من 9 حرف" + " * ";
         public const string Max10 = "لا يمكن إدخال أكثر من 10 حرف" + " * ";
         public const string Max14 = "لا يمكن إدخال أكثر من 14 حرف" + " * ";
         public const string Max25 = "لا يمكن إدخال أكثر من 25 حرف" + " * ";

@@ -36,6 +36,7 @@ namespace TechnoStore.Data.Data
             builder.Entity<CityDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<WarehouseDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<WarehouseProductDbEntity>().HasQueryFilter(x => !x.IsDelete);
+            builder.Entity<EmployeeDbEntity>().HasQueryFilter(x => !x.IsDelete);
 
         }
 
@@ -62,6 +63,7 @@ namespace TechnoStore.Data.Data
         public DbSet<CityDbEntity> Cities { get; set; }
         public DbSet<WarehouseDbEntity> Warehouses { get; set; }
         public DbSet<WarehouseProductDbEntity> warehouseProducts { get; set; }
+        public DbSet<EmployeeDbEntity> Employees { get; set; }
     }
 }
 
