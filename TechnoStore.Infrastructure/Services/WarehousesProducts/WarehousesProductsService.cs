@@ -115,11 +115,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
 
             var l = warehouseProduct.FirstOrDefault();
             var result = _mapper.Map<WarehouseProductDetailsVm>(l);
-            result.TotalQuantity = 0;
-            foreach (var item in warehouseProduct)
-            {
-                result.TotalQuantity += item.Quantity;
-            }
+            result.TotalQuantity = warehouseProduct.Sum(x => x.Quantity);
             result.wareHousesVm = new List<wareHouseForProductDetailsVm>();
             for(int i = 0; i < warehouseProduct.Count(); i++)
             {
@@ -134,6 +130,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             }
             return result;
         }
+
         // get details for one warehouse
         public warehouseProductForWarehouseDetailsVm GetWarehouseDetails(int id)
         {
@@ -161,13 +158,8 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
         public int GetProductQuantity(int id)
         {
             var warehouseProduct = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product)
-                .Where(x => x.ProductId == id).ToList();
-            int total = 0;
-            foreach (var item in warehouseProduct)
-            {
-                total += item.Quantity;
-            }
-            return total;
+                .Where(x => x.ProductId == id).ToList().Sum(x => x.Quantity);
+            return warehouseProduct;
         }
     }
 }
