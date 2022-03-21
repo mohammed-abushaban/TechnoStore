@@ -2,6 +2,7 @@
 using TechnoStore.Core.Dto.Brands;
 using TechnoStore.Core.Dto.Category;
 using TechnoStore.Core.Dto.Cities;
+using TechnoStore.Core.Dto.Employees;
 using TechnoStore.Core.Dto.Expenses;
 using TechnoStore.Core.Dto.ExpensesCategories;
 using TechnoStore.Core.Dto.Feedbacks;
@@ -21,6 +22,7 @@ using TechnoStore.Core.ViewModel;
 using TechnoStore.Core.ViewModel.Brands;
 using TechnoStore.Core.ViewModel.Categories;
 using TechnoStore.Core.ViewModel.Cities;
+using TechnoStore.Core.ViewModel.Employees;
 using TechnoStore.Core.ViewModel.Expenses;
 using TechnoStore.Core.ViewModel.ExpensesCategories;
 using TechnoStore.Core.ViewModel.Feedbacks;
@@ -168,6 +170,11 @@ namespace TechnoStore.Infostructures.AutoMapper
             CreateMap<UpdateWarehouseProductDto, WarehouseProductDbEntity>()
                 .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
 
+            //Employee
+            CreateMap<EmployeeDbEntity, EmployeeVm>();
+            CreateMap<CreateEmployeeDto, EmployeeDbEntity>();
+            CreateMap<UpdateEmployeeDto, EmployeeDbEntity>()
+                .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
 
         }
 

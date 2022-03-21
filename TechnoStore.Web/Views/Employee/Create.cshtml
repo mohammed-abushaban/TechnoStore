@@ -1,0 +1,157 @@
+﻿@model TechnoStore.Core.Dto.Employees.CreateEmployeeDto
+    
+    @{
+        ViewData["Title"] = "Create";
+    }
+    <style>
+        label {
+            color: black;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="card card-custom" style="direction: rtl; text-align: right;">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="card-icon">
+                    <i class="flaticon2-chat-1 text-primary"></i>
+                </span>
+                <h3 class="card-label">
+                    إضافة موظف جديد
+                </h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">اسم الموظف</label>
+                                    <input asp-for="Name" class="form-control" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">رقم الهوية</label>
+                                    <input asp-for="NumPerId" class="form-control" />
+                                    <span asp-validation-for="NumPerId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">العنوان بالكامل</label>
+                                    <input asp-for="Address" class="form-control" />
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">رقم التواصل</label>
+                                    <input asp-for="Phone" class="form-control" />
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">تاريخ الميلاد / اختياري</label>
+                                    <input type="date" asp-for="Birth" class="form-control" />
+                                    <span asp-validation-for="Birth" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">الجنس</label>
+                                    <select asp-for="Gender" class="form-control">
+                                        <option value="@Gender.ذكر">ذكر</option>
+                                        <option value="@Gender.انثى">أنثى</option>
+                                        <option value="@Gender.غيرذلك">غير ذلك</option>
+                                    </select>
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">المهنة</label>
+                                    <input asp-for="Career" class="form-control" />
+                                    <span asp-validation-for="Career" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">سنوات الخبرة</label>
+                                    <input asp-for="GradYear" class="form-control" />
+                                    <span asp-validation-for="GradYear" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">الرقم الوظيفي</label>
+                                    <input asp-for="JobNum" class="form-control" />
+                                    <span asp-validation-for="JobNum" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">تاريخ بدء العمل</label>
+                                    <input asp-for="StartWork" class="form-control" />
+                                    <span asp-validation-for="StartWork" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">سنوات العمل</label>
+                                    <input asp-for="YearOfExp" class="form-control" />
+                                    <span asp-validation-for="YearOfExp" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">ساعات العمل</label>
+                                    <input asp-for="WorkHours" class="form-control" />
+                                    <span asp-validation-for="WorkHours" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="control-label">المرتب</label>
+                                    <input asp-for="Salary" class="form-control" />
+                                    <span asp-validation-for="Salary" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="submit" value="إضافة" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-danger">رجوع</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
