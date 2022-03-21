@@ -23,6 +23,7 @@ namespace TechnoStore.Infrastructure.Services.Suppliers
             _mapper = mapper;
         }
 
+        //Get All Suppliers To List With or Without Paramrtar
         public List<SupplierVm> GetAll(string search, int page)
         {
             var NumOfExpCat = _db.Suppliers
@@ -38,17 +39,19 @@ namespace TechnoStore.Infrastructure.Services.Suppliers
             return _mapper.Map<List<SupplierVm>>(suppliers);
         }
 
+        //Get All Suppliers Without Parametar
         public List<SupplierVm> GetAll()
         {
-            var suppliers = _db.Suppliers.ToList();
-            return _mapper.Map<List<SupplierVm>>(suppliers);
+            return _mapper.Map<List<SupplierVm>>(_db.Suppliers.ToList());
         }
+
+        //Get One Supplier By Id
         public SupplierVm Get(int id)
         {
-            var supplier = _db.Suppliers.SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<SupplierVm>(supplier);
+            return _mapper.Map<SupplierVm>(_db.Suppliers.SingleOrDefault(x => x.Id == id));
         }
-        
+
+        //Add A new Supplier On Database
         public async Task<bool> Save(string userId, CreateSupplierDto dto)
         {
             if (_db.Suppliers.Any(x => x.Name == dto.Name))
@@ -64,9 +67,9 @@ namespace TechnoStore.Infrastructure.Services.Suppliers
                 await _db.SaveChangesAsync();
                 return true;
             }
-
         }
 
+        //Update Specific Supplier
         public async Task<bool> Update(string userId, UpdateSupplierDto dto)
         {
             var supplier = _db.Suppliers.SingleOrDefault(x => x.Id == dto.Id);
@@ -77,6 +80,7 @@ namespace TechnoStore.Infrastructure.Services.Suppliers
             return true;
         }
 
+        //Remove Supplier | Soft Delete | IsDelete = true
         public async Task<bool> Remove(int id)
         {
             var supplier = _db.Suppliers.SingleOrDefault(x => x.Id == id);

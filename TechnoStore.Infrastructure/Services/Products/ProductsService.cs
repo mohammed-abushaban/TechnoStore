@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Products;
@@ -27,7 +26,7 @@ namespace TechnoStore.Infrastructure.Services.Products
             _db = db;
             _mapper = mapper;
         }
-        //GEt All Products
+        //Get All Products To List With or Without Paramrtar
         public List<ProductVm> GetAll(string search, int page)
         {
             var num = _db.Products
@@ -42,35 +41,41 @@ namespace TechnoStore.Infrastructure.Services.Products
             
             return _mapper.Map<List<ProductVm>>(products);
         }
-        //Get All Products Without Parameter
+        //Get All Products Without Parametar
         public List<ProductVm> GetAll()
         {
-            var products = _db.Products.Include(x => x.Supplier).Include(x => x.Brand).Include(x => x.SubCategory).ToList();
+            var products = _db.Products.Include(x => x.Supplier)
+                .Include(x => x.Brand).Include(x => x.SubCategory).ToList();
             return _mapper.Map<List<ProductVm>>(products);
         }
-        //Get One Product
+        //Get One Product By Id
         public ProductVm Get(int id)
         {
-            var product = _db.Products.Include(x => x.Supplier).Include(x => x.Brand).Include(x => x.SubCategory).SingleOrDefault(x => x.Id == id);
+            var product = _db.Products.Include(x => x.Supplier)
+                .Include(x => x.Brand).Include(x => x.SubCategory).SingleOrDefault(x => x.Id == id);
             return _mapper.Map<ProductVm>(product);
         }
 
+
         //Get All Products With One Brand 
-        public List<ProductVm> GetForBrand(int? brandId)
+        public List<ProductVm> GetForBrand(int brandId)
         {
-            var products = _db.Products.Include(x => x.Supplier).Include(x => x.Brand).Include(x => x.SubCategory).Where(x => x.BrandId == brandId).ToList();
+            var products = _db.Products.Include(x => x.Supplier)
+                .Include(x => x.Brand).Include(x => x.SubCategory).Where(x => x.BrandId == brandId).ToList();
             return _mapper.Map<List<ProductVm>>(products);
         }
         //Get All Products With One Suppliers 
-        public List<ProductVm> GetForSupplier(int? supplierId)
+        public List<ProductVm> GetForSupplier(int supplierId)
         {
-            var products = _db.Products.Include(x => x.Supplier).Include(x => x.Brand).Include(x => x.SubCategory).Where(x => x.SupplierId == supplierId).ToList();
+            var products = _db.Products.Include(x => x.Supplier)
+                .Include(x => x.Brand).Include(x => x.SubCategory).Where(x => x.SupplierId == supplierId).ToList();
             return _mapper.Map<List<ProductVm>>(products);
         }
         //Get All Products With One SubCategoty 
-        public List<ProductVm> GetForSubCategory(int? SubCategoryId)
+        public List<ProductVm> GetForSubCategory(int SubCategoryId)
         {
-            var products = _db.Products.Include(x => x.Supplier).Include(x => x.Brand).Include(x => x.SubCategory).Where(x => x.SubCategoryId == SubCategoryId).ToList();
+            var products = _db.Products.Include(x => x.Supplier)
+                .Include(x => x.Brand).Include(x => x.SubCategory).Where(x => x.SubCategoryId == SubCategoryId).ToList();
             return _mapper.Map<List<ProductVm>>(products);
         }
 
@@ -90,7 +95,7 @@ namespace TechnoStore.Infrastructure.Services.Products
             return _mapper.Map<List<SubCategoryVm>>(_db.SubCategories.ToList());
         }
 
-        //Create A New Product
+        //Add A new Product On Database
         public async Task<bool> Save(string userId, CreateProductDto dto)
         {
             var product = _mapper.Map<ProductDbEntity>(dto);
@@ -100,6 +105,29 @@ namespace TechnoStore.Infrastructure.Services.Products
             await _db.SaveChangesAsync();
             return true;
         }
+
+
+        //Update Specific Product
+        public async Task<bool> Update(string userId, UpdateProductDto dto)
+        {
+            var product = _db.Products.SingleOrDefault(x => x.Id == dto.Id);
+            product.UpdateAt = DateTime.Now;
+            product.UpdateBy = "Test";
+            _mapper.Map(dto, product);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+        //Remove Product | Soft Delete | IsDelete = true
+        public async Task<bool> Remove(int id)
+        {
+            var product = _db.Products.SingleOrDefault(x => x.Id == id);
+            product.IsDelete = true;
+            _db.Products.Update(product);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
 
         //Change A Availability For Any Product
         public async Task<bool> ChangeAvailability(int id, bool status)
@@ -111,31 +139,10 @@ namespace TechnoStore.Infrastructure.Services.Products
             return status;
         }
         //Change A Discount For Any Product
-       public async Task<bool> AddDiscount(int id, float dis)
+        public async Task<bool> AddDiscount(int id, float dis)
         {
             var product = _db.Products.SingleOrDefault(x => x.Id == id);
             product.Discount = dis;
-            _db.Products.Update(product);
-            await _db.SaveChangesAsync();
-            return true;
-        }
-
-        //Update A New Product
-        public async Task<bool> Update(string userId, UpdateProductDto dto)
-        {
-            var product = _db.Products.SingleOrDefault(x => x.Id == dto.Id);
-            product.UpdateAt = DateTime.Now;
-            product.UpdateBy = "Test";
-            _mapper.Map(dto, product);
-            await _db.SaveChangesAsync();
-            return true;
-        }
-
-        //Delete Any Expenses
-        public async Task<bool> Remove(int id)
-        {
-            var product = _db.Products.SingleOrDefault(x => x.Id == id);
-            product.IsDelete = true;
             _db.Products.Update(product);
             await _db.SaveChangesAsync();
             return true;

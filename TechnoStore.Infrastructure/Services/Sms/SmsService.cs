@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Sms;
@@ -25,7 +24,7 @@ namespace TechnoStore.Infrastructure.Services.Sms
             _mapper = mapper;
         }
 
-        //Get All Sms
+        //Get All Sms To List With or Without Paramrtar
         public List<SmsVm> GetAll(string sreach, int page)
         {
             var NumOfExpCat = _db.Sms
@@ -41,7 +40,7 @@ namespace TechnoStore.Infrastructure.Services.Sms
             return _mapper.Map<List<SmsVm>>(sms);
         }
 
-        //Get All To List
+        //Get All Sms Without Parametar
         public List<SmsVm> GetAll()
         {
             var sms = _db.Sms.ToList();

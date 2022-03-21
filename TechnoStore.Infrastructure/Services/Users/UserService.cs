@@ -5,13 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Users;
 using TechnoStore.Core.Enums;
-using TechnoStore.Core.ViewModel;
-using TechnoStore.Core.ViewModel.Shippers;
+using TechnoStore.Core.ViewModel.Cities;
 using TechnoStore.Core.ViewModel.Users;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
@@ -39,7 +37,7 @@ namespace TechnoStore.Infrastructure.Services.Users
             _fileService = fileService;
         }
 
-        //Get All Users
+        //Get All Users To List With or Without Paramrtar
         public List<UserVm> GetAll(string search, int page, Gender? gender, UserType? userType)
         {
             var NumOfExpCat = _db.Users
@@ -64,27 +62,25 @@ namespace TechnoStore.Infrastructure.Services.Users
             return _mapper.Map<List<UserVm>>(users);
         }
 
-        //Get All To List
+        //Get All Users Without Parametar
         public List<UserVm> GetAll()
         {
-            var user = _db.Users.ToList();
-            return _mapper.Map<List<UserVm>>(user);
+            return _mapper.Map<List<UserVm>>(_db.Users.ToList());
         }
 
-        //Get All Shippers/////////////////////////////////////////////////////////
-        public List<CityDbEntity> GetAllCities()
+        //Get All Cities Without Parametar
+        public List<CityVm> GetAllCities()
         {
-            return _db.Cities.ToList();
+            return _mapper.Map<List<CityVm>>(_db.Cities.ToList());
         }
 
-        //Get One User
+        //Get One User By Id
         public UserVm Get(string id)
         {
-            var user = _db.Users.Include(x => x.City).SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<UserVm>(user);
+            return _mapper.Map<UserVm>(_db.Users.Include(x => x.City).SingleOrDefault(x => x.Id == id));
         }
 
-        //Create A New User
+        //Add A new User On Database
         public async Task<bool> Save(CreateUserDto dto, IFormFile image)
         {
             if (_db.Users.Any(x => x.UserName == dto.UserName))
@@ -122,17 +118,7 @@ namespace TechnoStore.Infrastructure.Services.Users
             return true;
         }
 
-        //Update Any User
-        //public async Task<int> Update(UpdateUserDto dto)
-        //{
-        //    var expenses = _mapper.Map<UserDbEntity>(dto);
-        //    expenses.UpdateAt = date;
-        //    _db.Expenses.Update(expenses);
-        //    await _db.SaveChangesAsync();
-        //    return expenses.Id;
-        //}
-
-        //Delete Any User
+        //Remove User | Soft Delete | IsDelete = true
         public async Task<int> Remove(string id)
         {
 

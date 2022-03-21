@@ -7,17 +7,21 @@ using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Brands;
 using TechnoStore.Infrastructure.Services.Brands;
+using TechnoStore.Infrastructure.Services.Products;
 
 namespace TechnoStore.Web.Controllers
 {
     public class BrandController : BaseController
     {
         private readonly IBrandsService _brandsService;
+        private readonly IProductsService _productsService;
 
-        public BrandController(IBrandsService brandsService)
+        public BrandController(IBrandsService brandsService, IProductsService productsService)
         {
             _brandsService = brandsService;
+            _productsService = productsService;
         }
+
         //This Action For Show All Brands
         public IActionResult Index(string search, int page = 1)
         {
@@ -29,6 +33,7 @@ namespace TechnoStore.Web.Controllers
             ViewBag.count = model.Count();
             return View(model);
         }
+
         //This Action For Show page To Add Brand
         [HttpGet]
         public IActionResult Create() => View();
@@ -57,7 +62,7 @@ namespace TechnoStore.Web.Controllers
         //This Action For Show page To Edit Brand
         [HttpGet]
         public IActionResult Edit(int id)
-        {
+        {  
             var model = _brandsService.Get(id);
             if (model == null)
                 return RedirectToAction("Error", "Settings");
@@ -66,6 +71,7 @@ namespace TechnoStore.Web.Controllers
             ViewBag.CreateBy = model.CreateBy;
             return View(model);
         }
+        
         //This Action For Edit Brand
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, UpdateBrandDto dto, IFormFile image)
@@ -107,8 +113,15 @@ namespace TechnoStore.Web.Controllers
         {
             var model = _brandsService.Get(id);
             if (model == null)
+            {
                 return RedirectToAction("Error", "Settings");
-            return View(model);
+            }
+            else
+            {
+                var products = _productsService.GetForBrand(id);
+                ViewBag.products = products;
+                return View(model);
+            }
         }
     }
 }

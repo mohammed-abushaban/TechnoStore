@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Settings;
 using TechnoStore.Core.ViewModel.Settings;
 using TechnoStore.Data.Data;
@@ -30,25 +27,26 @@ namespace TechnoStore.Infrastructure.Services.Settings
         }
 
 
-        //Get All To List
+        //Get Settings
         public SettingVm GetSetting()
         {
             return _mapper.Map<SettingVm>(_db.Settings.FirstOrDefault());
         }
-        //Create A New Setting
+
+        //Create Settings
         public async Task<int> Save(CreateSettingDto dto, IFormFile logo)
         {
             var setting = _mapper.Map<SettingDbEntity>(dto);
             setting.CreateAt = date;
             setting.CreateBy = "Test";
-            var x = await _fileService.SaveFile(logo, "Images/Logo");
-            setting.LogoUrl = x;
+            var imageUrl = await _fileService.SaveFile(logo, "Images/Logo");
+            setting.LogoUrl = imageUrl;
             await _db.Settings.AddAsync(setting);
             await _db.SaveChangesAsync();
             return setting.Id;
         }
 
-        //Update A New Setting
+        //Update Settings
         public async Task<int> Update(CreateSettingDto dto, IFormFile logo)
         {
             var setting = _mapper.Map<SettingDbEntity>(dto);
@@ -60,8 +58,8 @@ namespace TechnoStore.Infrastructure.Services.Settings
                 {
                     _fileService.DeleteFile(setting.LogoUrl, "Images/Logo");
                 }
-                var x = await _fileService.SaveFile(logo, "Images/Logo");
-                setting.LogoUrl = x;
+                var imageUrl = await _fileService.SaveFile(logo, "Images/Logo");
+                setting.LogoUrl = imageUrl;
             }
             _db.Settings.Update(setting);
             await _db.SaveChangesAsync();

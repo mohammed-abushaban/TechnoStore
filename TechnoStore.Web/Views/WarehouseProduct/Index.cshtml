@@ -26,28 +26,10 @@
     <div class="card-body">
         <form method="get" asp-action="Index">
             <div class="row">
-                <div class="col-md-3">
-                    <input placeholder="بحث باسم المنتج" class="form-control" name="search" value="@ViewBag.Search" />
+                <div class="col-md-4">
+                    <input placeholder="بحث باسم المنتج أو المخزن" class="form-control" name="search" value="@ViewBag.Search" />
                 </div>
-                <div class="col-md-2">
-                    <div class="card-custom" style="direction:ltr;">
-                        <select name="ProductId" class="form-control selectpicker" asp-items="ViewBag.ProductId" data-live-search="true"></select>
-                    </div>
-                </div>
-                @*<div class="col-md-2">
-                    <div class="form-group">
-                        <label class="control-label">فرز بالمنتج</label>
-                        <select asp-for="ProductId" class="form-control">
-                            <option value="@Gender.ذكر"></option>
-                        </select>
-                        <span asp-validation-for="ProductId" class="text-danger"></span>
-                    </div>
-                </div>*@
-                <div class="col-md-2">
-                    <div class="card-cu stom" style="direction:ltr;">
-                        <select name="WarehouseId" class="form-control selectpicker" asp-items="ViewBag.WarehouseId" data-live-search="true"></select>
-                    </div>
-                </div>
+
                 <div class="col-md-1">
                     <input type="submit" class="btn btn-primary" value="بحث" placeholder="" />
                 </div>
@@ -58,7 +40,6 @@
                 </div>
             </div>
         </form>
-        <h5 style="color: blue; font-family: Calibri; font-style:italic;">نتائج البحث : @ViewBag.Search ، فرز بالمنتجات : @ViewBag.userYype ، فرز بالمخازن : @ViewBag.gender .</h5>
         <br />
         @if (Model.Any())
         {

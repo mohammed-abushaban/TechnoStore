@@ -107,9 +107,5 @@ namespace TechnoStore.Web.Controllers
             return View(model);
         }
 
-        public IActionResult GetProductQuantity(int productId)
-        {
-            return Ok(_warehousesProductsService.GetProductQuantity(productId));
-        }
     }
 }

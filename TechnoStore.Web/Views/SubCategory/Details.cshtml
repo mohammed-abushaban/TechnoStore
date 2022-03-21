@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Details";
+    List<ProductVm> products = ViewBag.products as List<ProductVm>;
+    int Id = 1;
 }
 <style>
     td {
@@ -29,7 +31,7 @@
     <div class="card-body">
         <div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <table class="table table-bordered">
                         <tr>
                             <td>الاسم</td>
@@ -55,6 +57,29 @@
                             <td>تاريخ التعديل</td>
                             <td>@Html.DisplayFor(model => model.UpdateAt)</td>
                         </tr>
+                    </table>
+                </div>
+                <div class="col-md-5">
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th colspan="2">المنتجات المرتبطة بالتصنيف</th>
+                        </tr>
+                        @{
+                            <tr>
+                                <th>#</th>
+                                <th>اسم المنتج</th>
+                            </tr>
+                            foreach (var item in products)
+                            {
+
+                                <tr>
+                                    <td>@Id</td>
+                                    <td>@item.Name</td>
+                                </tr>
+                                Id++;
+                            }
+                        }
                     </table>
                 </div>
             </div>

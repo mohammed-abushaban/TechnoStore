@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Suppliers;
+using TechnoStore.Infrastructure.Services.Products;
 using TechnoStore.Infrastructure.Services.Suppliers;
 
 namespace TechnoStore.Web.Controllers
@@ -13,10 +14,13 @@ namespace TechnoStore.Web.Controllers
     public class SupplierController : BaseController
     {
         private readonly ISuppliersService _suppliersService;
+        private readonly IProductsService _productsService;
 
-        public SupplierController(ISuppliersService suppliersService)
+
+        public SupplierController(ISuppliersService suppliersService, IProductsService productsService)
         {
             _suppliersService = suppliersService;
+            _productsService = productsService;
         }
         //This Action For Show All Suppliers
         public IActionResult Index(string search, int page = 1)
@@ -102,8 +106,15 @@ namespace TechnoStore.Web.Controllers
         {
             var model = _suppliersService.Get(id);
             if (model == null)
+            {
                 return RedirectToAction("Error", "Settings");
-            return View(model);
+            }
+            else
+            {
+                var products = _productsService.GetForBrand(id);
+                ViewBag.products = products;
+                return View(model);
+            }
         }
     }
 }

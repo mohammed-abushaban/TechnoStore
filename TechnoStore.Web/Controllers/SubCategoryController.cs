@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.SubCategories;
 using TechnoStore.Infrastructure.Services.Categories;
+using TechnoStore.Infrastructure.Services.Products;
 using TechnoStore.Infrastructure.Services.SubCategories;
 
 namespace TechnoStore.Web.Controllers
@@ -15,10 +16,12 @@ namespace TechnoStore.Web.Controllers
     public class SubCategoryController : BaseController
     {
         private readonly ISubCategoriesService _subCategoriesService;
+        private readonly IProductsService _productsService;
 
-        public SubCategoryController(ISubCategoriesService subCategoriesService)
+        public SubCategoryController(ISubCategoriesService subCategoriesService, IProductsService productsService)
         {
             _subCategoriesService = subCategoriesService;
+            _productsService = productsService;
         }
 
         //This Action For Show All SubCategories
@@ -118,8 +121,15 @@ namespace TechnoStore.Web.Controllers
         {
             var model = _subCategoriesService.Get(id);
             if (model == null)
+            {
                 return RedirectToAction("Error", "Settings");
-            return View(model);
+            }
+            else
+            {
+                var products = _productsService.GetForSubCategory(id);
+                ViewBag.products = products;
+                return View(model);
+            }
         }
 
     }

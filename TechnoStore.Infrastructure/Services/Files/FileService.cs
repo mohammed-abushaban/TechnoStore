@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,12 +31,11 @@ namespace TechnoStore.Infrastructure.Services.Files
             _env = env;
         }
 
-        //Get All File
+        //Get All Files To List With or Without Paramrtar
         public List<FileVm> GetAll(string sreach, int page)
         {
             var NumOfExpCat = _db.Files
                 .Count(x => x.Title.Contains(sreach) || string.IsNullOrEmpty(sreach));
-
             NumOfPages = Math.Ceiling(NumOfExpCat / (NumPages.page20 + 0.0));
             var Skip = (page - 1) * NumPages.page20;
             var Take = NumPages.page20;
@@ -48,21 +46,19 @@ namespace TechnoStore.Infrastructure.Services.Files
             return _mapper.Map<List<FileVm>>(files);
         }
 
-        //Get All To List
+        //Get All Files Without Parametar
         public List<FileVm> GetAll()
         {
-            var files = _db.Files.ToList();
-            return _mapper.Map<List<FileVm>>(files);
+            return _mapper.Map<List<FileVm>>(_db.Files.ToList());
         }
 
-        //Get One File
+        //Get One Files By Id
         public FileVm Get(int id)
         {
-            var file = _db.Files.SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<FileVm>(file);
+            return _mapper.Map<FileVm>(_db.Files.SingleOrDefault(x => x.Id == id));
         }
 
-        //Create A New File
+        //Add A new File On Database
         public async Task<int> Save(CreateFileDto dto)
         {
             var file = _mapper.Map<FileDbEntity>(dto);
@@ -73,7 +69,7 @@ namespace TechnoStore.Infrastructure.Services.Files
             return file.Id; 
         }
 
-        //Update A New File
+        //Update Specific File
         public async Task<int> Update(UpdateFileDto dto)
         {
             var file = _mapper.Map<FileDbEntity>(dto);
@@ -84,7 +80,7 @@ namespace TechnoStore.Infrastructure.Services.Files
             return file.Id;
         }
 
-        //Delete Any File
+        //Remove File | Soft Delete | IsDelete = true
         public async Task<int> Remove(int id)
         {
             var file = _db.Files.SingleOrDefault(x => x.Id == id);
@@ -94,9 +90,7 @@ namespace TechnoStore.Infrastructure.Services.Files
             return file.Id;
         }
 
-
-        
-
+        //Save Image or File On Folder and Create a new name
         public async Task<string> SaveFile(IFormFile file, string folderName)
         {
             string fileName = null;
@@ -112,7 +106,8 @@ namespace TechnoStore.Infrastructure.Services.Files
             return fileName;
         }
 
-        public  bool DeleteFile(string path, string folderName)
+        //Delete Image or File On Folder
+        public bool DeleteFile(string path, string folderName)
         {
             //C:\ASP\MediaProductionCompany\MediaProductionCompany.API\wwwroot
             string fileToBeDeleted = Path.Combine(_env.WebRootPath, folderName, path);
@@ -122,7 +117,6 @@ namespace TechnoStore.Infrastructure.Services.Files
                 return true;
             }
             return false;
-
         }
     }
 }

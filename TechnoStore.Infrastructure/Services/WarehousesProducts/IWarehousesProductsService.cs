@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Dto.WarehousesProducts;
 using TechnoStore.Core.ViewModel.Products;
@@ -19,6 +16,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
         List<WareHouseVm> GetAllWarehoues();
         WarehouseProductVm Get(int id);
         int GetProductQuantity(int id);
+        int GetProductOnOneWarehouseQuantity(int id);
         Task<bool> Save(string userId, CreateWarehouseProductDto dto, IFormFile image);
         Task<bool> Update(string userId, UpdateWarehouseProductDto dto, IFormFile image);
         Task<bool> Remove(int id);

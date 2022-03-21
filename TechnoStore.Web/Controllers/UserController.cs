@@ -2,14 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
-
 using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Users;
 using TechnoStore.Core.Enums;
 using TechnoStore.Infrastructure.Services;
-using TechnoStore.Infrastructure.Services.Shippers;
 using TechnoStore.Infrastructure.Services.Users;
 
 namespace TechnoStore.Web.Controllers

@@ -21,9 +21,7 @@ using TechnoStore.Infrastructure.Services.Expenses;
 using TechnoStore.Infrastructure.Services.Files;
 using TechnoStore.Infrastructure.Services.PrivacyAndQuestions;
 using TechnoStore.Infrastructure.Services.Products;
-using TechnoStore.Infrastructure.Services.ProductsQuantities;
 using TechnoStore.Infrastructure.Services.Settings;
-using TechnoStore.Infrastructure.Services.Shippers;
 using TechnoStore.Infrastructure.Services.Sms;
 using TechnoStore.Infrastructure.Services.SubCategories;
 using TechnoStore.Infrastructure.Services.Suppliers;
@@ -73,14 +71,11 @@ namespace TechnoStore.Web
             services.AddScoped<IBrandsService, BrandsService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
             services.AddScoped<IProductsService, ProductsService>();
-            services.AddScoped<IProductsQuantitiesService, ProductsQuantitiesService>();
             services.AddScoped<IExpensesService, ExpensesService>(); 
             services.AddScoped<IUserService, UserService>(); 
             services.AddScoped<IRoleService, RoleService>(); 
-            services.AddScoped<IShipperService, ShipperService>();
             services.AddScoped<IWareHouseService, WareHouseService>();
             services.AddScoped<IWarehousesProductsService, WarehousesProductsService>();
-            services.AddScoped<IShipperService, ShipperService>();
             services.AddScoped<ICityService, CityService>();
 
 

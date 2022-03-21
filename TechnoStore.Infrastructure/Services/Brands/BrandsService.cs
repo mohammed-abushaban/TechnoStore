@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Brands;
@@ -29,11 +28,11 @@ namespace TechnoStore.Infrastructure.Services.Brands
             _fileService = fileService;
         }
 
+        //Get All Brands To List With or Without Paramrtar
         public List<BrandVm> GetAll(string search, int page)
         {
             var NumOfExpCat = _db.Expenses
                 .Count(x => x.Title.Contains(search) || string.IsNullOrEmpty(search));
-
             NumOfPages = Math.Ceiling(NumOfExpCat / (NumPages.page20 + 0.0));
             var Skip = (page - 1) * NumPages.page20;
             var Take = NumPages.page20;
@@ -41,22 +40,22 @@ namespace TechnoStore.Infrastructure.Services.Brands
             var brands = _db.Brands.Include(x => x.Products)
                 .Where(x => x.Name.Contains(search) || string.IsNullOrEmpty(search))
                 .Skip(Skip).Take(Take).ToList();
-
             return _mapper.Map<List<BrandVm>>(brands);
         }
 
+        //Get All Brands Without Parametar
         public List<BrandVm> GetAll()
         {
-            var brands = _db.Brands.ToList();
-            return _mapper.Map<List<BrandVm>>(brands);
+            return _mapper.Map<List<BrandVm>>(_db.Brands.ToList());
         }
 
+        //Get One Brand By Id
         public BrandVm Get(int id)
         {
-            var brand = _db.Brands.SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<BrandVm>(brand);
+            return _mapper.Map<BrandVm>(_db.Brands.SingleOrDefault(x => x.Id == id));
         }
 
+        //Add A new Brand On Database
         public async Task<bool> Save(string userId, CreateBrandDto dto, IFormFile image)
         {
             if (_db.Brands.Any(x => x.Name == dto.Name))
@@ -68,8 +67,8 @@ namespace TechnoStore.Infrastructure.Services.Brands
                 var brand = _mapper.Map<BrandDbEntity>(dto);
                 brand.CreateBy = "Test";
                 brand.CreateAt = DateTime.Now;
-                var x = await _fileService.SaveFile(image, "Images/BrandsImages");
-                brand.ImageUrl = x;
+                var imageUrl = await _fileService.SaveFile(image, "Images/BrandsImages");
+                brand.ImageUrl = imageUrl;
                 await _db.Brands.AddAsync(brand);
                 await _db.SaveChangesAsync();
                 return true;
@@ -77,6 +76,7 @@ namespace TechnoStore.Infrastructure.Services.Brands
 
         }
 
+        //Update Specific brand
         public async Task<bool> Update(string userId, UpdateBrandDto dto, IFormFile image)
         {
             var brand = _db.Brands.SingleOrDefault(x => x.Id == dto.Id);
@@ -85,14 +85,14 @@ namespace TechnoStore.Infrastructure.Services.Brands
             if (image != null)
             {
                 _fileService.DeleteFile(brand.ImageUrl, "Images/BrandsImages");
-                var x = await _fileService.SaveFile(image, "Images/BrandsImages");
-                brand.ImageUrl = x;
+                var imageUrl = await _fileService.SaveFile(image, "Images/BrandsImages");
+                brand.ImageUrl = imageUrl;
             }
-            _mapper.Map(dto, brand);
             await _db.SaveChangesAsync();
             return true;
         }
 
+        //Remove Brand | Soft Delete | IsDelete = true
         public async Task<bool> Remove(int id)
         {
             var brand = _db.Brands.SingleOrDefault(x => x.Id == id);

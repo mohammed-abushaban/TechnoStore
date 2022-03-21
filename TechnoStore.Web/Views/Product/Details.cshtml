@@ -31,7 +31,7 @@
     <div class="card-body">
         <div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <table class="table table-bordered">
                         <tr>
                             <td>الاسم</td>
@@ -107,39 +107,43 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col-md-6">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th colspan="2">اسم المنتج</th>
-                            <td colspan="3">@warehouseProductDetails.Name</td>
-                        </tr>
-                        <tr>
-                            <th colspan="2">إجمالي الكمية</th>
-                            <td colspan="3">@string.Format("{0:#,0}", warehouseProductDetails.TotalQuantity)</td>
-                        </tr>
-                        @{
+                @if (ViewBag.warehouseProduct != null)
+                {
+                    <div class="col-md-6">
+                        <table class="table table-bordered">
                             <tr>
-                                <th>#</th>
-                                <th>المخزن</th>
-                                <th>اللون</th>
-                                <th>المقاس</th>
-                                <th>الكمية</th>
+                                <td colspan="2">اسم المنتج</td>
+                                <td colspan="3">@warehouseProductDetails.Name</td>
                             </tr>
-                            foreach (var item in warehouseProductDetails.wareHousesVm)
-                            {
-
+                            <tr>
+                                <td colspan="2">إجمالي الكمية</td>
+                                <td colspan="3">@string.Format("{0:#,0}", warehouseProductDetails.TotalQuantity)</td>
+                            </tr>
+                            @{
                                 <tr>
-                                    <td>@Id</td>
-                                    <td>@item.WarehouseName</td>
-                                    <td>@item.Color</td>
-                                    <td>@item.Size</td>
-                                    <td>@item.Quantity</td>
+                                    <th>#</th>
+                                    <th>المخزن</th>
+                                    <th>اللون</th>
+                                    <th>المقاس</th>
+                                    <th>الكمية</th>
                                 </tr>
-                                Id++;
+                                foreach (var item in warehouseProductDetails.wareHousesVm)
+                                {
+
+                                    <tr>
+                                        <td>@Id</td>
+                                        <td>@item.WarehouseName</td>
+                                        <td>@item.Color</td>
+                                        <td>@item.Size</td>
+                                        <td>@item.Quantity</td>
+                                    </tr>
+                                    Id++;
+                                }
                             }
-                        }
-                    </table>
-                </div>
+                        </table>
+                    </div>
+                }
+
             </div>
         </div>
         <div>
