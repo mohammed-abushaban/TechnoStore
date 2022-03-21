@@ -24,7 +24,7 @@ namespace TechnoStore.Infostructures.Services.IFeedbacks
             _mapper = mapper;
         }
 
-        //Get All Feedbacks
+        //Get All Feedbacks To List With or Without Paramrtar
         public List<FeedbackVm> GetAll(string sreach, int page)
         {
             var NumOfExpCat = _db.Feedbacks
@@ -39,22 +39,20 @@ namespace TechnoStore.Infostructures.Services.IFeedbacks
 
             return _mapper.Map<List<FeedbackVm>>(feedbacks);
         }
-        
-        //Get All To List
+
+        //Get All Feedbacks Without Parametar
         public List<FeedbackVm> GetAll()
         {
-            var feedbacks = _db.Feedbacks.ToList();
-            return _mapper.Map<List<FeedbackVm>>(feedbacks);
+            return _mapper.Map<List<FeedbackVm>>(_db.Feedbacks.ToList());
         }
 
-        //Get One Feedback
+        //Get One Feedback By Id
         public FeedbackVm Get(int id)
         {
-            var feedback = _db.Feedbacks.SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<FeedbackVm>(feedback);
+            return _mapper.Map<FeedbackVm>(_db.Feedbacks.SingleOrDefault(x => x.Id == id));
         }
 
-        //Create A New Feedback
+        //Add A new Feedback On Database
         public async Task<bool> Save(CreateFeedbackDto dto)
         {
             var feedback = _mapper.Map<FeedbackDbEntity>(dto);
@@ -65,7 +63,7 @@ namespace TechnoStore.Infostructures.Services.IFeedbacks
             return true;
         }
 
-        //Delete Any feedback
+        //Remove Feedback | Soft Delete | IsDelete = true
         public async Task<int> Remove(int id)
         {
             var feedback = _db.Feedbacks.SingleOrDefault(x => x.Id == id);

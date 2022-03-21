@@ -23,24 +23,8 @@ namespace TechnoStore.Web.Controllers
         }
 
         //This Action For Show All Expenses
-        public IActionResult Index(string search,
-            int? SupplierId, int? BrandId,
-            int? SubCategoryId, int page = 1)
+        public IActionResult Index(string search, int page = 1)
         {
-            //if(SupplierId != null)
-            //{
-            //    var getProductsWithSupplier = _productsService.GetForSupplier(SupplierId);
-            //}
-            //else if(BrandId != null)
-            //{
-            //    var getProductsWithBrand = _productsService.GetForBrand(BrandId);
-            //}
-            //else if(SubCategoryId != null)
-            //{
-            //    var getProductsWithSubCategory = _productsService.GetForSubCategory(SubCategoryId);
-            //}
-
-
             var model = _productsService.GetAll(search, page);
             ViewBag.Search = search;
             ViewBag.NumOfPages = ProductsService.NumOfPages;
@@ -52,6 +36,7 @@ namespace TechnoStore.Web.Controllers
             ViewData["BrandId"] = new SelectList(_productsService.GetAllBrands(), "Id", "Name");
             ViewData["SubCategoryId"] = new SelectList(_productsService.GetAllSubCategories(), "Id", "Name");
             ViewData["SupplierId"] = new SelectList(_productsService.GetAllSuppliers(), "Id", "Name");
+
             return View(model);
         }
         //This Action For Show page To Add Expenses
@@ -136,27 +121,36 @@ namespace TechnoStore.Web.Controllers
         {
             var model = _productsService.Get(id);
             if (model == null)
+            {
                 return RedirectToAction("Error", "Settings");
-
-            var warehouseProduct = _warehousesProductsService.GetProductDetails(id);
-            ViewBag.warehouseProduct = warehouseProduct;
-            return View(model);
+            }
+            else
+            {
+                //int totalQuantity = _warehousesProductsService.GetProductQuantity(id);
+                //if(totalQuantity <= 0)
+                //{
+                //    _productsService.ChangeAvailability(id, false);
+                //}
+                //else
+                //{
+                //    _productsService.ChangeAvailability(id, true);
+                //}
+                int productQuantity = _warehousesProductsService.GetProductQuantity(id);
+                if(productQuantity == 0)
+                {
+                    return View(model);
+                }
+                else
+                {
+                    var warehouseProduct = _warehousesProductsService.GetProductDetails(id);
+                    ViewBag.warehouseProduct = warehouseProduct;
+                    return View(model);
+                }
+            }
         }
 
 
 
-        public IActionResult GetForBrand(int brandId)
-        {
-            return View(_productsService.GetForBrand(brandId));
-        }
-        public IActionResult GetForSupplier(int supplierId)
-        {
-            return View(_productsService.GetForSupplier(supplierId));
-        }
-        public IActionResult GetForSubCategory(int supCategoryId)
-        {
-            return View(_productsService.GetForSubCategory(supCategoryId));
-        }
         public async Task<IActionResult> ChangeAvailability(int id, bool status)
         {
             return View(await _productsService.ChangeAvailability(id, status));

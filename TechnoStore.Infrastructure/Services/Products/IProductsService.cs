@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TechnoStore.Core.Dto.Products;
 using TechnoStore.Core.ViewModel.Brands;
@@ -16,9 +13,9 @@ namespace TechnoStore.Infrastructure.Services.Products
         List<ProductVm> GetAll(string search, int page);
         List<ProductVm> GetAll();
         ProductVm Get(int id);
-        List<ProductVm> GetForBrand(int? brandId);
-        List<ProductVm> GetForSupplier(int? supplierId);
-        List<ProductVm> GetForSubCategory(int? SubCategoryId);
+        List<ProductVm> GetForBrand(int brandId);
+        List<ProductVm> GetForSupplier(int supplierId);
+        List<ProductVm> GetForSubCategory(int SubCategoryId);
         List<BrandVm> GetAllBrands();
         List<SupplierVm> GetAllSuppliers();
         List<SubCategoryVm> GetAllSubCategories();

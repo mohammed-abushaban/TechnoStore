@@ -30,43 +30,49 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             _fileService = fileService;
         }
 
-        //Get all warehousesProducts
-
-        public  List<WarehouseProductVm> GetAll(string search, int page)
+        //Get All WarehouseProducts To List With or Without Paramrtar
+        public List<WarehouseProductVm> GetAll(string search, int page)
         {
-            var num = _db.warehouseProducts.Count();
+            var num = _db.warehouseProducts.Include(x => x.Product).Include(y => y.Warehouse)
+                .Count(x => x.Product.Name.Contains(search) || x.Warehouse.Name.Contains(search) || string.IsNullOrEmpty(search));
             NumOfPages = Math.Ceiling(num / (NumPages.page20 + 0.0));
             var skip = (page - 1) * NumPages.page20;
             var take = NumPages.page20;
 
             var warehouseProducts = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product)
+                .Where(x => x.Product.Name.Contains(search) || x.Warehouse.Name.Contains(search) || string.IsNullOrEmpty(search))
                 .Skip(skip).Take(take).ToList();
 
             return _mapper.Map<List<WarehouseProductVm>>(warehouseProducts);
         }
 
+        //Get All WarehouseProduct Without Parametar
         public List<WarehouseProductVm> GetAll()
         {
             var warehouseProducts = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product).ToList();
             return _mapper.Map<List<WarehouseProductVm>>(warehouseProducts);
         }
-        //Get All Products
+
+        //Get All Product Without Parametar
         public List<ProductVm> GetAllProducts()
         {
             return _mapper.Map<List<ProductVm>>(_db.Products.ToList());
         }
-        //Get All Warehoues
+
+        //Get All WareHouse Without Parametar
         public List<WareHouseVm> GetAllWarehoues()
         {
             return _mapper.Map<List<WareHouseVm>>(_db.Warehouses.ToList());
         }
 
+        //Get One WarehouseProduct By Id
         public WarehouseProductVm Get(int id)
         {
             var warehouse = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product).SingleOrDefault(x => x.Id == id);
             return _mapper.Map<WarehouseProductVm>(warehouse);
         }
-        //Add a new warehouseProduct
+
+        //Add A new WarehouseProduct On Database
         public async Task<bool> Save(string userId, CreateWarehouseProductDto dto, IFormFile image)
         {
             var warehouseProduct = _mapper.Map<WarehouseProductDbEntity>(dto);
@@ -78,7 +84,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             await _db.SaveChangesAsync();
             return true;
         }
-
+        //Update Specific WarehouseProduct
         public async Task<bool> Update(string userId, UpdateWarehouseProductDto dto, IFormFile image)
         {
             var warehouseProduct = _db.warehouseProducts.SingleOrDefault(x => x.Id == dto.Id);
@@ -98,6 +104,7 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             return true;
         }
 
+        //Remove WarehouseProduct | Soft Delete | IsDelete = true
         public async Task<bool> Remove(int id)
         {
             var warehouseProduct = _db.warehouseProducts.SingleOrDefault(x => x.Id == id);
@@ -107,17 +114,17 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             return true;
         }
 
-        //Get Product Details
+        //Get Product Details for All warehouses
         public WarehouseProductDetailsVm GetProductDetails(int id)
         {
             var warehouseProduct = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product)
                 .Where(x => x.ProductId == id).ToList();
 
-            var l = warehouseProduct.FirstOrDefault();
-            var result = _mapper.Map<WarehouseProductDetailsVm>(l);
+            var nameproductAndWarehouse = warehouseProduct.FirstOrDefault();
+            var result = _mapper.Map<WarehouseProductDetailsVm>(nameproductAndWarehouse);
             result.TotalQuantity = warehouseProduct.Sum(x => x.Quantity);
             result.wareHousesVm = new List<wareHouseForProductDetailsVm>();
-            for(int i = 0; i < warehouseProduct.Count(); i++)
+            for (int i = 0; i < warehouseProduct.Count(); i++)
             {
                 var m = new wareHouseForProductDetailsVm
                 {
@@ -155,11 +162,17 @@ namespace TechnoStore.Infrastructure.Services.WarehousesProducts
             }
             return result;
         }
+
+        //return TotalQuantity for Specific Product
         public int GetProductQuantity(int id)
         {
-            var warehouseProduct = _db.warehouseProducts.Include(x => x.Warehouse).Include(x => x.Product)
-                .Where(x => x.ProductId == id).ToList().Sum(x => x.Quantity);
-            return warehouseProduct;
+            return _db.warehouseProducts.Where(x => x.ProductId == id).ToList().Sum(x => x.Quantity);
+        }
+
+        //return TotalQuantity for Specific Warehouse
+        public int GetProductOnOneWarehouseQuantity(int id)
+        {
+            return _db.warehouseProducts.Where(x => x.WarehouseId == id).Count();
         }
     }
 }

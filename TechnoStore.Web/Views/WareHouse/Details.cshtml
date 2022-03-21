@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Details";
+    int Id = 1;
+    warehouseProductForWarehouseDetailsVm warehouseProductDetails = ViewBag.warehouseProduct as warehouseProductForWarehouseDetailsVm;
 }
 <style>
     td {
@@ -78,6 +80,47 @@
                         </tr>
                     </table>
                 </div>
+                @if (ViewBag.warehouseProduct != null)
+                {
+                    <div class="col-md-6">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td colspan="2">اسم المخزن</td>
+                                <td colspan="3">@warehouseProductDetails.Name</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">تواجد المخزن</td>
+                                <td colspan="3">@warehouseProductDetails.City</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">عنوان المخزن</td>
+                                <td colspan="3">@warehouseProductDetails.Address</td>
+                            </tr>
+                            @{
+                                <tr>
+                                    <th>#</th>
+                                    <th>اسم المنتج</th>
+                                    <th>الكمية</th>
+                                    <th>اللون</th>
+                                    <th>المقاس</th>
+                                </tr>
+                                foreach (var item in warehouseProductDetails.productDetails)
+                                {
+
+                                    <tr>
+                                        <td>@Id</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.Color</td>
+                                        <td>@item.Size</td>
+                                    </tr>
+                                    Id++;
+                                }
+                            }
+                        </table>
+                    </div>
+                }
+
             </div>
         </div>
         <div>

@@ -25,13 +25,11 @@ namespace TechnoStore.Data.Data
             builder.Entity<ProductDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<ProductImagesDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<ProductDamageDbEntity>().HasQueryFilter(x => !x.IsDelete);
-            builder.Entity<ProductQuantityDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<SettingDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<SmsDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<SubCategoryDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<SupplierDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<ExpensesCategoryDbEntity>().HasQueryFilter(x => !x.IsDelete);
-            builder.Entity<ShipperDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<UserDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<CityDbEntity>().HasQueryFilter(x => !x.IsDelete);
             builder.Entity<WarehouseDbEntity>().HasQueryFilter(x => !x.IsDelete);
@@ -53,13 +51,11 @@ namespace TechnoStore.Data.Data
         public DbSet<ProductDbEntity> Products { get; set; }
         public DbSet<ProductImagesDbEntity> ProductImages { get; set; }
         public DbSet<ProductDamageDbEntity> ProductDamages { get; set; }
-        public DbSet<ProductQuantityDbEntity> ProductQuantities { get; set; }
         public DbSet<SettingDbEntity> Settings { get; set; }
         public DbSet<SmsDbEntity> Sms { get; set; }
         public DbSet<SubCategoryDbEntity> SubCategories { get; set; }
         public DbSet<SupplierDbEntity> Suppliers { get; set; }
         public DbSet<ExpensesCategoryDbEntity> ExpensesCategory { get; set; }
-        public DbSet<ShipperDbEntity> Shippers { get; set; }
         public DbSet<CityDbEntity> Cities { get; set; }
         public DbSet<WarehouseDbEntity> Warehouses { get; set; }
         public DbSet<WarehouseProductDbEntity> warehouseProducts { get; set; }

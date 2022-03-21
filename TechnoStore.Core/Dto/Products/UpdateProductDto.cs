@@ -15,9 +15,7 @@ namespace TechnoStore.Core.Dto.Products
         public int BrandId { get; set; }
         public int SubCategoryId { get; set; }
         public int SupplierId { get; set; }
-
         public float? Discount { get; set; }
-
         public string CreateBy { get; set; }
         public DateTime CreateAt { get; set; }
     }

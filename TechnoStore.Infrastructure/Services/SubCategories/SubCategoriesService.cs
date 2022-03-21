@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.SubCategories;
@@ -25,7 +24,7 @@ namespace TechnoStore.Infrastructure.Services.SubCategories
             _db = db;
             _mapper = mapper;
         }
-
+        //Get All SubCategories To List With or Without Paramrtar
         public List<SubCategoryVm> GetAll(string search, int page)
         {
             var num = _db.SubCategories
@@ -40,25 +39,26 @@ namespace TechnoStore.Infrastructure.Services.SubCategories
 
             return _mapper.Map<List<SubCategoryVm>>(subCategories);
         }
-
+        //Get All SubCategories Without Parametar
         public List<SubCategoryVm> GetAll()
         {
             var subCategories = _db.SubCategories.Include(x => x.Category).ToList();
             return _mapper.Map<List<SubCategoryVm>>(subCategories);
         }
 
-        //Get All Categories To List
+        //Get All Categories To List Without Parametar
         public List<CategoryVm> GetAllCategories()
         {
             return _mapper.Map<List<CategoryVm>>(_db.Categories.ToList());
         }
 
+        //Get One SubCategory By Id
         public SubCategoryVm Get(int id)
         {
-            var subCategory = _db.SubCategories.Include(x => x.Category).SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<SubCategoryVm>(subCategory);
+            return _mapper.Map<SubCategoryVm>(_db.SubCategories.Include(x => x.Category).SingleOrDefault(x => x.Id == id));
         }
 
+        //Add A new SubCategory On Database
         public async Task<bool> Save(string userId, CreateSubCategoryDto dto)
         {
             if (_db.SubCategories.Any(x => x.Name == dto.Name))
@@ -74,9 +74,9 @@ namespace TechnoStore.Infrastructure.Services.SubCategories
                 await _db.SaveChangesAsync();
                 return true;
             }
-
         }
 
+        //Update Specific SubCategory
         public async Task<bool> Update(string userId, UpdateSubCategoryDto dto)
         {
             var subCategory = _db.SubCategories.SingleOrDefault(x => x.Id == dto.Id);
@@ -87,6 +87,7 @@ namespace TechnoStore.Infrastructure.Services.SubCategories
             return true;
         }
 
+        //Remove SubCategory | Soft Delete | IsDelete = true
         public async Task<bool> Remove(int id)
         {
             var subCategory = _db.SubCategories.SingleOrDefault(x => x.Id == id);

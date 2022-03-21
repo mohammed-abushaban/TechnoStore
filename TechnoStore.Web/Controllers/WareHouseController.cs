@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.WareHouse;
 using TechnoStore.Infrastructure.Services.WareHouse;
+using TechnoStore.Infrastructure.Services.WarehousesProducts;
 
 namespace TechnoStore.Web.Controllers
 {
     public class WareHouseController : Controller
     {
         private readonly IWareHouseService _wareHouseService;
-        public WareHouseController(IWareHouseService wareHouseService)
+        private readonly IWarehousesProductsService _warehousesProductsService;
+
+        public WareHouseController(IWareHouseService wareHouseService, IWarehousesProductsService warehousesProductsService)
         {
             _wareHouseService = wareHouseService;
+            _warehousesProductsService = warehousesProductsService;
         }
 
         //This Action For Show All WareHouses
@@ -106,8 +110,32 @@ namespace TechnoStore.Web.Controllers
         {
             var model = _wareHouseService.Get(id);
             if (model == null)
+            {
                 return RedirectToAction("Error", "Settings");
-            return View(model);
+            }
+            else
+            {
+                //int totalQuantity = _warehousesProductsService.GetProductQuantity(id);
+                //if(totalQuantity <= 0)
+                //{
+                //    _productsService.ChangeAvailability(id, false);
+                //}
+                //else
+                //{
+                //    _productsService.ChangeAvailability(id, true);
+                //}
+                int WarehouseQuantity = _warehousesProductsService.GetProductOnOneWarehouseQuantity(id);
+                if (WarehouseQuantity <= 0)
+                {
+                    return View(model);
+                }
+                else
+                {
+                    var warehouseProduct = _warehousesProductsService.GetWarehouseDetails(id);
+                    ViewBag.warehouseProduct = warehouseProduct;
+                    return View(model);
+                }
+            }
         }
     }
 }

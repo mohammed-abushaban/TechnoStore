@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Category;
 using TechnoStore.Infrastructure.Services.Categories;
+using TechnoStore.Infrastructure.Services.Products;
 
 namespace TechnoStore.Web.Controllers
 {
     public class CategoryController : BaseController
     {
         private readonly ICategoriesService _categoriesService;
+
 
         public CategoryController(ICategoriesService categoriesService)
         {
@@ -108,23 +110,8 @@ namespace TechnoStore.Web.Controllers
         {
             var model = _categoriesService.Get(id);
             if (model == null)
-            {
                 return RedirectToAction("Error", "Settings");
-            }
-            else
-            {
-                var result = await _categoriesService.Remove(id);
-                if (result == false)
-                {
-                    TempData["msg"] = Messages.NoDeleteCategory;
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["msg"] = Messages.DeleteActon;
-                    return RedirectToAction("Index");
-                }
-            }
+            return View(model);
         }
     }
 }

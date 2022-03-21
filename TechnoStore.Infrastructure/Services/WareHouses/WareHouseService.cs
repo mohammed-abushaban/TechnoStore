@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.WareHouse;
@@ -27,7 +26,7 @@ namespace TechnoStore.Infrastructure.Services.WareHouse
             _mapper = mapper;
         }
 
-        // Get all WareHouses by searching or page number
+        //Get All Warehouses To List With or Without Paramrtar
         public List<WareHouseVm> GetAll(string search, int page)
         {
             var num = _db.Warehouses
@@ -43,34 +42,31 @@ namespace TechnoStore.Infrastructure.Services.WareHouse
             return _mapper.Map<List<WareHouseVm>>(wareHouses);
         }
 
-        // Get all wareHouses in the system
+        //Get All Warehouses Without Parametar
         public List<WareHouseVm> GetAll()
         {
-            var warehouses = _db.Warehouses.ToList();
-            return _mapper.Map<List<WareHouseVm>>(warehouses);
+            return _mapper.Map<List<WareHouseVm>>(_db.Warehouses.ToList());
         }
 
-        //Get All Cities
+        //Get All Cities Without Parametar
         public List<CityVm> GetAllCities()
         {
             return _mapper.Map<List<CityVm>>(_db.Cities.ToList());
         }
-        //Get All Users
+        //Get All Users Without Parametar
         public List<UserVm> GetAllUsers()
         {
             return _mapper.Map<List<UserVm>>(_db.Users
                 .Where(x => x.UserType == Core.Enums.UserType.Admin 
                 || x.UserType == Core.Enums.UserType.User).ToList());
         }
-        //get one wareHouses
-
+        //Get One Warehouse By Id
         public WareHouseVm Get(int id)
         {
-            var warehouse = _db.Warehouses.Include(y => y.City).Include(y => y.User).SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<WareHouseVm>(warehouse);
+            return _mapper.Map<WareHouseVm>(_db.Warehouses.Include(y => y.City).Include(y => y.User).SingleOrDefault(x => x.Id == id));
         }
 
-        // Create a new WareHouse
+        //Add A new Warehouse On Database
         public async Task<bool> Save(CreateWareHouseDto dto)
         {
             if (_db.Warehouses.Any(x => x.Name == dto.Name))
@@ -89,7 +85,7 @@ namespace TechnoStore.Infrastructure.Services.WareHouse
 
         }
 
-        // Update wareHouse informations
+        //Update Specific Warehouse
         public async Task<bool> Update(UpdateWareHouseDto dto)
         {
             var warehouse = _db.Warehouses.SingleOrDefault(x => x.Id == dto.Id);
@@ -100,7 +96,7 @@ namespace TechnoStore.Infrastructure.Services.WareHouse
             return true;
         }
 
-        // Delete a wareHouse
+        //Remove Warehouse | Soft Delete | IsDelete = true
         public async Task<bool> Remove(int id)
         {
             var warehouse = _db.Warehouses.SingleOrDefault(x => x.Id == id);

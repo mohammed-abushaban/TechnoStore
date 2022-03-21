@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Cities;
-using TechnoStore.Core.ViewModel;
 using TechnoStore.Core.ViewModel.Cities;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
@@ -23,11 +21,12 @@ namespace TechnoStore.Infrastructure.Services.Cities
             _db = db;
             _mapper = mapper;
         }
+
+        //Get All Cities To List With or Without Paramrtar
         public List<CityVm> GetAll(string search, int page)
         {
             var NumOfExpCat = _db.Cities
                 .Count(x => x.Name.Contains(search) || string.IsNullOrEmpty(search));
-
             NumOfPages = Math.Ceiling(NumOfExpCat / (NumPages.page20 + 0.0));
             var Skip = (page - 1) * NumPages.page20;
             var Take = NumPages.page20;
@@ -35,21 +34,22 @@ namespace TechnoStore.Infrastructure.Services.Cities
             var cities = _db.Cities
                 .Where(x => x.Name.Contains(search) || string.IsNullOrEmpty(search))
                 .Skip(Skip).Take(Take).ToList();
-
             return _mapper.Map<List<CityVm>>(cities);
         }
 
+        //Get All Cities Without Parametar
         public List<CityVm> GetAll()
         {
             return _mapper.Map<List<CityVm>>(_db.Categories.ToList());
         }
 
+        //Get One Ctiy By Id
         public CityVm Get(int id)
         {
-            var city = _db.Cities.SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<CityVm>(city);
+            return _mapper.Map<CityVm>(_db.Cities.SingleOrDefault(x => x.Id == id));
         }
 
+        //Add A new Ctiy On Database
         public async Task<bool> Save(string userId, CreateCityDto dto)
         {
             if (_db.Cities.Any(x => x.Name == dto.Name))
@@ -68,6 +68,7 @@ namespace TechnoStore.Infrastructure.Services.Cities
 
         }
 
+        //Update Specific Ctiy
         public async Task<bool> Update(string userId, UpdateCityDto dto)
         {
             var city = _mapper.Map<CityDbEntity>(dto);
@@ -78,7 +79,7 @@ namespace TechnoStore.Infrastructure.Services.Cities
             return true;
         }
 
-
+        //Remove Ctiy | Soft Delete | IsDelete = true
         public async Task<bool> Remove(int id)
         {
             var city = _db.Cities.SingleOrDefault(x => x.Id == id);
@@ -95,13 +96,11 @@ namespace TechnoStore.Infrastructure.Services.Cities
                 {
                     return false;
                 }
-
             }
             city.IsDelete = true;
             _db.Cities.Update(city);
             await _db.SaveChangesAsync();
             return true;
         }
-
     }
 }

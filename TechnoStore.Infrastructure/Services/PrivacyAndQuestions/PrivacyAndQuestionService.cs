@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.PrivacyAndQuestions;
 using TechnoStore.Core.ViewModel.PrivacyAndQuestions;
 using TechnoStore.Data.Data;
@@ -24,21 +22,19 @@ namespace TechnoStore.Infrastructure.Services.PrivacyAndQuestions
             _mapper = mapper;
         }
 
-        //Get All To List
+        //Get All PrivacyAndQuestions To List With or Without Paramrtar
         public List<PrivacyAndQuestionVm> GetAll()
         {
-            var privacyAndQuestion = _db.PrivacyAndQuestions.ToList();
-            return _mapper.Map<List<PrivacyAndQuestionVm>>(privacyAndQuestion);
+            return _mapper.Map<List<PrivacyAndQuestionVm>>(_db.PrivacyAndQuestions.ToList());
         }
 
-        //Get One PrivacyAndQuestion
+        //Get One PrivacyAndQuestions By Id
         public PrivacyAndQuestionVm Get(int id)
         {
-            var privacyAndQuestion = _db.Sms.SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<PrivacyAndQuestionVm>(privacyAndQuestion);
+            return _mapper.Map<PrivacyAndQuestionVm>(_db.Sms.SingleOrDefault(x => x.Id == id));
         }
 
-        //Create A New PrivacyAndQuestion
+        //Add A new PrivacyAndQuestion On Database
         public async Task<int> Save(CreatePrivacyAndQuestionDto dto)
         {
             var privacyAndQuestion = _mapper.Map<PrivacyAndQuestionDbEntity>(dto);
@@ -49,7 +45,7 @@ namespace TechnoStore.Infrastructure.Services.PrivacyAndQuestions
             return privacyAndQuestion.Id;
         }
 
-        //Update A New PrivacyAndQuestion
+        //Update Specific PrivacyAndQuestion
         public async Task<int> Update(UpdatePrivacyAndQuestionDto dto)
         {
             var privacyAndQuestion = _mapper.Map<PrivacyAndQuestionDbEntity>(dto);
@@ -60,7 +56,7 @@ namespace TechnoStore.Infrastructure.Services.PrivacyAndQuestions
             return privacyAndQuestion.Id;
         }
 
-        //Delete Any PrivacyAndQuestion
+        //Remove PrivacyAndQuestion | Soft Delete | IsDelete = true
         public async Task<int> Remove(int id)
         {
             var privacyAndQuestion = _db.PrivacyAndQuestions.SingleOrDefault(x => x.Id == id);

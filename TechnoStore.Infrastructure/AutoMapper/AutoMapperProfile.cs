@@ -9,16 +9,13 @@ using TechnoStore.Core.Dto.Feedbacks;
 using TechnoStore.Core.Dto.Files;
 using TechnoStore.Core.Dto.PrivacyAndQuestions;
 using TechnoStore.Core.Dto.Products;
-using TechnoStore.Core.Dto.ProductsQuantities;
 using TechnoStore.Core.Dto.Settings;
-using TechnoStore.Core.Dto.Shippers;
 using TechnoStore.Core.Dto.Sms;
 using TechnoStore.Core.Dto.SubCategories;
 using TechnoStore.Core.Dto.Suppliers;
 using TechnoStore.Core.Dto.Users;
 using TechnoStore.Core.Dto.WareHouse;
 using TechnoStore.Core.Dto.WarehousesProducts;
-using TechnoStore.Core.ViewModel;
 using TechnoStore.Core.ViewModel.Brands;
 using TechnoStore.Core.ViewModel.Categories;
 using TechnoStore.Core.ViewModel.Cities;
@@ -29,9 +26,7 @@ using TechnoStore.Core.ViewModel.Feedbacks;
 using TechnoStore.Core.ViewModel.Files;
 using TechnoStore.Core.ViewModel.PrivacyAndQuestions;
 using TechnoStore.Core.ViewModel.Products;
-using TechnoStore.Core.ViewModel.ProductsQuantities;
 using TechnoStore.Core.ViewModel.Settings;
-using TechnoStore.Core.ViewModel.Shippers;
 using TechnoStore.Core.ViewModel.Sms;
 using TechnoStore.Core.ViewModel.SubCategories;
 using TechnoStore.Core.ViewModel.Suppliers;
@@ -82,6 +77,7 @@ namespace TechnoStore.Infostructures.AutoMapper
             CreateMap<CreateSettingDto, SettingDbEntity>();
             //CreateMap<UpdateSettingDto, SettingDbEntity>()
             //    .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
+            
             //Categories
             CreateMap<CategoryDbEntity, CategoryVm>();
             CreateMap<CreateCategoryDto, CategoryDbEntity>();
@@ -117,18 +113,6 @@ namespace TechnoStore.Infostructures.AutoMapper
             CreateMap<UpdateProductDto, ProductDbEntity>()
                 .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
 
-            //ProductsQuantities
-            CreateMap<ProductQuantityDbEntity, ProductQuantityVm>();
-            CreateMap<CreateProductQuantityDto, ProductQuantityDbEntity>();
-            CreateMap<UpdateProductQuantityDto, ProductQuantityDbEntity>()
-                .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
-
-            //Shippers
-            CreateMap<ShipperDbEntity, ShipperVm>();
-            CreateMap<CreateShipperDto, ShipperDbEntity>();
-            CreateMap<UpdateShipperDto, ShipperDbEntity>()
-                .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
-
             //Users
             CreateMap<UserDbEntity, UserVm>()
                 .ForMember(x => x.CityName, x => x.MapFrom(y => y.City.Name));
@@ -152,8 +136,10 @@ namespace TechnoStore.Infostructures.AutoMapper
 
             //WareHousesProducts
             CreateMap<WarehouseDbEntity, wareHouseForProductDetailsVm>();
-            CreateMap<CreateWarehouseProductDto, WarehouseProductDbEntity>().ForMember(x => x.ImageUrl, x => x.Ignore());
-            CreateMap<WarehouseProductDbEntity, WarehouseProductVm>().ForMember(x => x.ProductName, x => x.MapFrom(y => y.Product.Name))
+            CreateMap<CreateWarehouseProductDto, WarehouseProductDbEntity>()
+                .ForMember(x => x.ImageUrl, x => x.Ignore());
+            CreateMap<WarehouseProductDbEntity, WarehouseProductVm>()
+                .ForMember(x => x.ProductName, x => x.MapFrom(y => y.Product.Name))
                 .ForMember(x => x.WarehouseName, x => x.MapFrom(y => y.Warehouse.Name))
                 .ForMember(x => x.Image, x => x.MapFrom(y => y.ImageUrl));
 

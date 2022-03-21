@@ -26,7 +26,7 @@ namespace TechnoStore.Infrastructure.Services.Expenses
             _mapper = mapper;
         }
 
-        //Get All Expenses
+        //Get All Expenses To List With or Without Paramrtar
         public List<ExpensesVm> GetAll(string sreach, int page)
         {
             var NumOfExpCat = _db.Expenses
@@ -39,34 +39,28 @@ namespace TechnoStore.Infrastructure.Services.Expenses
             var expensess = _db.Expenses.Include(x => x.ExpensesCategory)
                 .Where(x => x.Title.Contains(sreach) || string.IsNullOrEmpty(sreach))
                 .Skip(Skip).Take(Take).ToList();
-
             return _mapper.Map<List<ExpensesVm>>(expensess);
         }
 
-        //Get All To List
+        //Get All Expenses Without Parametar
         public List<ExpensesVm> GetAll()
         {
-            var expensess = _db.Expenses.ToList();
-            return _mapper.Map<List<ExpensesVm>>(expensess);
+            return _mapper.Map<List<ExpensesVm>>(_db.Expenses.ToList());
         }
 
-        //Get All ExpensesCategoey
+        //Get All ExpensesCategoey Without Parametar
         public List<ExpensesCategoryVm> GetAllExpensesCategories()
         {
-            var expensess = _db.ExpensesCategory.ToList();
-            return _mapper.Map<List<ExpensesCategoryVm>>(expensess);
+            return _mapper.Map<List<ExpensesCategoryVm>>(_db.ExpensesCategory.ToList());
         }
 
-
-
-        //Get One Expenses
+        //Get One Expenses By Id
         public ExpensesVm Get(int id)
         {
-            var expenses = _db.Expenses.SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<ExpensesVm>(expenses);
+            return _mapper.Map<ExpensesVm>(_db.Expenses.SingleOrDefault(x => x.Id == id));
         }
 
-        //Create A New Expenses
+        //Add A new Expenses On Database
         public async Task<bool> Save(CreateExpensesDto dto)
         {
             var expenses = _mapper.Map<ExpensesDbEntity>(dto);
@@ -77,7 +71,7 @@ namespace TechnoStore.Infrastructure.Services.Expenses
             return true;
         }
 
-        //Update A New Expenses
+        //Update Specific Expenses
         public async Task<int> Update(UpdateExpensesDto dto)
         {
             var expenses = _mapper.Map<ExpensesDbEntity>(dto);
@@ -88,7 +82,7 @@ namespace TechnoStore.Infrastructure.Services.Expenses
             return expenses.Id;
         }
 
-        //Delete Any Expenses
+        //Remove Expenses | Soft Delete | IsDelete = true
         public async Task Remove(int id)
         {
             var expenses = _db.Expenses.SingleOrDefault(x => x.Id == id);

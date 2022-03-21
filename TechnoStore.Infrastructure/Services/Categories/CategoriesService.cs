@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Category;
@@ -29,11 +28,11 @@ namespace TechnoStore.Infrastructure.Services.Categories
             _fileService = fileService;
         }
 
+        //Get All Categories To List With or Without Paramrtar
         public List<CategoryVm> GetAll(string search, int page)
         {
             var NumOfExpCat = _db.Expenses
                 .Count(x => x.Title.Contains(search) || string.IsNullOrEmpty(search));
-
             NumOfPages = Math.Ceiling(NumOfExpCat / (NumPages.page20 + 0.0));
             var Skip = (page - 1) * NumPages.page20;
             var Take = NumPages.page20;
@@ -45,18 +44,19 @@ namespace TechnoStore.Infrastructure.Services.Categories
             return _mapper.Map<List<CategoryVm>>(categories);
         }
 
+        //Get All Categories Without Parametar
         public List<CategoryVm> GetAll()
         {
-            var categories = _db.Categories.ToList();
-            return _mapper.Map<List<CategoryVm>>(categories);
+            return _mapper.Map<List<CategoryVm>>(_db.Categories.ToList());
         }
 
+        //Get One Category By Id
         public CategoryVm Get(int id)
         {
-            var category = _db.Categories.SingleOrDefault(x => x.Id == id);
-            return _mapper.Map<CategoryVm>(category);
+            return _mapper.Map<CategoryVm>(_db.Categories.SingleOrDefault(x => x.Id == id));
         }
 
+        //Add A new Category On Database
         public async Task<bool> Save(string userId, CreateCategoryDto dto , IFormFile image)
         {
             if (_db.Categories.Any(x => x.Name == dto.Name))
@@ -68,8 +68,8 @@ namespace TechnoStore.Infrastructure.Services.Categories
                 var category = _mapper.Map<CategoryDbEntity>(dto);
                 category.CreateAt = DateTime.Now;
                 category.CreateBy = "Null";
-                var x = await _fileService.SaveFile(image, "Images/CategoriesImages");
-                category.ImageUrl = x;
+                var imageUrl = await _fileService.SaveFile(image, "Images/CategoriesImages");
+                category.ImageUrl = imageUrl;
                 await _db.Categories.AddAsync(category);
                 await _db.SaveChangesAsync();
                 return true;
@@ -77,6 +77,7 @@ namespace TechnoStore.Infrastructure.Services.Categories
 
         }
 
+        //Update Specific Category
         public async Task<bool> Update(string userId, UpdateCategoryDto dto, IFormFile image)
         {
             var category = _mapper.Map<CategoryDbEntity>(dto);
@@ -88,15 +89,15 @@ namespace TechnoStore.Infrastructure.Services.Categories
                 {
                     _fileService.DeleteFile(category.ImageUrl, "Images/CategoriesImages");
                 }
-                var x = await _fileService.SaveFile(image, "Images/CategoriesImages");
-                category.ImageUrl = x;
+                var imageUrl = await _fileService.SaveFile(image, "Images/CategoriesImages");
+                category.ImageUrl = imageUrl;
             }
             _db.Categories.Update(category);
             await _db.SaveChangesAsync();
             return true;
         }
 
-
+        //Remove Category | Soft Delete | IsDelete = true
         public async Task<bool> Remove(int id)
         {
             var category = _db.Categories.SingleOrDefault(x => x.Id == id);
