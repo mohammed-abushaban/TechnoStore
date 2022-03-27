@@ -60,6 +60,7 @@ namespace TechnoStore.Web.Controllers
             if (result == false)
             {
                 TempData["msg"] = Messages.NameExest;
+                ViewData["CategoryId"] = new SelectList(_subCategoriesService.GetAllCategories(), "Id", "Name");
                 return View();
             }
             else

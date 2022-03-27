@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +36,9 @@ namespace TechnoStore.Web.Controllers
 
         //This Action For Add New File
         [HttpPost]
-        public async Task<IActionResult> Create(CreateFileDto dto)
+        public async Task<IActionResult> Create(CreateFileDto dto , IFormFile attachment)
         {
-            await _fileService.Save(dto);
+            await _fileService.Save(dto , attachment);
             TempData["msg"] = Messages.AddAction;
             return RedirectToAction("Index");
         }
@@ -52,14 +53,15 @@ namespace TechnoStore.Web.Controllers
             //جلب وقت الانشاء والمستخدم الذي انشاءه
             ViewBag.CreateAt = model.CreateAt;
             ViewBag.CreateBy = model.CreateBy;
+            ViewBag.AttachmentUrl = model.AttachmentUrl;
             return View(model);
         }
 
         //This Action For Edit File
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdateFileDto dto)
+        public async Task<IActionResult> Edit(UpdateFileDto dto, IFormFile attachment)
         {
-            await _fileService.Update(dto);
+            await _fileService.Update(dto , attachment);
             TempData["msg"] = Messages.EditAction;
             return RedirectToAction("Index");
         }

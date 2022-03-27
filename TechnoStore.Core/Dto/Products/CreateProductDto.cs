@@ -34,5 +34,18 @@ namespace TechnoStore.Core.Dto.Products
 
         public float Discount { get; set; } = 0;
 
+
+        [Required(ErrorMessage = Messages.ErrorMessage)]
+        public int WarehouseId { get; set; }
+
+        [Required(ErrorMessage = Messages.ErrorMessage)]
+        public int Quantity { get; set; } = 0;
+        [MaxLength(150, ErrorMessage = Messages.Max150)]
+        public string Color { get; set; }
+        [MaxLength(150, ErrorMessage = Messages.Max150)]
+        public string Size { get; set; }
+        [MaxLength(2000, ErrorMessage = Messages.Max2000)]
+        public string ImageUrl { get; set; }
+
     }
 }

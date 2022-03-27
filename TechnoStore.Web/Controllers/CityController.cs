@@ -100,23 +100,8 @@ namespace TechnoStore.Web.Controllers
         {
             var model = _cityService.Get(id);
             if (model == null)
-            {
                 return RedirectToAction("Error", "Settings");
-            }
-            else
-            {
-                var result = await _cityService.Remove(id);
-                if (result == false)
-                {
-                    TempData["msg"] = Messages.NoDeleteCategory;
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["msg"] = Messages.DeleteActon;
-                    return RedirectToAction("Index");
-                }
-            }
+            return View(model);
         }
     }
 }

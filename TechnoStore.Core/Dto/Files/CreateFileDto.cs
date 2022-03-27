@@ -14,6 +14,7 @@ namespace TechnoStore.Core.Dto.Files
         [Required(ErrorMessage = Messages.ErrorMessage)]
         [MaxLength(150, ErrorMessage = Messages.Max150)]
         public string Title { get; set; }
+        [Required(ErrorMessage = Messages.ErrorMessage)]
         public string AttachmentUrl { get; set; }
     }
 }
