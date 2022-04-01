@@ -11,7 +11,7 @@ namespace TechnoStore.Infostructures.Services.ExpensesCategories
         List<ExpensesCategoryVm> GetAll();
         ExpensesCategoryVm Get(int id);
         Task<bool> Save(CreateExpensesCategoryDto dto);
-        Task<int> Update(UpdateExpensesCategoryDto dto);
+        Task<bool> Update(UpdateExpensesCategoryDto dto);
         Task<bool> Remove(int id);
     }
 }

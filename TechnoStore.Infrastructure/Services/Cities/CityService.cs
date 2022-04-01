@@ -71,12 +71,20 @@ namespace TechnoStore.Infrastructure.Services.Cities
         //Update Specific Ctiy
         public async Task<bool> Update(string userId, UpdateCityDto dto)
         {
-            var city = _mapper.Map<CityDbEntity>(dto);
-            city.UpdateAt = DateTime.Now;
-            city.UpdateBy = "Null";
-            _db.Cities.Update(city);
-            await _db.SaveChangesAsync();
-            return true;
+            if (_db.Cities.Any(x => x.Name == dto.Name))
+            {
+                return false;
+            }
+            else
+            {
+                var city = _mapper.Map<CityDbEntity>(dto);
+                city.UpdateAt = DateTime.Now;
+                city.UpdateBy = "Null";
+                _db.Cities.Update(city);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
         }
 
         //Remove Ctiy | Soft Delete | IsDelete = true

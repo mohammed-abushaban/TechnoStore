@@ -71,14 +71,22 @@ namespace TechnoStore.Infostructures.Services.ExpensesCategories
         }
 
         //Update Specific ExpensesCategory
-        public async Task<int> Update(UpdateExpensesCategoryDto dto)
+        public async Task<bool> Update(UpdateExpensesCategoryDto dto)
         {
-            var expensesCategory = _mapper.Map<ExpensesCategoryDbEntity>(dto);
-            expensesCategory.UpdateAt = date;
-            expensesCategory.UpdateBy = "Test1";
-            _db.ExpensesCategory.Update(expensesCategory);
-            await _db.SaveChangesAsync();
-            return expensesCategory.Id;
+            if (_db.ExpensesCategory.Any(x => x.Name == dto.Name))
+            {
+                return false;
+            }
+            else
+            {
+                var expensesCategory = _mapper.Map<ExpensesCategoryDbEntity>(dto);
+                expensesCategory.UpdateAt = date;
+                expensesCategory.UpdateBy = "Test1";
+                _db.ExpensesCategory.Update(expensesCategory);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
         }
 
         //Remove ExpensesCategory | Soft Delete | IsDelete = true

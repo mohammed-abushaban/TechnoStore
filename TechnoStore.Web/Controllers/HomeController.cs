@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TechnoStore.Web.Controllers
 {
@@ -8,6 +9,8 @@ namespace TechnoStore.Web.Controllers
         {
 
         }
+
+        //[Authorize]
         public IActionResult Index()
         {
             return View();

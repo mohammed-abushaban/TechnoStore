@@ -88,12 +88,20 @@ namespace TechnoStore.Infrastructure.Services.WareHouse
         //Update Specific Warehouse
         public async Task<bool> Update(UpdateWareHouseDto dto)
         {
-            var warehouse = _db.Warehouses.SingleOrDefault(x => x.Id == dto.Id);
-            warehouse.UpdateAt = DateTime.Now;
-            warehouse.UpdateBy = "Test";
-            _mapper.Map(dto, warehouse);
-            await _db.SaveChangesAsync();
-            return true;
+            if (_db.Warehouses.Any(x => x.Name == dto.Name))
+            {
+                return false;
+            }
+            else
+            {
+                var warehouse = _db.Warehouses.SingleOrDefault(x => x.Id == dto.Id);
+                warehouse.UpdateAt = DateTime.Now;
+                warehouse.UpdateBy = "Test";
+                _mapper.Map(dto, warehouse);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
         }
 
         //Remove Warehouse | Soft Delete | IsDelete = true

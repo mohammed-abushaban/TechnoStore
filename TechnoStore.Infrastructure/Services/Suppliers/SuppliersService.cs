@@ -72,12 +72,20 @@ namespace TechnoStore.Infrastructure.Services.Suppliers
         //Update Specific Supplier
         public async Task<bool> Update(string userId, UpdateSupplierDto dto)
         {
-            var supplier = _db.Suppliers.SingleOrDefault(x => x.Id == dto.Id);
-            supplier.UpdateAt = DateTime.Now;
-            supplier.UpdateBy = "Test";
-            _mapper.Map(dto, supplier);
-            await _db.SaveChangesAsync();
-            return true;
+            if (_db.Suppliers.Any(x => x.Name == dto.Name))
+            {
+                return false;
+            }
+            else
+            {
+                var supplier = _db.Suppliers.SingleOrDefault(x => x.Id == dto.Id);
+                supplier.UpdateAt = DateTime.Now;
+                supplier.UpdateBy = "Test";
+                _mapper.Map(dto, supplier);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
         }
 
         //Remove Supplier | Soft Delete | IsDelete = true

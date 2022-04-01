@@ -8,5 +8,6 @@ namespace TechnoStore.Infrastructure.Services.SendEmail
 {
     public interface ISendEmail
     {
+        Task Send(string to, string subject, string html);
     }
 }

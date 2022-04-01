@@ -1,0 +1,11 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "تم رفض الوصول";
+    Layout = null;
+}
+
+<header style="text-align: center">
+    <h1 class="text-danger" style="color:red; font-size:50px; font-weight:bold;">@ViewData["Title"]</h1>
+    <p class="text-danger"style="color:red; font-size:20px; font-weight:bold;">.حسابك لا يمتلك صلاحيات الوصول لهذه الصفحة</p>
+</header>

@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using TechnoStore.Core.Constants;
 using TechnoStore.Core.Dto.Sms;
 using TechnoStore.Infrastructure.Services.Sms;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TechnoStore.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SmsController : BaseController
     {
         private readonly ISmsService _smsService;

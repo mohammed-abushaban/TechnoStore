@@ -57,7 +57,7 @@ namespace TechnoStore.Infrastructure.Services.Categories
         }
 
         //Add A new Category On Database
-        public async Task<bool> Save(string userId, CreateCategoryDto dto , IFormFile image)
+        public async Task<bool> Save(string userId, CreateCategoryDto dto, IFormFile image)
         {
             if (_db.Categories.Any(x => x.Name == dto.Name))
             {
@@ -80,21 +80,29 @@ namespace TechnoStore.Infrastructure.Services.Categories
         //Update Specific Category
         public async Task<bool> Update(string userId, UpdateCategoryDto dto, IFormFile image)
         {
-            var category = _mapper.Map<CategoryDbEntity>(dto);
-            category.UpdateAt = DateTime.Now;
-            category.UpdateBy = "Null";
-            if(image != null)
+            if (_db.Categories.Any(x => x.Name == dto.Name))
             {
-                if(category.ImageUrl != null)
-                {
-                    _fileService.DeleteFile(category.ImageUrl, "Images/CategoriesImages");
-                }
-                var imageUrl = await _fileService.SaveFile(image, "Images/CategoriesImages");
-                category.ImageUrl = imageUrl;
+                return false;
             }
-            _db.Categories.Update(category);
-            await _db.SaveChangesAsync();
-            return true;
+            else
+            {
+                var category = _mapper.Map<CategoryDbEntity>(dto);
+                category.UpdateAt = DateTime.Now;
+                category.UpdateBy = "Null";
+                if (image != null)
+                {
+                    if (category.ImageUrl != null)
+                    {
+                        _fileService.DeleteFile(category.ImageUrl, "Images/CategoriesImages");
+                    }
+                    var imageUrl = await _fileService.SaveFile(image, "Images/CategoriesImages");
+                    category.ImageUrl = imageUrl;
+                }
+                _db.Categories.Update(category);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
         }
 
         //Remove Category | Soft Delete | IsDelete = true
