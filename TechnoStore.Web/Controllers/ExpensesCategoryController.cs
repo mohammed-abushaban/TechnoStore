@@ -71,9 +71,18 @@ namespace TechnoStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateExpensesCategoryDto dto)
         {
-            await _expensesCategoryService.Update(dto);
-            TempData["msg"] = Messages.EditAction;
-            return RedirectToAction("Index");
+            bool result = await _expensesCategoryService.Update(dto);
+            if (result == false)
+            {
+                TempData["msg"] = Messages.NameExest;
+                return View();
+            }
+            else
+            {
+                TempData["msg"] = Messages.EditAction;
+                return RedirectToAction("Index");
+            }
+
         }
 
         //This Action For Soft Delete

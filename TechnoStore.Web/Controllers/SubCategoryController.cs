@@ -60,6 +60,7 @@ namespace TechnoStore.Web.Controllers
             if (result == false)
             {
                 TempData["msg"] = Messages.NameExest;
+                ViewData["CategoryId"] = new SelectList(_subCategoriesService.GetAllCategories(), "Id", "Name");
                 return View();
             }
             else
@@ -88,9 +89,17 @@ namespace TechnoStore.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, UpdateSubCategoryDto dto)
         {
-            await _subCategoriesService.Update(userId, dto);
-            TempData["msg"] = Messages.EditAction;
-            return RedirectToAction("Index");
+            bool result = await _subCategoriesService.Update(userId, dto);
+            if (result == false)
+            {
+                TempData["msg"] = Messages.NameExest;
+                return View();
+            }
+            else
+            {
+                TempData["msg"] = Messages.EditAction;
+                return RedirectToAction("Index");
+            }
         }
 
         //This Action For Soft Delete

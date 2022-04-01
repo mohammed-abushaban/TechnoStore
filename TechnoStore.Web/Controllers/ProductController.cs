@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace TechnoStore.Web.Controllers
             ViewData["BrandId"] = new SelectList(_productsService.GetAllBrands(), "Id", "Name");
             ViewData["SubCategoryId"] = new SelectList(_productsService.GetAllSubCategories(), "Id", "Name");
             ViewData["SupplierId"] = new SelectList(_productsService.GetAllSuppliers(), "Id", "Name");
+            ViewData["WarehouseId"] = new SelectList(_productsService.GetAllWarehouses(), "Id", "Name");
 
             return View(model);
         }
@@ -46,7 +48,8 @@ namespace TechnoStore.Web.Controllers
             //إضافة تحقق قبل فتح الصفحة
             if (_productsService.GetAllBrands().Count() <= 0 || 
                 _productsService.GetAllSubCategories().Count() <= 0 || 
-                _productsService.GetAllSuppliers().Count() <= 0)
+                _productsService.GetAllSuppliers().Count() <= 0 ||
+                _productsService.GetAllWarehouses().Count() <= 0)
             {
                 TempData["msg"] = Messages.NoCategory;
                 return RedirectToAction("Index");
@@ -56,6 +59,7 @@ namespace TechnoStore.Web.Controllers
                 ViewData["BrandId"] = new SelectList(_productsService.GetAllBrands(), "Id", "Name");
                 ViewData["SubCategoryId"] = new SelectList(_productsService.GetAllSubCategories(), "Id", "Name");
                 ViewData["SupplierId"] = new SelectList(_productsService.GetAllSuppliers(), "Id", "Name");
+                ViewData["WarehouseId"] = new SelectList(_productsService.GetAllWarehouses(), "Id", "Name");
                 //Create Code
                 Random random = new Random();
                 var HashCode = random.Next(1000, 9999);
@@ -71,10 +75,10 @@ namespace TechnoStore.Web.Controllers
 
         //This Action For Add New Expenses
         [HttpPost]
-        public async Task<IActionResult> Create(string userId, CreateProductDto dto)
+        public async Task<IActionResult> Create(string userId, CreateProductDto dto, IFormFile image)
         {
 
-            await _productsService.Save(userId,dto);
+            await _productsService.Save(userId,dto, image);
             TempData["msg"] = Messages.AddAction;
             return RedirectToAction("Index");
         }

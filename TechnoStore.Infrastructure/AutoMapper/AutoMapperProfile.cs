@@ -109,7 +109,7 @@ namespace TechnoStore.Infostructures.AutoMapper
             .ForMember(x => x.BrandName, x => x.MapFrom(y => y.Brand.Name))
             .ForMember(x => x.SubCategoryName, x => x.MapFrom(y => y.SubCategory.Name))
             .ForMember(x => x.SupplierName, x => x.MapFrom(y => y.Supplier.Name));
-            CreateMap<CreateProductDto, ProductDbEntity>();
+            //CreateMap<CreateProductDto, ProductDbEntity>();
             CreateMap<UpdateProductDto, ProductDbEntity>()
                 .ForAllMembers(opt => opt.Condition((src, dest, sourcrMember) => sourcrMember != null));
 

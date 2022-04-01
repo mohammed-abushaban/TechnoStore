@@ -9,4 +9,9 @@
     <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dto\Authentication\" />
+    <Folder Include="ViewModel\Authentication\" />
+  </ItemGroup>
+
 </Project>

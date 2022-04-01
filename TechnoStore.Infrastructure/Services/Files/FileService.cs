@@ -59,22 +59,33 @@ namespace TechnoStore.Infrastructure.Services.Files
         }
 
         //Add A new File On Database
-        public async Task<int> Save(CreateFileDto dto)
+        public async Task<int> Save(CreateFileDto dto, IFormFile attachment)
         {
             var file = _mapper.Map<FileDbEntity>(dto);
             file.CreateAt = date;
             file.CreateBy = "Test";
+            var attachmentUrl = await SaveFile(attachment, "Attachments");
+            file.AttachmentUrl = attachmentUrl;
             await _db.Files.AddAsync(file);
             await _db.SaveChangesAsync();
             return file.Id; 
         }
 
         //Update Specific File
-        public async Task<int> Update(UpdateFileDto dto)
+        public async Task<int> Update(UpdateFileDto dto, IFormFile attachment)
         {
             var file = _mapper.Map<FileDbEntity>(dto);
             file.UpdateAt = date;
             file.UpdateBy = "Test1";
+            if (attachment != null)
+            {
+                if (file.AttachmentUrl != null)
+                {
+                     DeleteFile(file.AttachmentUrl, "Attachments");
+                }
+                var attachmentUrl = await SaveFile(attachment, "Attachments");
+                file.AttachmentUrl = attachmentUrl;
+            }
             _db.Files.Update(file);
             await _db.SaveChangesAsync();
             return file.Id;
@@ -90,6 +101,16 @@ namespace TechnoStore.Infrastructure.Services.Files
             return file.Id;
         }
 
+
+
+
+
+        /// <summary>
+        /// Save Image or File On Folder and Create a new name
+        /// </summary>
+        /// <param name="file">Add File</param>
+        /// <param name="folderName">Add Folder</param>
+        /// <returns></returns>
         //Save Image or File On Folder and Create a new name
         public async Task<string> SaveFile(IFormFile file, string folderName)
         {

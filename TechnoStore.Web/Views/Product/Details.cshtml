@@ -109,15 +109,15 @@
                 </div>
                 @if (ViewBag.warehouseProduct != null)
                 {
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <table class="table table-bordered">
                             <tr>
-                                <td colspan="2">اسم المنتج</td>
-                                <td colspan="3">@warehouseProductDetails.Name</td>
+                                <td colspan="2" >اسم المنتج</td>
+                                <td colspan="3" style="text-align: center">@warehouseProductDetails.Name</td>
                             </tr>
                             <tr>
                                 <td colspan="2">إجمالي الكمية</td>
-                                <td colspan="3">@string.Format("{0:#,0}", warehouseProductDetails.TotalQuantity)</td>
+                                <td colspan="3" style="text-align: center">@string.Format("{0:#,0}", warehouseProductDetails.TotalQuantity)</td>
                             </tr>
                             @{
                                 <tr>

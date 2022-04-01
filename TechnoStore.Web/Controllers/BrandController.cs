@@ -80,9 +80,17 @@ namespace TechnoStore.Web.Controllers
             {
                 dto.About = "Null";
             }
-            await _brandsService.Update(userId, dto, image);
-            TempData["msg"] = Messages.EditAction;
-            return RedirectToAction("Index");
+            var result = await _brandsService.Update(userId, dto, image);
+            if (result == false)
+            {
+                TempData["msg"] = Messages.NameExest;
+                return View();
+            }
+            else
+            {
+                TempData["msg"] = Messages.EditAction;
+                return RedirectToAction("Index");
+            }
         }
 
         //This Action For Soft Delete

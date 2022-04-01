@@ -1,0 +1,57 @@
+﻿@page
+@model EmailModel
+@{
+    ViewData["Title"] = "Manage Email";
+    ViewData["ActivePage"] = ManageNavPages.Email;
+}
+<div class="card card-custom bg-success">
+    <div class="card-header border-0">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-white"></i>
+            </span>
+            <h3 class="card-label text-white">
+                تعديل البريد الالكتروني
+            </h3>
+        </div>
+    </div>
+    <div class="separator separator-solid separator-white opacity-20"></div>
+    <div class="card-body text-white">
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+        <div class="row">
+            <div class="col-md-6">
+                <form id="email-form" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label>البريد الالكتروني</label>
+                        @if (Model.IsEmailConfirmed)
+                        {
+                            <div class="input-group">
+                                <input asp-for="Email" class="form-control" disabled />
+                                <div class="input-group-append">
+                                    <span class="input-group-text text-success font-weight-bold">✓</span>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <input asp-for="Email" class="form-control" disabled />
+                            <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label>تغيير البريد الالكتروني</label>
+                        <input asp-for="Input.NewEmail" class="form-control" />
+                        <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
+                    </div>
+                    <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-warning">حفظ التغييرات</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

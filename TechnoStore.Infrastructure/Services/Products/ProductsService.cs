@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,11 @@ using TechnoStore.Core.ViewModel.Brands;
 using TechnoStore.Core.ViewModel.Products;
 using TechnoStore.Core.ViewModel.SubCategories;
 using TechnoStore.Core.ViewModel.Suppliers;
+using TechnoStore.Core.ViewModel.WareHouses;
 using TechnoStore.Data.Data;
 using TechnoStore.Data.Models;
+using TechnoStore.Infrastructure.Services.Files;
+using TechnoStore.Infrastructure.Services.WarehousesProducts;
 
 namespace TechnoStore.Infrastructure.Services.Products
 {
@@ -20,11 +24,17 @@ namespace TechnoStore.Infrastructure.Services.Products
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
         public static double NumOfPages;
+        private readonly IWarehousesProductsService _warehousesProductsService;
+        private readonly IFileService _fileService;
 
-        public ProductsService(ApplicationDbContext db, IMapper mapper)
+
+        public ProductsService(ApplicationDbContext db, IMapper mapper
+            , IWarehousesProductsService warehousesProductsService , IFileService fileService)
         {
             _db = db;
             _mapper = mapper;
+            _warehousesProductsService = warehousesProductsService;
+            _fileService = fileService;
         }
         //Get All Products To List With or Without Paramrtar
         public List<ProductVm> GetAll(string search, int page)
@@ -94,15 +104,44 @@ namespace TechnoStore.Infrastructure.Services.Products
         {
             return _mapper.Map<List<SubCategoryVm>>(_db.SubCategories.ToList());
         }
-
-        //Add A new Product On Database
-        public async Task<bool> Save(string userId, CreateProductDto dto)
+        //Get All Warehouse
+        public List<WareHouseVm> GetAllWarehouses()
         {
-            var product = _mapper.Map<ProductDbEntity>(dto);
+            return _mapper.Map<List<WareHouseVm>>(_db.Warehouses.ToList());
+        }
+        //Add A new Product On Database
+        public async Task<bool> Save(string userId, CreateProductDto dto, IFormFile image)
+        {
+            //var product = _mapper.Map<ProductDbEntity>(dto);
+
+            var product = new ProductDbEntity();
+            product.Name = dto.Name;
+            product.Description = dto.Description;
+            product.PriceBuy = dto.PriceBuy;
+            product.PriceSale = dto.PriceSale;
+            product.Code = dto.Code;
+            product.Discount = dto.Discount;
+            product.BrandId = dto.BrandId;
+            product.SubCategoryId = dto.SubCategoryId;
+            product.SupplierId = dto.SupplierId;
             product.CreateAt = DateTime.Now;
             product.CreateBy = "Test";
-            await _db.Products.AddAsync(product);
-            await _db.SaveChangesAsync();
+            _db.Products.Add(product);
+            _db.SaveChanges();
+
+            var listProduct = _db.Products.SingleOrDefault
+                (x => x.Name == product.Name && x.Code == product.Code);
+            var warehouseProduct = new WarehouseProductDbEntity();
+            warehouseProduct.ProductId = listProduct.Id;
+            warehouseProduct.WarehouseId = dto.WarehouseId;
+            warehouseProduct.Color = dto.Color;
+            warehouseProduct.Size = dto.Size;
+            warehouseProduct.Quantity = dto.Quantity;
+            var imageUrl = await _fileService.SaveFile(image, "Images/WarehouseProducts");
+            warehouseProduct.ImageUrl = imageUrl;
+
+            _db.warehouseProducts.Add(warehouseProduct);
+            _db.SaveChanges();
             return true;
         }
 

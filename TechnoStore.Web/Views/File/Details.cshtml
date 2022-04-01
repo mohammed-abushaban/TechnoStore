@@ -1,0 +1,67 @@
+﻿@model FileVm
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+    td {
+        color: black;
+        font-weight: bold;
+    }
+
+    .cardCustom {
+        direction: rtl;
+        text-align: right;
+    }
+</style>
+
+<div class="card card-custom cardCustom">
+    <div class="card-header">
+        <div class="card-title">
+            <span class="card-icon">
+                <i class="flaticon2-chat-1 text-primary"></i>
+            </span>
+            <h3 class="card-label">
+                تفاصيل  العنصر
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <div>
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>عنوان الملف</td>
+                            <td>@Html.DisplayFor(model => model.Title)</td>
+                        </tr>
+                        <tr>
+                            <td>رابط الملف</td>
+                            <td><a href="~/Attachment/@Html.DisplayFor(model => model.AttachmentUrl)">رابط الملف</a></td>
+                        </tr>
+                        <tr>
+                            <td>تم تسجيله بواسطة</td>
+                            <td>@Html.DisplayFor(model => model.CreateBy)</td>
+                        </tr>
+                        <tr>
+                            <td>تم تعديل البيانات بواسطة</td>
+                            <td>@Html.DisplayFor(model => model.UpdateBy)</td>
+                        </tr>
+                        <tr>
+                            <td>تاريخ التسجيل</td>
+                            <td>@Html.DisplayFor(model => model.CreateAt)</td>
+                        </tr>
+                        <tr>
+                            <td>تاريخ التعديل</td>
+                            <td>@Html.DisplayFor(model => model.UpdateAt)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">تعديل</a>
+            <a asp-action="Index" class="btn btn-danger">رجوع</a>
+        </div>
+    </div>
+</div>

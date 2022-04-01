@@ -79,12 +79,20 @@ namespace TechnoStore.Infrastructure.Services.SubCategories
         //Update Specific SubCategory
         public async Task<bool> Update(string userId, UpdateSubCategoryDto dto)
         {
-            var subCategory = _db.SubCategories.SingleOrDefault(x => x.Id == dto.Id);
-            subCategory.UpdateAt = DateTime.Now;
-            subCategory.UpdateBy = "Test";
-            _mapper.Map(dto, subCategory);
-            await _db.SaveChangesAsync();
-            return true;
+            if (_db.SubCategories.Any(x => x.Name == dto.Name))
+            {
+                return false;
+            }
+            else
+            {
+                var subCategory = _db.SubCategories.SingleOrDefault(x => x.Id == dto.Id);
+                subCategory.UpdateAt = DateTime.Now;
+                subCategory.UpdateBy = "Test";
+                _mapper.Map(dto, subCategory);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
         }
 
         //Remove SubCategory | Soft Delete | IsDelete = true

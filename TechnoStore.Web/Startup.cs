@@ -1,5 +1,6 @@
 using Hangfire;
 using Hangfire.SqlServer;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +23,8 @@ using TechnoStore.Infrastructure.Services.Expenses;
 using TechnoStore.Infrastructure.Services.Files;
 using TechnoStore.Infrastructure.Services.PrivacyAndQuestions;
 using TechnoStore.Infrastructure.Services.Products;
+using TechnoStore.Infrastructure.Services.Reports;
+using TechnoStore.Infrastructure.Services.SendEmail;
 using TechnoStore.Infrastructure.Services.Settings;
 using TechnoStore.Infrastructure.Services.Sms;
 using TechnoStore.Infrastructure.Services.SubCategories;
@@ -78,10 +81,10 @@ namespace TechnoStore.Web
             services.AddScoped<IWareHouseService, WareHouseService>();
             services.AddScoped<IWarehousesProductsService, WarehousesProductsService>();
             services.AddScoped<ICityService, CityService>();
-            services.AddScoped<IEmployeeService, EmployeeService>();
-            
-
-
+            services.AddScoped<IEmployeeService, EmployeeService>(); 
+            services.AddScoped<ISendEmail, SendEmail>(); 
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IReportService, ReportService>(); 
 
             //AutoMapper
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
@@ -137,7 +140,7 @@ namespace TechnoStore.Web
             //var chackQuantityProduct = ScopeChackQuantityProduct.ServiceProvider.GetService<IWarehousesProductsService>();
             //var changeAvilable = ScopeChangeAvilable.ServiceProvider.GetService<IProductsService>();
             //RecurringJob.AddOrUpdate(() => chackQuantityProduct.GetProductQuantity(1), Cron.Minutely);
-            //RecurringJob.AddOrUpdate(() => changeAvilable.ChangeAvailability(1,true), Cron.Minutely);
+            //RecurringJob.AddOrUpdate(() => changeAvilable.ChangeAvailability(1, true), Cron.Minutely);
 
 
             app.UseEndpoints(endpoints =>

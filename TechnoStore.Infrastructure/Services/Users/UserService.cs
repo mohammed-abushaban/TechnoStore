@@ -83,7 +83,7 @@ namespace TechnoStore.Infrastructure.Services.Users
         //Add A new User On Database
         public async Task<bool> Save(CreateUserDto dto, IFormFile image)
         {
-            if (_db.Users.Any(x => x.UserName == dto.UserName))
+            if (_db.Users.Any(x => x.UserName == dto.UserName && x.Email == dto.Email))
             {
                 return false;
             }
@@ -91,21 +91,22 @@ namespace TechnoStore.Infrastructure.Services.Users
             dto.CreateBy = "Test";
             var x = await _fileService.SaveFile(image, "Images/UsersImages");
             dto.ImageUrl = x;
+            dto.UserName = dto.Email;
             var user = _mapper.Map<UserDbEntity>(dto);
 
             var result = await _userManager.CreateAsync(user, dto.password);
             if (result.Succeeded)
             {
                 //إعطاء الصلاحيات
-                if (user.UserType == Core.Enums.UserType.Admin)
+                if (user.UserType == UserType.Admin)
                 {
                     await _userManager.AddToRoleAsync(user, "Admin");
                 }
-                else if(user.UserType == Core.Enums.UserType.User)
+                else if(user.UserType == UserType.User)
                 {
                     await _userManager.AddToRoleAsync(user, "User");
                 }
-                else if(user.UserType == Core.Enums.UserType.Customer)
+                else if(user.UserType == UserType.Customer)
                 {
                     await _userManager.AddToRoleAsync(user, "Customer");
                 }
@@ -134,17 +135,17 @@ namespace TechnoStore.Infrastructure.Services.Users
 
                 foreach (var item in users)
                 {
-                    if (item.UserType == Core.Enums.UserType.Admin)
+                    if (item.UserType == UserType.Admin)
                     {
                         admin += 1;
                     }
-                    if(item.UserType == Core.Enums.UserType.Shipper)
+                    if(item.UserType == UserType.Shipper)
                     {
                         shipper += 1;
                     }
                 }
 
-                if (admin <= 1 && user.UserType == Core.Enums.UserType.Admin)
+                if (admin <= 1 && user.UserType == UserType.Admin)
                 {
                     return 1;
                 }

@@ -77,9 +77,18 @@ namespace TechnoStore.Web.Controllers
             {
                 dto.About = "Null";
             }
-            await _categoriesService.Update(userId,dto, image);
-            TempData["msg"] = Messages.EditAction;
-            return RedirectToAction("Index");
+            bool result = await _categoriesService.Update(userId,dto, image);
+            if (result == false)
+            {
+                TempData["msg"] = Messages.NameExest;
+                return View();
+            }
+            else
+            {
+                TempData["msg"] = Messages.EditAction;
+                return RedirectToAction("Index");
+            }
+
         }
 
         //This Action For Soft Delete
@@ -106,7 +115,7 @@ namespace TechnoStore.Web.Controllers
             }
         }
         //This Action For Details Category
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
             var model = _categoriesService.Get(id);
             if (model == null)

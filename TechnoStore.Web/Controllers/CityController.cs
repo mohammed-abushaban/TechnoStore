@@ -67,9 +67,17 @@ namespace TechnoStore.Web.Controllers
         public async Task<IActionResult> Edit(string userId, UpdateCityDto dto)
         {
 
-            await _cityService.Update(userId, dto);
-            TempData["msg"] = Messages.EditAction;
-            return RedirectToAction("Index");
+            bool result = await _cityService.Update(userId, dto);
+            if (result == false)
+            {
+                TempData["msg"] = Messages.NameExest;
+                return View();
+            }
+            else
+            {
+                TempData["msg"] = Messages.EditAction;
+                return RedirectToAction("Index");
+            }
         }
 
         //This Action For Soft Delete
@@ -96,27 +104,12 @@ namespace TechnoStore.Web.Controllers
             }
         }
         //This Action For Details City
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
             var model = _cityService.Get(id);
             if (model == null)
-            {
                 return RedirectToAction("Error", "Settings");
-            }
-            else
-            {
-                var result = await _cityService.Remove(id);
-                if (result == false)
-                {
-                    TempData["msg"] = Messages.NoDeleteCategory;
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["msg"] = Messages.DeleteActon;
-                    return RedirectToAction("Index");
-                }
-            }
+            return View(model);
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TechnoStore.Core.Dto.Products;
 using TechnoStore.Core.ViewModel.Brands;
 using TechnoStore.Core.ViewModel.Products;
 using TechnoStore.Core.ViewModel.SubCategories;
 using TechnoStore.Core.ViewModel.Suppliers;
+using TechnoStore.Core.ViewModel.WareHouses;
 
 namespace TechnoStore.Infrastructure.Services.Products
 {
@@ -19,7 +21,8 @@ namespace TechnoStore.Infrastructure.Services.Products
         List<BrandVm> GetAllBrands();
         List<SupplierVm> GetAllSuppliers();
         List<SubCategoryVm> GetAllSubCategories();
-        Task<bool> Save(string userId, CreateProductDto dto);
+        List<WareHouseVm> GetAllWarehouses();
+        Task<bool> Save(string userId, CreateProductDto dto, IFormFile image);
         Task<bool> ChangeAvailability(int id, bool status);
         Task<bool> AddDiscount(int id, float dis);
         Task<bool> Update(string userId, UpdateProductDto dto);

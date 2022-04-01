@@ -79,17 +79,25 @@ namespace TechnoStore.Infrastructure.Services.Brands
         //Update Specific brand
         public async Task<bool> Update(string userId, UpdateBrandDto dto, IFormFile image)
         {
-            var brand = _db.Brands.SingleOrDefault(x => x.Id == dto.Id);
-            brand.UpdateAt = DateTime.Now;
-            brand.UpdateBy = "Test";
-            if (image != null)
+            if (_db.Brands.Any(x => x.Name == dto.Name))
             {
-                _fileService.DeleteFile(brand.ImageUrl, "Images/BrandsImages");
-                var imageUrl = await _fileService.SaveFile(image, "Images/BrandsImages");
-                brand.ImageUrl = imageUrl;
+                return false;
             }
-            await _db.SaveChangesAsync();
-            return true;
+            else
+            {
+                var brand = _db.Brands.SingleOrDefault(x => x.Id == dto.Id);
+                brand.UpdateAt = DateTime.Now;
+                brand.UpdateBy = "Test";
+                if (image != null)
+                {
+                    _fileService.DeleteFile(brand.ImageUrl, "Images/BrandsImages");
+                    var imageUrl = await _fileService.SaveFile(image, "Images/BrandsImages");
+                    brand.ImageUrl = imageUrl;
+                }
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
         }
 
         //Remove Brand | Soft Delete | IsDelete = true
